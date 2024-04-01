@@ -28,6 +28,33 @@ type Submenu = {
 };
 
 export default function Layout({ children }: LayoutProps) {
+    const navigationLinks = [
+        {
+          href: '/profile',
+          text: 'Profile',
+        },
+        {
+          href: '/dashboard',
+          text: 'Dashboard',
+        },
+        {
+          title: 'Pages',
+          submenu: [
+            {
+              title: 'Dashboard',
+              href: '/dashboard',
+              description:
+                'Show the user dashboard.',
+            },
+            {
+              title: 'Profile',
+              href: '/profile',
+              description:
+                'Show the user profile',
+            },
+          ]
+        }
+      ];
     const exampleMenus: MenuProps[] = [
         {
             label: 'Pages',
@@ -77,9 +104,10 @@ export default function Layout({ children }: LayoutProps) {
     return (
         <Mainlayout
             logo="https://github.com/ayasofyazilim-clomerce.png"
-            title="ayaasofya"
+            title="ayasofya"
             menus={exampleMenus}
             userNav={userNavigation}
+            navMenu={navigationLinks}
         >
             <>
                 {children}
