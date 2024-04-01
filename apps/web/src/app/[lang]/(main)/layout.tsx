@@ -9,7 +9,7 @@ export default async function Layout({
     children: ReactElement<any, string | JSXElementConstructor<any>>;
 }) {
     return (
-        <Mainlayout>
+        <Mainlayout logo="https://github.com/ayasofyazilim-clomerce.png" title="ayaasofya">
             {children}
         </Mainlayout>
     );

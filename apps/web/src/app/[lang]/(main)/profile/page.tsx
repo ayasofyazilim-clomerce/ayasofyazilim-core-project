@@ -16,7 +16,7 @@ export default function Page(): JSX.Element {
         getUser();
     }, []);
     return (
-        <div className="bg-zinc-800 flex flex-auto flex-col justify-center items-start h-screen text-white text-xl">
+        <div className="bg-zinc-800 flex flex-auto flex-col justify-center items-start h-100 text-white text-xl">
             <h1 className="text-2xl">Selamun aleyküm!</h1>
             <br />
             {user && Object.keys(user).map((key) => {
