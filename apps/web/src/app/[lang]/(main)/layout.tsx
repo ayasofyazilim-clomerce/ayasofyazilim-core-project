@@ -57,7 +57,22 @@ export default function Layout({ children }: LayoutProps) {
         username: user?.name,
         initials: user?.name?.substring(0, 2).toUpperCase(),
         email: user?.email,
-        imageURL: "https://github.com/a0m0rajab.png"
+        imageURL: "https://github.com/a0m0rajab.png",
+        menuLinks: [
+            {
+                href: 'profile',
+                text: 'Profile',
+                shortcut: '⌘P',
+            },
+            {
+                href: 'dashboard',
+                text: 'Dashboard',
+                shortcut: '⌘D',
+            },
+        ],
+        logoutFunction: async () => {
+            console.log('logout');
+        }
     }
     return (
         <Mainlayout
