@@ -3,7 +3,7 @@ import {
     SquareStack,
     User,
 } from 'lucide-react';
-
+import { useRouter } from 'next/navigation'
 import { JSXElementConstructor, ReactElement, ReactNode, useEffect, useState } from "react";
 import Mainlayout, { mainLayoutProps } from "@repo/ayasofyazilim-ui/templates/mainlayout";
 import "./../../globals.css";
@@ -28,6 +28,7 @@ type Submenu = {
 };
 
 export default function Layout({ children }: LayoutProps) {
+    const router = useRouter();
     const navigationLinks = [
         {
           href: '/profile',
@@ -98,7 +99,12 @@ export default function Layout({ children }: LayoutProps) {
             },
         ],
         logoutFunction: async () => {
-            console.log('logout');
+            let result =  await fetch('/api/auth/logout');
+            if(result.status !== 200){
+                console.error('Failed to logout');
+                return;
+            }
+            router.push('/')
         }
     }
     return (
