@@ -13,6 +13,7 @@ import {
   useState,
 } from "react";
 import { useLocale } from "src/providers/locale";
+import { useUser } from "src/providers/user";
 import { getBaseLink } from "src/utils";
 import "./../../globals.css";
 
@@ -20,18 +21,17 @@ type LayoutProps = {
   children: ReactElement<any, string | JSXElementConstructor<any>>;
 };
 
-type Submenu = {
-  href: string;
-  icon: ReactNode;
-  name: string;
-};
-
 export default function Layout({ children }: LayoutProps) {
+  const { user, getUser } = useUser();
   const { cultureName, resources } = useLocale();
   const [resourcesMap, setResourcesMap] = useState<{ [key: string]: string }>({
     profile: "Profile",
     dashboard: "Dashboard",
   });
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     setResourcesMap({
@@ -86,18 +86,14 @@ export default function Layout({ children }: LayoutProps) {
       icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("projects", cultureName),
     },
+    {
+      label: "Settings",
+      name: "Settings",
+      icon: <Presentation size={15} className="mr-2" />,
+      href: getBaseLink("settings/profile", cultureName),
+    },
   ];
-  let [user, setUser] = useState<Volo_Abp_Account_ProfileDto | null>({});
-  // use effect to fetch the user from the server
-  useEffect(() => {
-    async function getUser() {
-      let fetchedUser = await fetch("/api/profile/myprofile");
-      let userData = (await fetchedUser.json()) as Volo_Abp_Account_ProfileDto;
-      console.log(userData);
-      setUser(userData);
-    }
-    getUser();
-  }, []);
+
   const userNavigation = {
     username: user?.name,
     initials: user?.name?.substring(0, 2).toUpperCase(),

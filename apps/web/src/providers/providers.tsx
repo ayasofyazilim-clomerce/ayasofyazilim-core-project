@@ -1,7 +1,8 @@
 "use client";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useParams } from "next/navigation";
 import { LocaleProvider } from "./locale";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { UserProvider } from "./user";
 
 export default function Providers({
   children,
@@ -14,7 +15,9 @@ export default function Providers({
   return (
     <div>
       <TooltipProvider>
-        <LocaleProvider lang={lang}>{children}</LocaleProvider>
+        <UserProvider>
+          <LocaleProvider lang={lang}>{children}</LocaleProvider>
+        </UserProvider>
       </TooltipProvider>
     </div>
   );
