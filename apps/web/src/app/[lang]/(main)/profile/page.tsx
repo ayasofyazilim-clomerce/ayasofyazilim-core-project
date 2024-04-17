@@ -1,21 +1,20 @@
+"use client";
 import { getAccountServiceClient } from "src/lib";
+import { useUser } from "src/providers/user";
 
-export default async function Page() {
-  const client = getAccountServiceClient();
-  const userData = await client.profile.getApiAccountMyProfile();
+export default function Page() {
+  const { user } = useUser();
 
-  if (!userData) {
-    return <div>No data</div>;
-  }
+  if (!user) return null;
 
   return (
     <div className="grid gap-6">
       general
-      {Object.keys(userData).map((key) => {
+      {Object.keys(user).map((key) => {
         if (key === "extraProperties") return;
         return (
           <div>
-            {key}:{(userData as any)[key]}
+            {key}:{(user as any)[key]}
           </div>
         );
       })}
