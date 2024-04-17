@@ -12,6 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useConfig } from "src/providers/configuration";
 import { useLocale } from "src/providers/locale";
 import { useUser } from "src/providers/user";
 import { getBaseLink } from "src/utils";
@@ -23,6 +24,7 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   const { user, getUser } = useUser();
+  const { config, setConfig } = useConfig();
   const { cultureName, resources } = useLocale();
   const [resourcesMap, setResourcesMap] = useState<{ [key: string]: string }>({
     profile: "Profile",
@@ -30,7 +32,14 @@ export default function Layout({ children }: LayoutProps) {
   });
 
   useEffect(() => {
+    async function getConfig() {
+      let fetchedConfig = await fetch("api/config");
+      let configData = await fetchedConfig.json();
+      console.log(configData);
+      setConfig(configData);
+    }
     getUser();
+    getConfig();
   }, []);
 
   useEffect(() => {

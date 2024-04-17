@@ -53,63 +53,51 @@ function isAutherized(request: NextRequest) {
     "api",
   ];
   const pathName = request.nextUrl.pathname.split("/")[2] || "/";
-  if (publicURLs.includes(pathName)) {
+  if (publicURLs.includes(pathName) || isLogged) {
     return true;
   }
-  if (!isLogged && !publicURLs.includes(pathName)) {
-    return false;
+
+  return false;
+}
+
+function localeFromPathname(request: NextRequest) {
+  const pathname = request.nextUrl.pathname + "/";
+  let returnLocale = i18n.defaultLocale;
+  const isLocaleProvided = i18n.locales.find((locale) =>{
+    if(pathname.startsWith(`/${locale}/`)){
+      returnLocale = locale;
+      return locale;
+    }
   }
-  return isLogged;
+  );
+  console.log("locale provided", isLocaleProvided)
+  if (isLocaleProvided) {
+    return returnLocale;
+  }
+  return false;
+}
+
+function getLocale(request: NextRequest) {
+  return getLocaleFromCookies(request) || localeFromPathname(request) || getLocaleFromBrowser(request);
 }
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname + "/";
-
-  const localeFromCookies = getLocaleFromCookies(request);
-  const localeFromPathname = i18n.locales.find((locale) =>
-    pathname.startsWith(`/${locale}/`)
-  );
-
-  // if locale from cookies and local from pathname doesn't exists, redirect to default locale.
-  if (!localeFromCookies && !localeFromPathname) {
-    const defaultLocale = getLocaleFromBrowser(request);
-    return NextResponse.redirect(
-      new URL(
-        `/${defaultLocale}${pathname.startsWith("/") ? "" : "/"}${pathname}${request.nextUrl.search}`,
-        request.url
-      )
-    );
-  }
-
-  // if locale from cookies exist and locale from pathname doesn't, redirect to cookie's locale.
-  if (localeFromCookies && !localeFromPathname) {
-    return NextResponse.redirect(
-      new URL(
-        `/${localeFromCookies}${pathname.startsWith("/") ? "" : "/"}${pathname}${request.nextUrl.search}`,
-        request.url
-      )
-    );
-  }
-
-  // if locale from cookies and locale from pathname exist but they are not same, redirect to cookie's locale.
-  if (
-    localeFromCookies &&
-    localeFromPathname &&
-    localeFromPathname !== localeFromCookies
-  ) {
-    return NextResponse.redirect(
-      new URL(
-        `${pathname.replace(`/${localeFromPathname}/`, `/${localeFromCookies}/`)}`,
-        request.url
-      )
-    );
-  }
+  const locale = getLocale(request);
   // check .AspNetCore.Identity.Application cookie from the request
   if (!isAutherized(request)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
-  // if locale from pathname exist and cookie doesn't, do nothing
-  // if locale from cookies and locale from pathname exist and they are same, do nothing
+
+  if ( !pathname.startsWith(`/${locale}/`) ){
+    return NextResponse.redirect(
+      new URL(
+        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${request.nextUrl.search}`,
+        request.url
+      )
+    );
+  }
+  
 }
 
 export const config = {
