@@ -116,7 +116,7 @@ importers:
         specifier: ^14.1.1
         version: 14.1.1
       '@repo/ayasofyazilim-ui':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/ayasofyazilim-ui
       '@repo/eslint-config':
         specifier: workspace:*
