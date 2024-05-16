@@ -26,7 +26,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.1.1",
     "@repo/eslint-config": "workspace:*",
-    "@repo/ayasofyazilim-ui": "workspace:*",
+    "@repo/ayasofyazilim-ui": "workspace:^",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/negotiator": "^0.6.3",
