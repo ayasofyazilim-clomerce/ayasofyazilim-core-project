@@ -74,7 +74,7 @@ export default function Layout({ children }: LayoutProps) {
       label: "Pages",
       name: resourcesMap.dashboard,
       icon: <SquareStack size={15} className="mr-2" />,
-      href: getBaseLink("dashboard", true),
+      href: getBaseLink("dashboard/role", true),
     },
     {
       label: "Pages",
