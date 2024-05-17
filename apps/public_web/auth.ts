@@ -62,13 +62,17 @@ export const options: NextAuthConfig = {
     }),
   ],
   callbacks: {
+    //@ts-ignore
     async jwt({ user, account, token }) {
       if (account) {
         // Save the access token and refresh token in the JWT on the initial login
         //console.log("Account ", account, user, token)
         return {
+          //@ts-ignore
           access_token: user.access_token,
+          //@ts-ignore
           expires_at: Math.floor(Date.now() / 1000 + (user.expires_in || 0)),
+          //@ts-ignore
           refresh_token: user.refresh_token,
         };
       } else if (Date.now() < (token?.exp || 0) * 1000) {
@@ -97,6 +101,7 @@ export const options: NextAuthConfig = {
           return {
             ...token, // Keep the previous token properties
             access_token: tokens.access_token,
+            //@ts-ignore
             expires_at: Math.floor(Date.now() / 1000 + tokens.expires_in),
             // Fall back to old refresh token, but note that
             // many providers may only allow using a refresh token once.

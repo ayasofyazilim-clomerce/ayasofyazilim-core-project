@@ -1,6 +1,6 @@
 "use client";
 
-import SectionLayout from "@repo/ayasofyazilim-ui/templates/section-layout";
+import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { getBaseLink } from "src/utils";
