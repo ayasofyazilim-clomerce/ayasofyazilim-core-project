@@ -23,7 +23,7 @@ import {
 import Progress from "@repo/ayasofyazilim-ui/molecules/progress";
 import DetailsCard from "@repo/ayasofyazilim-ui/organisms/details-card";
 import { Filter } from "components/filter";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { useLocale } from "src/providers/locale";
 import { cardProps, images, tableProps, tableProps2Col } from "./demo-data";
 import { useEffect, useState } from "react";

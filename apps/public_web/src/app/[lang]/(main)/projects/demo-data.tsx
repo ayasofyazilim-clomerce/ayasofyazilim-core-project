@@ -5,7 +5,7 @@ import { IDetailsCardProps } from "@repo/ayasofyazilim-ui/organisms/details-card
 import { ContentListProps } from "components/content";
 import { InvestProps } from "components/invest";
 import { Star } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { useLocale } from "src/providers/locale";
 
 export const currencyFormatter = new Intl.NumberFormat("tr", {
@@ -419,7 +419,7 @@ export const defaultFullpageDetailsCardProps: IDetailsCardProps = {
     </div>
   ),
   ActionComponent: (
-    <Button customVariant="primary">
+    <Button customVariant="primary" asChild>
       <Link className="sticky top-0" href="#invest">
         Yatırım yap
       </Link>
