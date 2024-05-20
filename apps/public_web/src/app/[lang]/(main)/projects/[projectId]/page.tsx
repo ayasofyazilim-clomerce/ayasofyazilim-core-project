@@ -17,7 +17,11 @@ import {
   numberFormatter,
 } from "../demo-data";
 
-export default async function Page({ params }: any) {
+export default async function Page({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   const { projectId } = params;
   const client =
     await getProjectServiceClient().project.getApiProjectServiceProjectsById({
