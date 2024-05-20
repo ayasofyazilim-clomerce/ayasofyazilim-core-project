@@ -11,7 +11,6 @@ export async function getIdentityServiceClient(request:NextRequest): IdentitySer
     secret: process.env.AUTH_SECRET ?? "",
   });
   const token = JWT_Token?.access_token || "";
-  console.log("JWT token Identity", JWT_Token)
   return new IdentityServiceClient({
     TOKEN: token as string,
     BASE: process.env.BASE_URL,

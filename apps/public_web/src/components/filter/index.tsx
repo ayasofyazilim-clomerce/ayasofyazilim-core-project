@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -89,21 +90,15 @@ export function Filter({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0" align="end">
-        {/* @ts-ignore */}
         <Command>
           <ScrollArea>
-            {/* @ts-ignore */}
             <CommandList>
-              {/* @ts-ignore */}
               <CommandInput placeholder={searchText} />
-              {/* @ts-ignore */}
               <CommandEmpty>{searchEmptyText}</CommandEmpty>
-              {/* @ts-ignore */}
               <CommandGroup>
                 {options.map((option) => {
                   const isSelected = selectedValues.has(option.value);
                   return (
-                    //@ts-ignore
                     <CommandItem
                       key={option.value}
                       value={option.label}

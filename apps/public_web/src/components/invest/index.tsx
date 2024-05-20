@@ -17,7 +17,7 @@ import { Button } from "@repo/ayasofyazilim-ui/atoms/button";
 import CardTable from "@repo/ayasofyazilim-ui/molecules/card-table";
 import { InvestInput } from "components/invest-input";
 import Link from "next/link";
-import { replacePlaceholders } from "node_modules/@repo/ayasofyazilim-ui/src/lib";
+import { replacePlaceholders } from "@repo/ayasofyazilim-ui/lib/replace-placeholders";
 import { useLocale } from "src/providers/locale";
 import { useUser } from "src/providers/user";
 

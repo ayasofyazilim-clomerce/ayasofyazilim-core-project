@@ -1,4 +1,5 @@
-import { Volo_Abp_Identity_IdentityRoleCreateDto, Volo_Abp_Identity_IdentityRoleUpdateDto } from "@ayasofyazilim/saas/IdentityService";
+import { Volo_Abp_Http_RemoteServiceErrorResponse } from "@ayasofyazilim/saas/AccountService";
+import { ApiError, Volo_Abp_Identity_IdentityRoleCreateDto, Volo_Abp_Identity_IdentityRoleUpdateDto } from "@ayasofyazilim/saas/IdentityService";
 import { NextRequest } from "next/server";
 import { getIdentityServiceClient } from "src/lib";
 
@@ -6,7 +7,11 @@ type Clients = {
     [key: string]: any;
 };
 
-const errorResponse = (message: string) => new Response(JSON.stringify({ message }), { status: 400 });
+const errorResponse = (message: string, status: number = 400) => new Response(JSON.stringify({ message }), { status: status });
+
+function isApiError(error: unknown): error is ApiError {
+    return error instanceof ApiError;
+}
 
 const clients: Clients = {
     role: async (req: NextRequest) => {
@@ -31,30 +36,47 @@ const clients: Clients = {
     }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { data: string }   }) {
-    if(!clients[params.data]){
+export async function GET(request: NextRequest, { params }: { params: { data: string } }) {
+    if (!clients[params.data]) {
         // return status 404
         return errorResponse("Invalid data type");
     }
     const client = await clients[params.data](request);
-    const data = await client.get();
-    return new Response(JSON.stringify(data));
+    try {
+        const data = await client.get();
+        return new Response(JSON.stringify(data));
+    } catch (error: unknown) {
+        if (isApiError(error)) {
+            console.log(error);  
+            const body = error?.body as Volo_Abp_Http_RemoteServiceErrorResponse;
+            const message = body?.error?.message || error.statusText;
+            return errorResponse(message, error.status);
+        }
+        return errorResponse("Something went wrong");
+    }
 }
 
-export async function POST(request: NextRequest, { params }: { params: { data: string }   }) {
-    if(!clients[params.data]){
+export async function POST(request: NextRequest, { params }: { params: { data: string } }) {
+    if (!clients[params.data]) {
         return errorResponse("Invalid data type");
     }
     const client = await clients[params.data](request);
     const requestBody = await request.json();
-    const roles = await client.post(requestBody)
-
-    return new Response(JSON.stringify(roles));
+    try {
+        const roles = await client.post(requestBody)
+        return new Response(JSON.stringify(roles));
+    } catch (error: unknown) {
+        if (isApiError(error)) {
+            const body = error.body as Volo_Abp_Http_RemoteServiceErrorResponse;
+            return errorResponse(body.error?.message || "Something went wrong", error.status);
+        }
+        return errorResponse("Something went wrong");
+    }
 }
 
 
-export async function DELETE(request: NextRequest, { params }: { params: { data: string }   }) {
-    if(!clients[params.data]){
+export async function DELETE(request: NextRequest, { params }: { params: { data: string } }) {
+    if (!clients[params.data]) {
         return errorResponse("Invalid data type");
     }
     let retVal = "something went wrong";
@@ -62,20 +84,26 @@ export async function DELETE(request: NextRequest, { params }: { params: { data:
     const id = await request.json();
     const deleteById = await client.delete(id)
     if (deleteById === undefined) retVal = "successfull"
-
     return new Response(JSON.stringify(retVal));
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { data: string }   }) {
-    if(!clients[params.data]){
+export async function PUT(request: NextRequest, { params }: { params: { data: string } }) {
+    if (!clients[params.data]) {
         return errorResponse("Invalid data type");
     }
     const client = await clients[params.data](request);
     const requestBody = await request.json();
-    const roles = await client.put({
-        id: requestBody.id,
-        requestBody: JSON.parse(requestBody.requestBody)
-    });
-
-    return new Response(JSON.stringify(roles));
+    try {
+        const roles = await client.put({
+            id: requestBody.id,
+            requestBody: JSON.parse(requestBody.requestBody)
+        });
+        return new Response(JSON.stringify(roles));
+    } catch (error: unknown) {
+        if (isApiError(error)) {
+            const body = error.body as Volo_Abp_Http_RemoteServiceErrorResponse;
+            return errorResponse(body.error?.message || "Something went wrong", error.status);
+        }
+        return errorResponse("Something went wrong");
+    }
 }

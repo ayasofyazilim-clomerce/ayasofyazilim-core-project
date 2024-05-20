@@ -8,7 +8,7 @@ import { EditIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useUser } from "src/providers/user";
 import Button from "@repo/ayasofyazilim-ui/molecules/button";
-import { Toaster, toast } from "@/components/ui/sonner";
+import { toast } from "@/components/ui/sonner";
 import { getBaseLink } from "src/utils";
 
 export default function Page() {
@@ -159,7 +159,6 @@ export default function Page() {
         </div>
         <Input id="picture" placeholder="John" type="file" className="hidden" />
       </div>
-      <Toaster richColors />
     </>
   );
 }
