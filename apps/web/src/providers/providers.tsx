@@ -5,6 +5,7 @@ import { ConfigProvider } from "./configuration";
 import { LocaleProvider } from "./locale";
 import { UserProvider } from "./user";
 import AuthSession from "./auth";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function Providers({
   children,
@@ -17,6 +18,7 @@ export default function Providers({
 
   return (
     <div>
+      <Toaster richColors />
       <AuthSession>
         <ConfigProvider>
           <TooltipProvider>
