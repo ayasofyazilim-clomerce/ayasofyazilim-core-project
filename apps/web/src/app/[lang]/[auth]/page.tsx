@@ -9,7 +9,9 @@ import { useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
+import "./../../globals.css";
 import { getBaseLink } from "src/utils";
+import { signInServer } from "auth-action";
 
 export default function Page(): JSX.Element {
   const { cultureName, resources, changeLocale } = useLocale();
@@ -49,8 +51,12 @@ export default function Page(): JSX.Element {
   };
   const onLoginSubmit = (values: LoginFormDataType): Promise<string> => {
     return new Promise(async (resolve, reject) => {
-      const { password, userIdentifier: email } = values;
-      await signIn("credentials", { email, password, redirect: false });
+      const { password, userIdentifier: username } = values;
+      await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
       const response = await fetch(getBaseLink("./api/auth/login"), {
         method: "POST",
         body: JSON.stringify(values),
@@ -104,7 +110,7 @@ export default function Page(): JSX.Element {
       allowTenantChange: false,
       formSchema: loginFormSchema,
       onForgotPasswordSubmit: onForgotPasswordSubmit,
-      onSubmitFunction: onLoginSubmit,
+      onSubmitFunction: signInServer,
       registerPath: "register",
     };
   } else if (authTypeParam === "register") {

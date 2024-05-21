@@ -1,19 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Volo_Abp_Account_ProfileDto } from "@ayasofyazilim/saas/AccountService";
+import { signOutServer } from "auth-action";
 import LanguageSelector from "components/language-selector";
 import Link from "next/link";
-import { logoutAction } from "src/app/actions";
-import { useConfig } from "src/providers/configuration";
-import { useUser } from "src/providers/user";
 
 export default function Header({
   menuAlign,
+  user,
 }: {
   menuAlign?: "start" | "center" | "end";
+  user: Volo_Abp_Account_ProfileDto | undefined;
 }): JSX.Element {
-  const { user, getUser } = useUser();
-  const { config, setConfig } = useConfig();
   return (
     <div className="bg-gray-100 p-1 w-full">
       <div className="container flex justify-end gap-4">
@@ -26,7 +25,7 @@ export default function Header({
               variant={"link"}
               className="p-0"
               onClick={() => {
-                logoutAction();
+                signOutServer();
               }}
             >
               Logout

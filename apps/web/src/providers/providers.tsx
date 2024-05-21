@@ -22,9 +22,7 @@ export default function Providers({
       <AuthSession>
         <ConfigProvider>
           <TooltipProvider>
-            <UserProvider>
-              <LocaleProvider lang={lang}>{children}</LocaleProvider>
-            </UserProvider>
+            <LocaleProvider lang={lang}>{children}</LocaleProvider>
           </TooltipProvider>
         </ConfigProvider>
       </AuthSession>

@@ -9,7 +9,9 @@ import { useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
+import "./../../globals.css";
 import { getBaseLink } from "src/utils";
+import { signInServer } from "auth-action";
 
 export default function Page(): JSX.Element {
   const { cultureName, resources, changeLocale } = useLocale();
@@ -49,10 +51,22 @@ export default function Page(): JSX.Element {
   };
   const onLoginSubmit = (values: LoginFormDataType): Promise<string> => {
     return new Promise(async (resolve, reject) => {
-      const { password, userIdentifier: email } = values;
-      await signIn("credentials", { email, password, redirect: false });
-      resolve("ok");
-      router.push("/projects");
+      const { password, userIdentifier: username } = values;
+      await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
+      const response = await fetch(getBaseLink("./api/auth/login"), {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+      let result = await response.json();
+      if (result.description !== "Success") {
+        return reject(result);
+      }
+      resolve(result);
+      router.push(getBaseLink("profile", true));
     });
   };
   const loginFormSchema = z.object({
@@ -96,7 +110,7 @@ export default function Page(): JSX.Element {
       allowTenantChange: false,
       formSchema: loginFormSchema,
       onForgotPasswordSubmit: onForgotPasswordSubmit,
-      onSubmitFunction: onLoginSubmit,
+      onSubmitFunction: signInServer,
       registerPath: "register",
     };
   } else if (authTypeParam === "register") {

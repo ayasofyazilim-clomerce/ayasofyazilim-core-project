@@ -1,43 +1,28 @@
-"use client";
-import type { MenuProps } from "@repo/ayasofyazilim-ui/molecules/side-bar";
-import Mainlayout from "@repo/ayasofyazilim-ui/templates/mainlayout";
-import { Presentation, SquareStack, User } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+"use server";
+import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
+import { auth } from "auth";
 import LanguageSelector from "components/language-selector";
-import { logoutAction } from "src/app/actions";
-import { useConfig } from "src/providers/configuration";
-import { useLocale } from "src/providers/locale";
-import { useUser } from "src/providers/user";
+import { Presentation, SquareStack, User } from "lucide-react";
 import { getBaseLink } from "src/utils";
-import "../../globals.css";
+import "./../../globals.css";
+import DashboardHeader from "@repo/ayasofyazilim-ui/organisms/header";
+import { userNavTypes } from "@repo/ayasofyazilim-ui/organisms/profile-menu";
+import Sidebar, { MenuProps } from "@repo/ayasofyazilim-ui/molecules/side-bar";
+import { signOutServer } from "auth-action";
 
-interface LayoutProps {
+type LayoutProps = {
   children: JSX.Element;
-}
+};
 
-export default function Layout({ children }: LayoutProps) {
-  const { user, getUser } = useUser();
-  const { config, setConfig } = useConfig();
-  const { cultureName, resources } = useLocale();
-  const [resourcesMap, setResourcesMap] = useState<Record<string, string>>({
+export default async function Layout({ children }: LayoutProps) {
+  const session = await auth();
+  const user = session?.user;
+
+  const resourcesMap = {
     profile: "Profile",
     dashboard: "Dashboard",
-  });
+  };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  useEffect(() => {
-    setResourcesMap({
-      profile: resources?.AbpUi?.texts?.PersonalInfo || "Profile",
-      dashboard:
-        resources?.AbpForDeploy?.texts?.["Menu:Dashboard"] || "Dashboard",
-    });
-  }, [cultureName]);
-
-  const router = useRouter();
   const navigationLinks = [
     {
       href: "/profile",
@@ -67,7 +52,7 @@ export default function Layout({ children }: LayoutProps) {
     {
       label: "Pages",
       name: resourcesMap.profile,
-      icon: <User className="mr-2" size={15} />,
+      icon: <User size={15} className="mr-2" />,
       href: getBaseLink("profile", true),
     },
     {
@@ -76,31 +61,23 @@ export default function Layout({ children }: LayoutProps) {
       icon: <SquareStack size={15} className="mr-2" />,
       href: getBaseLink("dashboard/role", true),
     },
-
-    {
-      label: "Pages",
-      name: "Tenant Data",
-      icon: <SquareStack className="mr-2" size={15} />,
-      href: getBaseLink("tenant", true),
-    },
-
     {
       label: "Pages",
       name: "Projects",
-      icon: <Presentation className="mr-2" size={15} />,
+      icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("projects", true),
     },
     {
       label: "Settings",
       name: "Settings",
-      icon: <Presentation className="mr-2" size={15} />,
+      icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("settings/profile", true),
     },
   ];
-  const userNavigation = {
-    username: user?.name,
+  const userNavigation: userNavTypes = {
+    username: user?.name ?? undefined,
     initials: user?.name?.substring(0, 2).toUpperCase(),
-    email: user?.email,
+    email: user?.email ?? undefined,
     imageURL: "https://github.com/shadcn.png",
     menuLinks: [
       {
@@ -114,21 +91,25 @@ export default function Layout({ children }: LayoutProps) {
         shortcut: "⌘D",
       },
     ],
-    logoutFunction: async () => {
-      logoutAction();
-    },
+    signOutFunction: signOutServer,
   };
   return (
-    <Mainlayout
-      extraMenu={<LanguageSelector />}
-      logo="https://github.com/ayasofyazilim-clomerce.png"
-      menus={exampleMenus}
-      navMenu={navigationLinks}
-      navMenuLocation="left"
-      title="ayasofya"
-      userNav={userNavigation}
+    <MainLayout
+      HeaderComponent={
+        <DashboardHeader
+          logo="https://github.com/ayasofyazilim-clomerce.png"
+          title="ayasofya"
+          userNav={userNavigation}
+          navMenu={navigationLinks}
+          extraMenu={<LanguageSelector />}
+          navMenuLocation="left"
+        />
+      }
+      SidebarComponent={
+        <Sidebar className="hidden md:flex shadow-md" menus={exampleMenus} />
+      }
     >
       {children}
-    </Mainlayout>
+    </MainLayout>
   );
 }
