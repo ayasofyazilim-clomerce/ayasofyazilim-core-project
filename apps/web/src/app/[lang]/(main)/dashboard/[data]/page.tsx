@@ -10,6 +10,7 @@ import { createZodObject, getBaseLink } from "src/utils";
 import { tableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import { toast } from "@/components/ui/sonner";
+import { $Volo_Saas_Host_Dtos_SaasTenantCreateDto, $Volo_Saas_Host_Dtos_SaasTenantDto } from "@ayasofyazilim/saas/SaasService";
 
 async function controlledFetch(
   url: string,
@@ -34,6 +35,7 @@ async function controlledFetch(
 }
 
 const dataConfig: Record<string, any> = {
+
   role: {
     formSchema: $Volo_Abp_Identity_IdentityRoleCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityRoleDto,
@@ -50,6 +52,7 @@ const dataConfig: Record<string, any> = {
       });
     },
   },
+
   user: {
     formSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
@@ -66,7 +69,28 @@ const dataConfig: Record<string, any> = {
       });
     },
   },
+
+  tenant: {
+    formSchema: $Volo_Saas_Host_Dtos_SaasTenantCreateDto,
+    tableSchema: $Volo_Saas_Host_Dtos_SaasTenantDto,
+    formPositions: ["name", "editionId", "adminEmailAddress","adminPassword","activationState"],
+    editformPositions: ["name", "editionId","activationState"],
+    excludeList: ["id","concurrencyStamp"],
+    cards: (items: any) => {
+      return items?.slice(-4).map((item: any) => {
+        return {
+          title: item.name,
+          content: item.userCount,
+          description: "Users",
+          footer: item.isPublic ? "Public" : "Not Public",
+        };
+      });
+    },
+  },
+
 };
+
+
 export default function Page({
   params,
 }: {
@@ -82,7 +106,10 @@ export default function Page({
     cards,
     tableSchema: tableType,
   } = dataConfig[params.data];
+
+  
   const rolesCards = cards(roles?.items);
+
 
   function getRoles() {
     function onData(data: any) {
@@ -99,10 +126,12 @@ export default function Page({
       false
     );
   }
+
+
   const formSchema = createZodObject(schema, formPositions);
-  const autoFormArgs = {
-    formSchema,
-  };
+  const autoFormArgs = {formSchema};
+  
+
 
   const action: tableAction = {
     cta: "New " + params.data,
@@ -119,6 +148,8 @@ export default function Page({
       );
     },
   };
+
+  
   const tableHeaders = [
     {
       name: "name",
@@ -134,10 +165,14 @@ export default function Page({
       name: "userCount",
     },
   ];
+
+
   useEffect(() => {
     setIsLoading(true);
     getRoles();
   }, []);
+
+
   const onEdit = (data: any, row: any) => {
     controlledFetch(
       fetchLink,
@@ -152,6 +187,10 @@ export default function Page({
       "Updated Successfully"
     );
   };
+
+
+
+
   const onDelete = (e: any, row: any) => {
     controlledFetch(
       fetchLink,
@@ -164,10 +203,13 @@ export default function Page({
     );
   };
 
+
+
   const columnsData = {
     type: "Auto",
     data: { getRoles, autoFormArgs, tableType, excludeList, onEdit, onDelete },
   };
+
 
   return (
     <Dashboard

@@ -1,7 +1,7 @@
 import { Volo_Abp_Http_RemoteServiceErrorResponse } from "@ayasofyazilim/saas/AccountService";
 import { ApiError, Volo_Abp_Identity_IdentityRoleCreateDto, Volo_Abp_Identity_IdentityRoleUpdateDto } from "@ayasofyazilim/saas/IdentityService";
 import { NextRequest } from "next/server";
-import { getIdentityServiceClient } from "src/lib";
+import { getIdentityServiceClient, getSaasServiceClient } from "src/lib";
 
 type Clients = {
     [key: string]: any;
@@ -32,6 +32,17 @@ const clients: Clients = {
             post: async (requestBody: any) => user.postApiIdentityUsers({ requestBody }),
             put: async ({ id, requestBody }: { id: string, requestBody: any }) => user.putApiIdentityUsersById({ id, requestBody }),
             delete: async (id: string) => user.deleteApiIdentityUsersById({ id })
+        }
+    },
+
+    tenant: async (req: NextRequest) => {
+        const client = await getSaasServiceClient(req);
+        const tenant = client.tenant;
+        return {
+            get: async () => tenant.getApiSaasTenants(),
+            post: async (requestBody: any) => tenant.postApiSaasTenants({ requestBody }),
+            put: async ({ id, requestBody }: { id: string, requestBody: any }) => tenant.putApiSaasTenantsById({ id, requestBody }),
+            delete: async (id: string) => tenant.deleteApiSaasTenantsById({ id })
         }
     }
 }
