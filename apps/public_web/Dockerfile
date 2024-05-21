@@ -14,10 +14,11 @@ FROM base AS builder
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .
+RUN ls -a
 COPY apps/public_web ./apps/public_web
 
 RUN turbo prune public_web --docker
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 WORKDIR /app/apps/public_web
 
