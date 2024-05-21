@@ -1,12 +1,12 @@
 version: "3"
 
 services:
-  public_web:
-    image: public_web
-    container_name: public_web
+  docs:
+    image: docs
+    container_name: docs
     build:
       context: .
-      dockerfile: ./apps/public_web/Dockerfile
+      dockerfile: ./apps/docs/Dockerfile
     ports:
       - 3001:3001
     environment:
