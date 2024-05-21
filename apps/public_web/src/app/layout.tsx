@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
 import { Inter } from "next/font/google";
-import { ReactNode } from "react";
-import Providers from "../../providers/providers";
-import "../globals.css";
+import "./globals.css";
+import Providers from "src/providers/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
