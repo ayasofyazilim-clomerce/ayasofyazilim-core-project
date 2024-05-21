@@ -1,40 +1,47 @@
-FROM node:18.17.0-alpine as base
-
-ENV PNPM_HOME="/var/lib/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN corepack enable
-
-RUN pnpm add -g turbo
-
-# BUILDER ---------------------------------------------------------------------
-
+FROM node:18-alpine AS base
+ 
 FROM base AS builder
-
+RUN apk add --no-cache libc6-compat
+RUN apk update
+# Set working directory
 WORKDIR /app
-
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .
-RUN ls -a
-COPY apps/public_web ./apps/public_web
-
-RUN turbo prune public_web --docker
-RUN pnpm install --frozen-lockfile
-
-WORKDIR /app/apps/public_web
-
-RUN pnpm turbo run build
-
-# RUNNER ----------------------------------------------------------------------
-
+RUN npm install turbo --global
+COPY . .
+ 
+# Generate a partial monorepo with a pruned lockfile for a target workspace.
+RUN turbo prune public_web --docker # Assuming "public_web" is the name entered in the project's package.json: { name: "public_web" }
+ 
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
+ 
+# First install the dependencies (as they change less often)
+COPY .gitignore .gitignore
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN npm install pnpm --global
+RUN pnpm install
+ 
+# Build the project
+COPY --from=builder /app/out/full/ .
+RUN pnpm turbo run build --filter=public_web...
+ 
 FROM base AS runner
-
 WORKDIR /app
-
+ 
+# Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
-
 USER nextjs
-
-COPY --from=builder /app/apps/public_web/.next/standalone /app
-
-CMD node ./apps/public_web/server.js
+ 
+COPY --from=installer /app/apps/public_web/next.config.js .
+COPY --from=installer /app/apps/public_web/package.json .
+ 
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/standalone ./
+COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/static ./apps/public_web/.next/static
+COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/public ./apps/public_web/public
+CMD PORT=3001 HOSTNAME=0.0.0.0 node apps/public_web/server.js

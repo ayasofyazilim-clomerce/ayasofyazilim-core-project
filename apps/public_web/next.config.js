@@ -1,22 +1,23 @@
 const path = require("path");
-/** @type {import('next').NextConfig} */
+
 module.exports = {
-  async rewrites() {
-    return [
-      // `/en/api` yolu için `/api` rotasına yeniden yönlendirme      
-      {
-        source: '/:lang/api/:path*',
-        destination: '/api/:path*',
-      },
-    ];
-  },
-  reactStrictMode: true,
   env: {
+    async rewrites() {
+      return [
+        // `/en/api` yolu için `/api` rotasına yeniden yönlendirme      
+        {
+          source: '/:lang/api/:path*',
+          destination: '/api/:path*',
+        },
+      ];
+    },
     BASE_URL: process.env.BASE_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
   },
+  reactStrictMode: true,
   transpilePackages: ["@repo/ui", "@repo/ayasofyazilim-ui"],
-  productionBrowserSourceMaps: false,
-
+  output: "standalone",
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
+  },
 };
-
