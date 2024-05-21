@@ -9,7 +9,7 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 # Set working directory
 WORKDIR /app
-RUN yarn global add turbo
+RUN npm install turbo --global
 COPY . .
 RUN turbo prune public_web --docker
 
@@ -22,9 +22,10 @@ WORKDIR /app
 # First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install
-
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+RUN npm install pnpm --global
+RUN pnpm install
 # Build the project
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
@@ -36,7 +37,7 @@ COPY turbo.json turbo.json
 # ARG TURBO_TOKEN
 # ENV TURBO_TOKEN=$TURBO_TOKEN
 
-RUN yarn turbo build --filter=public_web...
+RUN pnpm turbo build --filter=public_web...
 
 FROM base AS runner
 WORKDIR /app
