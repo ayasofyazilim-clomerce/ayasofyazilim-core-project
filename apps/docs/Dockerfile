@@ -56,4 +56,4 @@ COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/docs/public ./apps/docs/public
 
-CMD PORT=3001 HOSTNAME=0.0.0.0 node apps/docs/server.js
+CMD PORT=3002 HOSTNAME=0.0.0.0 node apps/docs/server.js
