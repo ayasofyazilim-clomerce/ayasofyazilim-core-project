@@ -17,7 +17,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json .
 COPY apps/public_web ./apps/public_web
 
 RUN turbo prune public_web --docker
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
 WORKDIR /app/apps/public_web
 
