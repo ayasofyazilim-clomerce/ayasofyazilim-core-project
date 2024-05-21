@@ -53,7 +53,7 @@ export default function Page(): JSX.Element {
     const editautoFormArgs = { formSchema: editformSchema };
 
     const action = {
-        cta: "New Role",
+        cta: "New tenant",
         description: "Create a new role for users",
         autoFormArgs,
         callback: (e) => {

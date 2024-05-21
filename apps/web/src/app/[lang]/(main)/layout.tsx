@@ -61,6 +61,14 @@ export default async function Layout({ children }: LayoutProps) {
       icon: <SquareStack size={15} className="mr-2" />,
       href: getBaseLink("dashboard/role", true),
     },
+
+    {
+      label: "Pages",
+      name: "Tenants",
+      icon: <Presentation size={15} className="mr-2" />,
+      href: getBaseLink("tenant", true),
+    },
+
     {
       label: "Pages",
       name: "Projects",
