@@ -21,14 +21,15 @@ export default function Page(): JSX.Element {
         2: "Passive"
     };
 
+
     function getRoles() {
         const baseLink = getBaseLink("/api/tenant");
         fetch(baseLink)
             .then((res) => res.json())
             .then((data) => {
-                const transformedData = data.items.map((item: any) => ({
+                const transformedData = data.items.map((item: { activationState: number }) => ({
                     ...item,
-                    activationState: activationStateReverseMap[item.activationState]
+                    activationState: activationStateReverseMap[item.activationState as keyof typeof activationStateReverseMap]
                 }));
                 setRoles({ ...data, items: transformedData });
                 setIsLoading(false);
@@ -56,7 +57,7 @@ export default function Page(): JSX.Element {
         cta: "New tenant",
         description: "Create a new role for users",
         autoFormArgs,
-        callback: (e) => {
+        callback: (e: z.infer<typeof formSchema>) => {
             const transformedData = {
                 ...e,
                 activationState: activationStateMap[e.activationState]
@@ -97,7 +98,7 @@ export default function Page(): JSX.Element {
     const onEdit = (data: any, row: any) => {
         const transformedData = {
             ...data,
-            activationState: activationStateMap[data.activationState]
+            activationState: activationStateMap[data.activationState as keyof typeof activationStateMap]
         };
         fetch(getBaseLink("/api/tenant"), {
             method: 'PUT',
@@ -126,8 +127,18 @@ export default function Page(): JSX.Element {
     };
 
     const columnsData = {
-        type: "Auto",
-        data: { getRoles, autoFormArgs: editautoFormArgs, tableType, excludeList, onEdit, onDelete }
+        type: "Auto" as const,
+        data: {
+            getRoles,
+            autoFormArgs: editautoFormArgs,
+            tableType,
+            excludeList,
+            onEdit,
+            onDelete,
+            callback: (data: any) => {
+                console.log('Callback executed with data:', data);
+            }
+        }
     };
 
     return (
