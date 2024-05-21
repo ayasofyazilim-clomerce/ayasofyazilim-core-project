@@ -1,8 +1,8 @@
 "use server";
-import { auth, signIn, signOut } from "auth";
 import { redirect } from "next/navigation";
+import { auth, signIn, signOut } from "auth";
 
-export default async function Page() {
+export default async function Page(): Promise<JSX.Element> {
   const session = await auth();
 
   return (
