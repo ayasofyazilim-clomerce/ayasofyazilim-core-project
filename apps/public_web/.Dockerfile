@@ -44,5 +44,4 @@ COPY --from=installer /app/apps/public_web/package.json .
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/static ./apps/public_web/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/public ./apps/public_web/public
-EXPOSE 3001
 CMD node apps/public_web/server.js
