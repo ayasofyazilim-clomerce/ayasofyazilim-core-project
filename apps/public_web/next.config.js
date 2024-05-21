@@ -14,6 +14,6 @@ module.exports = {
     BASE_URL: process.env.BASE_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
   },
-  transpilePackages: ["@repo/ui"],
+  transpilePackages: ["@repo/ui", "@repo/ayasofyazilim-ui"],
 };
 
