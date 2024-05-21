@@ -44,4 +44,4 @@ COPY --from=installer /app/apps/public_web/package.json .
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/standalone ./
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/.next/static ./apps/public_web/.next/static
 COPY --from=installer --chown=nextjs:nodejs /app/apps/public_web/public ./apps/public_web/public
-CMD node apps/public_web/server.js
+CMD PORT=3001 HOSTNAME=0.0.0.0 node apps/public_web/server.js
