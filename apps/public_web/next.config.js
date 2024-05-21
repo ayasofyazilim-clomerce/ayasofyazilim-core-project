@@ -17,6 +17,7 @@ module.exports = {
   },
   transpilePackages: ["@repo/ui", "@repo/ayasofyazilim-ui"],
   output: "standalone",
+  productionBrowserSourceMaps: false,
   experimental: {
     // this includes files from the monorepo base two directories up
     outputFileTracingRoot: path.join(__dirname, '../../'),

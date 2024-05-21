@@ -2,18 +2,12 @@ version: "3"
 
 services:
   public_web:
+    image: public_web
     container_name: public_web
     build:
       context: .
-      dockerfile: ./apps/public_web/.Dockerfile
-    restart: always
+      dockerfile: ./apps/public_web/Dockerfile
     ports:
       - 3001:3001
-    networks:
-      - app_network
-
-# Define a network, which allows containers to communicate
-# with each other, by using their container name as a hostname
-networks:
-  app_network:
-    external: true
+    environment:
+      - NODE_ENV=production
