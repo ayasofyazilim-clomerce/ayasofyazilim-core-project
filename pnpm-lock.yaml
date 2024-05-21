@@ -35,9 +35,6 @@ importers:
       '@repo/ayasofyazilim-ui':
         specifier: workspace:^
         version: link:../../packages/ayasofyazilim-ui
-      '@repo/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       negotiator:
         specifier: 0.6.3
         version: 0.6.3
@@ -100,8 +97,8 @@ importers:
         specifier: 0.30.0
         version: 0.30.0
       '@ayasofyazilim/saas':
-        specifier: 0.0.10
-        version: 0.0.10
+        specifier: 0.0.11
+        version: 0.0.11
       '@formatjs/intl-localematcher':
         specifier: 0.5.4
         version: 0.5.4
@@ -111,12 +108,6 @@ importers:
       '@repo/ayasofyazilim-ui':
         specifier: workspace:^
         version: link:../../packages/ayasofyazilim-ui
-      '@vercel/blob':
-        specifier: 0.22.1
-        version: 0.22.1
-      dotenv-cli:
-        specifier: ^7.4.2
-        version: 7.4.2
       lucide-react:
         specifier: 0.363.0
         version: 0.363.0(react@18.2.0)
@@ -9254,19 +9245,10 @@ packages:
       is-obj: 2.0.0
     dev: true
 
-  /dotenv-cli@7.4.2:
-    resolution: {integrity: sha512-SbUj8l61zIbzyhIbg0FwPJq6+wjbzdn9oEtozQpZ6kW2ihCcapKVZj49oCT3oPM+mgQm+itgvUQcG5szxVrZTA==}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-      dotenv: 16.4.5
-      dotenv-expand: 10.0.0
-      minimist: 1.2.8
-    dev: false
-
   /dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
+    dev: true
 
   /dotenv@16.0.3:
     resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
@@ -9276,6 +9258,7 @@ packages:
   /dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
+    dev: true
 
   /duplexify@3.7.1:
     resolution: {integrity: sha512-07z8uv2wMyS51kKhD1KsdXJg5WQ6t93RneqRxUHnskXVtlYYkLqM0gqStQZ3pj073g687jPCHrqNfCzawLYh5g==}
@@ -12617,6 +12600,7 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+    dev: true
 
   /minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}

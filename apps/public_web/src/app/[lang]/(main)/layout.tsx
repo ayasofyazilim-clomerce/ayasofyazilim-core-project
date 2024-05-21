@@ -1,10 +1,9 @@
 "use server";
-import Navbar from "components/navbar";
 
 import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
+import { auth } from "auth";
 import Header from "../../../components/header";
 import "../../globals.css";
-import { auth } from "auth";
 type LayoutProps = {
   children: JSX.Element;
 };
@@ -17,7 +16,7 @@ export default async function Layout({ children }: LayoutProps) {
       HeaderComponent={
         <>
           <Header user={user} />
-          <Navbar />
+          {/* <Navbar /> */}
         </>
       }
     >
