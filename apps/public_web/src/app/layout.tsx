@@ -15,5 +15,13 @@ export default function RootLayout({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  return <>{children}</>;
+  return (
+    <ViewTransitions>
+      <html>
+        <body className={inter.className}>
+          <Providers>{children}</Providers>
+        </body>
+      </html>
+    </ViewTransitions>
+  );
 }
