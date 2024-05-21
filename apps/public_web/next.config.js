@@ -15,5 +15,6 @@ module.exports = {
     AUTH_SECRET: process.env.AUTH_SECRET,
   },
   transpilePackages: ["@repo/ui", "@repo/ayasofyazilim-ui"],
+  output: "standalone",
 };
 
