@@ -43,6 +43,17 @@ const clients: Clients = {
             put: async ({ id, requestBody }: { id: string, requestBody: any }) => edition.putApiSaasEditionsById({ id, requestBody }),
             delete: async (id: string) => edition.deleteApiSaasEditionsById({ id })
         }
+    },
+
+    tenant: async (req: NextRequest) => {
+        const client = await getSaasServiceClient(req);
+        const tenant = client.tenant;
+        return {
+            get: async () => tenant.getApiSaasTenants(),
+            post: async (requestBody: any) => tenant.postApiSaasTenants({ requestBody }),
+            put: async ({ id, requestBody }: { id: string, requestBody: any }) => tenant.putApiSaasTenantsById({ id, requestBody }),
+            delete: async (id: string) => tenant.deleteApiSaasTenantsById({ id })
+        }
     }
 }
 
