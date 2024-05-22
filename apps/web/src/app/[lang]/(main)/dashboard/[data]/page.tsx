@@ -109,6 +109,15 @@ const dataConfig: Record<string, any> = {
   },
 };
 
+const activationStates = ["Active", "Active with limited time", "Passive"];
+function convertActivationState(value: string | number): string | number {
+  if (typeof value === "number") {
+    return activationStates[value];
+  } else {
+    return activationStates.indexOf(value);
+  }
+}
+
 export default function Page({
   params,
 }: {
@@ -128,9 +137,6 @@ export default function Page({
 
   const rolesCards = cards(roles?.items);
 
-
-
-
   function getRoles() {
     function onData(data: any) {
       let returnData = data;
@@ -142,7 +148,7 @@ export default function Page({
       };
       const transformedData = returnData.items.map((item: { activationState: number }) => ({
        ...item,
-        activationState: activationStateReverseMap[item.activationState as keyof typeof activationStateReverseMap],
+        activationState: convertActivationState(item.activationState),
       }));
       setRoles({...returnData, items: transformedData });
       setIsLoading(false);
@@ -159,20 +165,6 @@ export default function Page({
   }
 
 
-  const activationStateMap = {
-    "Active": 0,
-    "Active with limited time": 1,
-    "Passive": 2,
-  };
-
-  const activationStateReverseMap = {
-    0: "Active",
-    1: "Active with limited time",
-    2: "Passive",
-  };
-
-
-
 
   const formSchema = params.data === 'tenant'
   ? z.object({
@@ -184,18 +176,14 @@ export default function Page({
     })
   : createZodObject(schema, formPositions);
 
-
   const editformSchema = z.object({
     name: z.string().max(64).min(0),
     editionId: z.string().uuid().nullable().optional(),
     activationState: z.enum(['Active', 'Active with limited time', 'Passive']),
-});
-
+  });
 
 
   const autoFormArgs = { formSchema };
-
-
 
   const action: tableAction = {
     cta: "New " + params.data,
@@ -204,7 +192,7 @@ export default function Page({
     callback: async (e) => {
       const transformedData = {
        ...e,
-       activationState: activationStateMap[e.activationState as keyof typeof activationStateMap],
+       activationState: convertActivationState(e.activationState),
       };
       await controlledFetch(
         fetchLink,
@@ -242,7 +230,7 @@ export default function Page({
   const onEdit = (data: any, row: any) => {
     const transformedData = {
       ...data,
-      activationState: activationStateMap[data.activationState as keyof typeof activationStateMap],
+      activationState: convertActivationState(data.activationState),
     };
     controlledFetch(
       fetchLink,
@@ -270,9 +258,16 @@ export default function Page({
     );
   };
 
+  const getCustomFormArgs = (params: any) => {
+    if (params.data === 'tenant') {
+      return { formSchema: editformSchema };
+    }
+    return { formSchema };
+  };
+
   const columnsData: columnsType = {
     type: "Auto",
-    data: { callback:getRoles, autoFormArgs: params.data === 'tenant' ? { formSchema: editformSchema } : { formSchema }, tableType, excludeList, onEdit, onDelete },
+    data: { callback:getRoles, autoFormArgs: getCustomFormArgs(params), tableType, excludeList, onEdit, onDelete },
   };
 
   return (
