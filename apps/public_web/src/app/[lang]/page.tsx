@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 export default function Page(): JSX.Element {
-  redirect("/tr/projects");
+  return <>TESTIN</>;
+  // redirect("/tr/projects");
 }
