@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-
 export default function Page(): JSX.Element {
-  redirect("/tr/login");
+  return <>TEST FU</>;
+  // redirect("/tr/login");
 }
