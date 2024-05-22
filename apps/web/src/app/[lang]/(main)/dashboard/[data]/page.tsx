@@ -11,12 +11,13 @@ import { tableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import { toast } from "@/components/ui/sonner";
 import { $Volo_Saas_Host_Dtos_SaasTenantCreateDto, $Volo_Saas_Host_Dtos_SaasTenantDto } from "@ayasofyazilim/saas/SaasService";
+import { z } from "zod";
 
 async function controlledFetch(
   url: string,
   options: RequestInit,
   onSuccess: (data?: any) => void,
-  successMessage: string = "Successfull",
+  successMessage: string = "Successful",
   showToast: boolean = true
 ) {
   try {
@@ -35,7 +36,6 @@ async function controlledFetch(
 }
 
 const dataConfig: Record<string, any> = {
-
   role: {
     formSchema: $Volo_Abp_Identity_IdentityRoleCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityRoleDto,
@@ -73,9 +73,8 @@ const dataConfig: Record<string, any> = {
   tenant: {
     formSchema: $Volo_Saas_Host_Dtos_SaasTenantCreateDto,
     tableSchema: $Volo_Saas_Host_Dtos_SaasTenantDto,
-    formPositions: ["name", "editionId", "adminEmailAddress","adminPassword","activationState"],
-    editformPositions: ["name", "editionId","activationState"],
-    excludeList: ["id","concurrencyStamp"],
+    formPositions: "",
+    excludeList: ["id", "concurrencyStamp"],
     cards: (items: any) => {
       return items?.slice(-4).map((item: any) => {
         return {
@@ -87,9 +86,7 @@ const dataConfig: Record<string, any> = {
       });
     },
   },
-
 };
-
 
 export default function Page({
   params,
@@ -107,13 +104,18 @@ export default function Page({
     tableSchema: tableType,
   } = dataConfig[params.data];
 
-  
   const rolesCards = cards(roles?.items);
+
+
 
 
   function getRoles() {
     function onData(data: any) {
-      setRoles(data);
+      const transformedData = data.items.map((item: { activationState: number }) => ({
+       ...item,
+        activationState: activationStateReverseMap[item.activationState as keyof typeof activationStateReverseMap],
+      }));
+      setRoles({...data, items: transformedData });
       setIsLoading(false);
     }
     controlledFetch(
@@ -128,9 +130,42 @@ export default function Page({
   }
 
 
-  const formSchema = createZodObject(schema, formPositions);
-  const autoFormArgs = {formSchema};
-  
+  const activationStateMap = {
+    "Active": 0,
+    "Active with limited time": 1,
+    "Passive": 2,
+  };
+
+  const activationStateReverseMap = {
+    0: "Active",
+    1: "Active with limited time",
+    2: "Passive",
+  };
+
+
+
+
+  const formSchema = params.data === 'tenant'
+  ? z.object({
+      name: z.string().max(64).min(0),
+      editionId: z.string().uuid().nullable().optional(),
+      adminEmailAddress: z.string().email().max(256).min(0),
+      adminPassword: z.string().max(128).min(0),
+      activationState: z.enum(['Active', 'Active with limited time', 'Passive']),
+    })
+  : createZodObject(schema, formPositions);
+
+
+  const editformSchema = z.object({
+    name: z.string().max(64).min(0),
+    editionId: z.string().uuid().nullable().optional(),
+    activationState: z.enum(['Active', 'Active with limited time', 'Passive']),
+});
+
+
+
+  const autoFormArgs = { formSchema };
+
 
 
   const action: tableAction = {
@@ -138,18 +173,22 @@ export default function Page({
     description: "Create a new " + params.data,
     autoFormArgs,
     callback: async (e) => {
+      const transformedData = {
+       ...e,
+       activationState: activationStateMap[e.activationState as keyof typeof activationStateMap],
+      };
       await controlledFetch(
         fetchLink,
         {
           method: "POST",
-          body: JSON.stringify(e),
+          body: JSON.stringify(transformedData),
         },
-        getRoles
+        getRoles,
+        "Added Successfully"
       );
     },
   };
 
-  
   const tableHeaders = [
     {
       name: "name",
@@ -166,30 +205,29 @@ export default function Page({
     },
   ];
 
-
   useEffect(() => {
     setIsLoading(true);
     getRoles();
   }, []);
 
-
   const onEdit = (data: any, row: any) => {
+    const transformedData = {
+      ...data,
+      activationState: activationStateMap[data.activationState as keyof typeof activationStateMap],
+    };
     controlledFetch(
       fetchLink,
       {
         method: "PUT",
         body: JSON.stringify({
           id: row.id,
-          requestBody: JSON.stringify(data),
+          requestBody: JSON.stringify(transformedData),
         }),
       },
       getRoles,
       "Updated Successfully"
     );
   };
-
-
-
 
   const onDelete = (e: any, row: any) => {
     controlledFetch(
@@ -203,13 +241,12 @@ export default function Page({
     );
   };
 
-
-
   const columnsData = {
     type: "Auto",
-    data: { getRoles, autoFormArgs, tableType, excludeList, onEdit, onDelete },
+    data: { getRoles, autoFormArgs: params.data === 'tenant' ? { formSchema: editformSchema } : { formSchema }, tableType, excludeList, onEdit, onDelete },
   };
-
+  
+  
 
   return (
     <Dashboard
