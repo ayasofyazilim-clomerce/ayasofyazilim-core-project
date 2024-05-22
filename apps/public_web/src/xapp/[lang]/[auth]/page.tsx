@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { z } from "zod";
 import { signIn } from "next-auth/react";
-import "./../../globals.css";
+import "../../globals.css";
 import { getBaseLink } from "src/utils";
 import { signInServer } from "auth-action";
 
