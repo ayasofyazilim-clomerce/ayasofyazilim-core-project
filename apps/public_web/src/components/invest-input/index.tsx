@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
-import { numberFormatter } from "sssslang/(main)/projects/demo-data";
+import { numberFormatter } from "src/app/[lang]/(main)/projects/demo-data";
 
 type InvestInputProps = {
   min: number;
