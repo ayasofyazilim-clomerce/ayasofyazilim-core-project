@@ -62,12 +62,6 @@ export default async function Layout({ children }: LayoutProps) {
       href: getBaseLink("dashboard/role", true),
     },
 
-    {
-      label: "Pages",
-      name: "Tenants",
-      icon: <Presentation size={15} className="mr-2" />,
-      href: getBaseLink("tenant", true),
-    },
 
     {
       label: "Pages",
