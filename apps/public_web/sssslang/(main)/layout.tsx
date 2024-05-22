@@ -2,7 +2,7 @@
 
 import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
 import { auth } from "auth";
-import Header from "../../../components/header";
+import Header from "../../src/components/header";
 import "../../globals.css";
 type LayoutProps = {
   children: JSX.Element;
