@@ -1,16 +1,16 @@
 version: "3"
 
 services:
-  docs:
-    image: docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./apps/docs/Dockerfile
-    ports:
-      - 3002:3002
-    environment:
-      - NODE_ENV=production
+  # docs:
+  #   image: docs
+  #   container_name: docs
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/docs/Dockerfile
+  #   ports:
+  #     - 3002:3002
+  #   environment:
+  #     - NODE_ENV=production
   public_web:
     image: public_web
     container_name: public_web
