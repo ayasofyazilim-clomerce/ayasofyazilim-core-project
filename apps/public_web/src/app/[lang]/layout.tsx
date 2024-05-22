@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { ViewTransitions } from "next-view-transitions";
-import { Inter } from "next/font/google";
-import { ReactNode } from "react";
-import Providers from "../../providers/providers";
+import { Urbanist } from "next/font/google";
 import "../globals.css";
-const inter = Inter({ subsets: ["latin"] });
+import Providers from "src/providers/providers";
+const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Project 0",
@@ -16,12 +14,10 @@ export default function RootLayout({
   children: JSX.Element;
 }): JSX.Element {
   return (
-    <ViewTransitions>
-      <html>
-        <body className={inter.className}>
-          <Providers>{children}</Providers>
-        </body>
-      </html>
-    </ViewTransitions>
+    <html>
+      <body className={urbanist.className}>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
   );
 }

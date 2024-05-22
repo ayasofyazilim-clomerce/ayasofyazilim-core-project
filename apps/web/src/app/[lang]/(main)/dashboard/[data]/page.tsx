@@ -7,9 +7,10 @@ import {
 import { $Volo_Abp_Identity_IdentityUserCreateDto } from "@ayasofyazilim/saas/IdentityService";
 import { useEffect, useState } from "react";
 import { createZodObject, getBaseLink } from "src/utils";
-import { tableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
+import { columnsType, tableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import { toast } from "@/components/ui/sonner";
+import { $Volo_Saas_Host_Dtos_EditionCreateDto } from "@ayasofyazilim/saas/SaasService";
 import { $Volo_Saas_Host_Dtos_SaasTenantCreateDto, $Volo_Saas_Host_Dtos_SaasTenantDto } from "@ayasofyazilim/saas/SaasService";
 import { z } from "zod";
 
@@ -31,6 +32,7 @@ async function controlledFetch(
       showToast && toast.success(successMessage);
     }
   } catch (error) {
+    console.error(error)
     toast.error("Something went wrong");
   }
 }
@@ -40,6 +42,7 @@ const dataConfig: Record<string, any> = {
     formSchema: $Volo_Abp_Identity_IdentityRoleCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityRoleDto,
     formPositions: ["name", "isDefault", "isPublic"],
+    filterBy: "name",
     excludeList: ["id", "extraProperties", "concurrencyStamp"],
     cards: (items: any) => {
       return items?.slice(-4).map((item: any) => {
@@ -56,8 +59,26 @@ const dataConfig: Record<string, any> = {
   user: {
     formSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
+    filterBy: "email",
     formPositions: ["email", "password", "userName"],
     excludeList: ["password"],
+    cards: (items: any) => {
+      return items?.slice(-4).map((item: any) => {
+        return {
+          title: item.name,
+          content: item.userCount,
+          description: "Users",
+          footer: item.isPublic ? "Public" : "Not Public",
+        };
+      });
+    },
+  },
+  edition: {
+    filterBy: "displayName",
+    formSchema: $Volo_Saas_Host_Dtos_EditionCreateDto,
+    tableSchema: $Volo_Saas_Host_Dtos_EditionCreateDto,
+    formPositions: ["displayName"],
+    excludeList: ["planId"],
     cards: (items: any) => {
       return items?.slice(-4).map((item: any) => {
         return {
@@ -102,6 +123,7 @@ export default function Page({
     excludeList,
     cards,
     tableSchema: tableType,
+    filterBy,
   } = dataConfig[params.data];
 
   const rolesCards = cards(roles?.items);
@@ -111,11 +133,18 @@ export default function Page({
 
   function getRoles() {
     function onData(data: any) {
-      const transformedData = data.items.map((item: { activationState: number }) => ({
+      let returnData = data;
+      if (!data?.items) {
+        returnData = {
+          totalCount: data.length,
+          items: data
+        };
+      };
+      const transformedData = returnData.items.map((item: { activationState: number }) => ({
        ...item,
         activationState: activationStateReverseMap[item.activationState as keyof typeof activationStateReverseMap],
       }));
-      setRoles({...data, items: transformedData });
+      setRoles({...returnData, items: transformedData });
       setIsLoading(false);
     }
     controlledFetch(
@@ -241,22 +270,19 @@ export default function Page({
     );
   };
 
-  const columnsData = {
+  const columnsData: columnsType = {
     type: "Auto",
-    data: { getRoles, autoFormArgs: params.data === 'tenant' ? { formSchema: editformSchema } : { formSchema }, tableType, excludeList, onEdit, onDelete },
+    data: { callback:getRoles, autoFormArgs: params.data === 'tenant' ? { formSchema: editformSchema } : { formSchema }, tableType, excludeList, onEdit, onDelete },
   };
-  
-  
 
   return (
     <Dashboard
       withCards={false}
       withTable={true}
       isLoading={isLoading}
-      filterBy="name"
+      filterBy={filterBy}
       cards={rolesCards}
       data={roles?.items}
-      // @ts-ignore
       columnsData={columnsData}
       action={action}
     />

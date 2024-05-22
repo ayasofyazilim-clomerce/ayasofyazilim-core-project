@@ -1,10 +1,10 @@
 "use server";
 
 import TipTapEditor from "@repo/ayasofyazilim-ui/organisms/tiptap";
-import SectionLayout from "@repo/ayasofyazilim-ui/templates/section-layout";
+import { SectionLayout } from "@repo/ayasofyazilim-ui/templates/section-layout";
 import { getProjectServiceClient } from "src/lib";
 
-export async function saveProjectSectionRelation(
+async function saveProjectSectionRelation(
   id: string,
   value: string
 ): Promise<string> {

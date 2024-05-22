@@ -34,6 +34,16 @@ const clients: Clients = {
             delete: async (id: string) => user.deleteApiIdentityUsersById({ id })
         }
     },
+    edition: async (req: NextRequest) => {
+        const client = await getSaasServiceClient(req);
+        const edition = client.edition;
+        return {
+            get: async () => edition.getApiSaasEditionsAll(),
+            post: async (requestBody: any) => edition.postApiSaasEditions({ requestBody }),
+            put: async ({ id, requestBody }: { id: string, requestBody: any }) => edition.putApiSaasEditionsById({ id, requestBody }),
+            delete: async (id: string) => edition.deleteApiSaasEditionsById({ id })
+        }
+    },
 
     tenant: async (req: NextRequest) => {
         const client = await getSaasServiceClient(req);
@@ -63,7 +73,8 @@ export async function GET(request: NextRequest, { params }: { params: { data: st
             const message = body?.error?.message || error.statusText;
             return errorResponse(message, error.status);
         }
-        return errorResponse("Something went wrong");
+        let errorText = (error as any)?.statusText + " " + (error as any)?.status ;
+        return errorResponse(errorText, (error as any)?.status);
     }
 }
 
