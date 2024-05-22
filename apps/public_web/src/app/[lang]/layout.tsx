@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Urbanist } from "next/font/google";
+import "../globals.css";
 import Providers from "src/providers/providers";
-const inter = Inter({ subsets: ["latin"] });
+const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Project 0",
@@ -15,7 +15,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html>
-      <body className={inter.className}>
+      <body className={urbanist.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
