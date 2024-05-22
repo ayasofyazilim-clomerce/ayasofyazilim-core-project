@@ -1,7 +1,19 @@
+import { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto } from "@ayasofyazilim/saas/AccountService";
 import { ZodSchema, z } from "zod";
+
+type LocalizationDto =
+  Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto;
+export type ResourcesDto = LocalizationDto["resources"];
 
 export function isServerSide() {
   return typeof window === "undefined";
+}
+
+export async function getLocalizationResources(languageCode: string) {
+  const response = await fetch(
+    getBaseLink(`/api/?lang=${languageCode}`, false)
+  );
+  return ((await response.json()) as LocalizationDto).resources;
 }
 
 function getLocale(locale?: string) {

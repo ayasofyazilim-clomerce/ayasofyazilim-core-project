@@ -1,26 +1,29 @@
 "use server";
-import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
-import { auth } from "auth";
-import LanguageSelector from "components/language-selector";
-import { Presentation, SquareStack, User } from "lucide-react";
-import { getBaseLink } from "src/utils";
-import "./../../globals.css";
+
+import Sidebar, { MenuProps } from "@repo/ayasofyazilim-ui/molecules/side-bar";
 import DashboardHeader from "@repo/ayasofyazilim-ui/organisms/header";
 import { userNavTypes } from "@repo/ayasofyazilim-ui/organisms/profile-menu";
-import Sidebar, { MenuProps } from "@repo/ayasofyazilim-ui/molecules/side-bar";
+import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
+import { auth } from "auth";
 import { signOutServer } from "auth-action";
+import LanguageSelector from "components/language-selector";
+import { Presentation, SquareStack, User } from "lucide-react";
+import { getBaseLink, getLocalizationResources } from "src/utils";
 
 type LayoutProps = {
+  params: { lang: string };
   children: JSX.Element;
 };
 
-export default async function Layout({ children }: LayoutProps) {
+export default async function Layout({ children, params }: LayoutProps) {
+  const resources = await getLocalizationResources(params.lang);
   const session = await auth();
   const user = session?.user;
 
   const resourcesMap = {
-    profile: "Profile",
-    dashboard: "Dashboard",
+    profile: resources?.AbpUi?.texts?.PersonalInfo || "Profile",
+    dashboard:
+      resources?.AbpForDeploy?.texts?.["Menu:Dashboard"] || "Dashboard",
   };
 
   const navigationLinks = [
