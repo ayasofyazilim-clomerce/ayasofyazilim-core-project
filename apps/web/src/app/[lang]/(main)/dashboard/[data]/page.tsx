@@ -7,12 +7,13 @@ import {
 import { $Volo_Abp_Identity_IdentityUserCreateDto } from "@ayasofyazilim/saas/IdentityService";
 import { useEffect, useState } from "react";
 import { createZodObject, getBaseLink } from "src/utils";
-import { columnsType, tableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
+import { tableAction , columnsType  } from "@repo/ayasofyazilim-ui/molecules/tables";
 import { $Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
 import { toast } from "@/components/ui/sonner";
 import { $Volo_Saas_Host_Dtos_EditionCreateDto } from "@ayasofyazilim/saas/SaasService";
 import { $Volo_Saas_Host_Dtos_SaasTenantCreateDto, $Volo_Saas_Host_Dtos_SaasTenantDto } from "@ayasofyazilim/saas/SaasService";
 import { z } from "zod";
+
 
 async function controlledFetch(
   url: string,
@@ -55,7 +56,6 @@ const dataConfig: Record<string, any> = {
       });
     },
   },
-
   user: {
     formSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
@@ -90,12 +90,15 @@ const dataConfig: Record<string, any> = {
       });
     },
   },
-
   tenant: {
     formSchema: $Volo_Saas_Host_Dtos_SaasTenantCreateDto,
     tableSchema: $Volo_Saas_Host_Dtos_SaasTenantDto,
-    formPositions: "",
+    filterBy: "name",
     excludeList: ["id", "concurrencyStamp"],
+    FormType:"zod",
+    enumFields: {
+      activationState: ["Active", "Active with limited time", "Passive"],
+    },
     cards: (items: any) => {
       return items?.slice(-4).map((item: any) => {
         return {
@@ -109,14 +112,27 @@ const dataConfig: Record<string, any> = {
   },
 };
 
-const activationStates = ["Active", "Active with limited time", "Passive"];
-function convertActivationState(value: string | number): string | number {
+function convertEnumField(value: string | number, enumArray: string[]): string | number {
   if (typeof value === "number") {
-    return activationStates[value];
+    return enumArray[value];
   } else {
-    return activationStates.indexOf(value);
+    return enumArray.indexOf(value);
   }
 }
+
+
+function transformData(data: any, dataType: string, direction: "toServer" | "toClient") {
+  const { enumFields } = dataConfig[dataType] || {};
+  if (enumFields) {
+    Object.entries(enumFields)
+      .filter(([field]) => data[field] !== undefined)
+      .forEach(([field, enumArray]) => {
+        data[field] = convertEnumField(data[field], enumArray as string[]);
+      });
+  }
+  return data;
+}
+
 
 export default function Page({
   params,
@@ -146,10 +162,7 @@ export default function Page({
           items: data
         };
       };
-      const transformedData = returnData.items.map((item: { activationState: number }) => ({
-       ...item,
-        activationState: convertActivationState(item.activationState),
-      }));
+      const transformedData = returnData.items.map((item: { activationState: number }) => transformData(item, params.data, "toClient"));
       setRoles({...returnData, items: transformedData });
       setIsLoading(false);
     }
@@ -165,8 +178,7 @@ export default function Page({
   }
 
 
-
-  const formSchema = params.data === 'tenant'
+  const formSchema = dataConfig[params.data].FormType === "zod"
   ? z.object({
       name: z.string().max(64).min(0),
       editionId: z.string().uuid().nullable().optional(),
@@ -176,12 +188,13 @@ export default function Page({
     })
   : createZodObject(schema, formPositions);
 
+
   const editformSchema = z.object({
     name: z.string().max(64).min(0),
     editionId: z.string().uuid().nullable().optional(),
     activationState: z.enum(['Active', 'Active with limited time', 'Passive']),
   });
-
+  
 
   const autoFormArgs = { formSchema };
 
@@ -190,10 +203,7 @@ export default function Page({
     description: "Create a new " + params.data,
     autoFormArgs,
     callback: async (e) => {
-      const transformedData = {
-       ...e,
-       activationState: convertActivationState(e.activationState),
-      };
+      const transformedData = transformData(e, params.data, "toServer");
       await controlledFetch(
         fetchLink,
         {
@@ -228,10 +238,7 @@ export default function Page({
   }, []);
 
   const onEdit = (data: any, row: any) => {
-    const transformedData = {
-      ...data,
-      activationState: convertActivationState(data.activationState),
-    };
+    const transformedData = transformData(data, params.data, "toServer");
     controlledFetch(
       fetchLink,
       {
@@ -258,8 +265,8 @@ export default function Page({
     );
   };
 
-  const getCustomFormArgs = (params: any) => {
-    if (params.data === 'tenant') {
+  const getCustomFormArgs = () => {
+    if (dataConfig[params.data].FormType === "zod") {
       return { formSchema: editformSchema };
     }
     return { formSchema };
@@ -267,7 +274,7 @@ export default function Page({
 
   const columnsData: columnsType = {
     type: "Auto",
-    data: { callback:getRoles, autoFormArgs: getCustomFormArgs(params), tableType, excludeList, onEdit, onDelete },
+    data: { callback:getRoles, autoFormArgs: getCustomFormArgs(), tableType, excludeList, onEdit, onDelete },
   };
 
   return (
