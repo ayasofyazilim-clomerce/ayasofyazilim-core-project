@@ -36,32 +36,59 @@ export default function ProfileForm({
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
-    if (inputs.filter((i) => userDataForm?.[i] !== user?.[i]).length === 0) {
-      setIsSubmitDisabled(true);
-      return;
-    }
-    setIsSubmitDisabled(false);
-  }, [userDataForm]);
+    const formChanged = inputs.some((i) => userDataForm?.[i] !== user?.[i]);
+    setIsSubmitDisabled(!(formChanged || imageFile !== null));
+  }, [userDataForm, imageFile]);
 
-  function onSubmit() {
+  async function onSubmit() {
     if (isSubmitDisabled) {
       return;
     }
     setIsLoading(true);
 
-    updateUserProfileServer(userDataForm as any).then((i) => {
-      if (i.status === 200) {
+    try {
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("ImageContent", imageFile);
+        formData.append("type", "2");
+
+        const response = await fetch("/api/profile/myprofile", {
+          method: "POST",
+          body: formData,
+        });
+      }
+
+      const profileResponse = await updateUserProfileServer(
+        userDataForm as any
+      );
+      if (profileResponse.status === 200) {
         toast.success("Başarılı.");
         setIsSubmitDisabled(true);
-        setIsLoading(false);
-        return;
+        setImageFile(null); // Reset the imageFile state
+      } else {
+        toast.error(profileResponse?.message);
       }
-      toast.error(i?.message);
-      setIsSubmitDisabled(false);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
       setIsLoading(false);
-    });
+    }
+  }
+
+  function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      setImageFile(file);
+    }
   }
 
   return (
@@ -83,10 +110,10 @@ export default function ProfileForm({
         </AutoForm>
       </div>
       <div className="basis-1/4 min-w-[100px] pt-4">
-        <div className="rounded-full relative max-w-[250px] m-auto">
+        <div className="relative m-auto w-64 h-64">
           <img
-            src="https://github.com/shadcn.png"
-            className="rounded-full border-4 border-gray-200 w-full h-full"
+            src={selectedImage}
+            className="rounded-full border-4 border-gray-200 w-full h-full object-cover"
           />
           <div className="absolute top-0 right-0 p-1.5 w-8 h-8 bg-white rounded-full border border-gray-400">
             <Label htmlFor="picture">
@@ -94,7 +121,12 @@ export default function ProfileForm({
             </Label>
           </div>
         </div>
-        <Input id="picture" placeholder="John" type="file" className="hidden" />
+        <Input
+          id="picture"
+          type="file"
+          className="hidden"
+          onChange={handleImageChange}
+        />
       </div>
     </>
   );
