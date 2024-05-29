@@ -1,39 +1,34 @@
-"use client";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useParams } from "next/navigation";
+"use server";
+
+import { getLocalizationResources } from "src/utils";
+import AuthSession from "./auth";
 import { ConfigProvider } from "./configuration";
 import { LocaleProvider } from "./locale";
-import AuthSession from "./auth";
-import { Toaster } from "@/components/ui/sonner";
 import { PermissionProvider } from "./permissions";
-import { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto } from "@ayasofyazilim/saas/AccountService";
+import Toaster from "@repo/ayasofyazilim-ui/molecules/toaster";
+import { TooltipProvider } from "@repo/ayasofyazilim-ui/molecules/tooltip";
 
 interface IProviders {
   children: JSX.Element;
-  resources: {
-    [
-      key: string
-    ]: Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto;
-  };
+  lang: string;
 }
-export default function Providers({ children, resources }: IProviders) {
-  const params = useParams();
-  const lang = params?.lang?.toString();
-  if (!lang) return <></>;
+export default async function Providers({ children, lang }: IProviders) {
+  const resources = await getLocalizationResources(lang);
+  if (!resources) return <></>;
 
   return (
     <div>
       <Toaster richColors />
       <AuthSession>
-      <PermissionProvider>
-        <ConfigProvider>
-          <TooltipProvider>
-            <LocaleProvider resources={resources} lang={lang}>
-              {children}
-            </LocaleProvider>
-          </TooltipProvider>
-        </ConfigProvider>
-      </PermissionProvider>
+        <PermissionProvider>
+          <ConfigProvider>
+            <TooltipProvider>
+              <LocaleProvider resources={resources} lang={lang}>
+                {children}
+              </LocaleProvider>
+            </TooltipProvider>
+          </ConfigProvider>
+        </PermissionProvider>
       </AuthSession>
     </div>
   );
