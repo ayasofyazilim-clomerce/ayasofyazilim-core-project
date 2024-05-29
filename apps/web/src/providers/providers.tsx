@@ -1,10 +1,11 @@
 "use client";
-import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useParams } from "next/navigation";
-import AuthSession from "./auth";
 import { ConfigProvider } from "./configuration";
 import { LocaleProvider } from "./locale";
+import AuthSession from "./auth";
+import { Toaster } from "@/components/ui/sonner";
+import { PermissionProvider } from "./permissions";
 import { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto } from "@ayasofyazilim/saas/AccountService";
 
 interface IProviders {
@@ -24,6 +25,7 @@ export default function Providers({ children, resources }: IProviders) {
     <div>
       <Toaster richColors />
       <AuthSession>
+      <PermissionProvider>
         <ConfigProvider>
           <TooltipProvider>
             <LocaleProvider resources={resources} lang={lang}>
@@ -31,6 +33,7 @@ export default function Providers({ children, resources }: IProviders) {
             </LocaleProvider>
           </TooltipProvider>
         </ConfigProvider>
+      </PermissionProvider>
       </AuthSession>
     </div>
   );

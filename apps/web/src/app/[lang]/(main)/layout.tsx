@@ -4,6 +4,7 @@ import Sidebar, { MenuProps } from "@repo/ayasofyazilim-ui/molecules/side-bar";
 import DashboardHeader from "@repo/ayasofyazilim-ui/organisms/header";
 import { userNavTypes } from "@repo/ayasofyazilim-ui/organisms/profile-menu";
 import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
+import { getPermission } from "action";
 import { auth } from "auth";
 import { signOutServer } from "auth-action";
 import LanguageSelector from "components/language-selector";
@@ -16,6 +17,7 @@ type LayoutProps = {
 };
 
 export default async function Layout({ children, params }: LayoutProps) {
+  const permission = await getPermission();
   const resources = await getLocalizationResources(params.lang);
   const session = await auth();
   const user = session?.user;
@@ -50,38 +52,53 @@ export default async function Layout({ children, params }: LayoutProps) {
       ],
     },
   ];
-  const exampleMenus: MenuProps[] = [
+  const exampleMenusFull: MenuProps[] = [
     {
       label: "Pages",
       name: resourcesMap.profile,
       icon: <User size={15} className="mr-2" />,
-      href: getBaseLink("profile", true, params.lang),
+      href: getBaseLink("profile", true,, params.lang),
+      permission: true,
     },
     {
       label: "Identity",
       name: "Role",
       icon: <SquareStack size={15} className="mr-2" />,
       href: getBaseLink("dashboard/role", true, params.lang),
+      permission: "AbpIdentity.Roles",
     },
     {
       label: "Identity",
       name: "Users",
       icon: <Users size={15} className="mr-2" />,
       href: getBaseLink("dashboard/user", true, params.lang),
+      permission: "AbpIdentity.Users",
     },
     {
       label: "Pages",
       name: "Projects",
       icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("projects", true, params.lang),
+      permission: true
     },
     {
       label: "Settings",
       name: "Settings",
       icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("settings/profile", true, params.lang),
+      permission: true
     },
   ];
+  const exampleMenus = exampleMenusFull.filter((menu) => {
+    if (menu.permission) {
+      if (typeof menu.permission === "boolean") {
+        return menu.permission;
+      }
+      if (permission)
+        return permission[menu.permission] || false;
+    }
+    return false;
+  });
   const userNavigation: userNavTypes = {
     username: user?.userName ?? undefined,
     initials: user?.name?.substring(0, 2).toUpperCase(),

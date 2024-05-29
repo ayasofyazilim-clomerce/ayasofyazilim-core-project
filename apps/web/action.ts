@@ -23,3 +23,13 @@ export async function updateUserProfileServer(
     };
   }
 }
+
+export async function getPermission(){
+  const client = await getAccountServiceClient();
+  const response = await client.abpApplicationConfiguration.getApiAbpApplicationConfiguration({
+    includeLocalizationResources: false,
+  });
+  console.log("permission server " , response.auth?.grantedPolicies);
+  return response.auth?.grantedPolicies;
+
+}
