@@ -44,10 +44,10 @@ async function controlledFetch(
 
 const dataConfig: Record<string, any> = {
   role: {
+    filterBy: "name",
     formSchema: $Volo_Abp_Identity_IdentityRoleCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityRoleDto,
     formPositions: ["name", "isDefault", "isPublic"],
-    filterBy: "name",
     excludeList: ["id", "extraProperties", "concurrencyStamp"],
     cards: (items: any) => {
       return items?.slice(-4).map((item: any) => {
@@ -61,9 +61,9 @@ const dataConfig: Record<string, any> = {
     },
   },
   user: {
+    filterBy: "email",
     formSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
     tableSchema: $Volo_Abp_Identity_IdentityUserCreateDto,
-    filterBy: "email",
     formPositions: ["email", "password", "userName"],
     excludeList: ["password"],
     cards: (items: any) => {
@@ -95,10 +95,10 @@ const dataConfig: Record<string, any> = {
     },
   },
   tenant: {
+    filterBy: "name",
     formSchema: $Volo_Saas_Host_Dtos_SaasTenantCreateDto,
     tableSchema: $Volo_Saas_Host_Dtos_SaasTenantDto,
-    filterBy: "name",
-    excludeList: ["id", "concurrencyStamp"],
+    excludeList: ["id", "editionId", "concurrencyStamp"],
     FormType: "zod",
     schema: {
       name: z.string().max(64).min(0),
@@ -156,13 +156,13 @@ function transformData(data: any, dataType: string, editions: any[]) {
   }
 
   if (dataConfig[dataType].FormType === "zod") {
-    const edition = editions.find(
+    const options = editions.find(
       (edition: { displayName: any }) =>
         edition.displayName === data.editionName
     );
-    if (edition) {
-      data.editionId = edition.id;
-      data.editionName = edition.displayName;
+    if (options) {
+      data.editionId = options.id;
+      data.editionName = options.displayName;
     }
   }
 
@@ -278,7 +278,6 @@ export default function Page({
       const editionDisplayNames = data.map(
         (edition: any) => edition.displayName
       );
-      console.log("Fetched edition display names:", editionDisplayNames);
 
       const updatedTenantSchema = {
         ...dataConfig.tenant.schema,
@@ -289,12 +288,6 @@ export default function Page({
         ...dataConfig.tenant.editformSchema.shape,
         editionName: z.enum(editionDisplayNames).optional(),
       });
-
-      console.log("Updated tenant schema:", updatedTenantSchema);
-      console.log(
-        "Updated tenant edit form schema:",
-        updatedTenantEditFormSchema
-      );
 
       setTenantSchema(updatedTenantSchema);
       setTenantEditFormSchema(updatedTenantEditFormSchema);
