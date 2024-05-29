@@ -17,9 +17,12 @@ export async function getLocalizationResources(languageCode: string) {
 }
 
 function getLocale(locale?: string) {
+  if (locale) return locale;
+
   if (isServerSide()) {
-    const cookieStore = require("next/headers").cookies();
-    locale = cookieStore.get("locale")?.value ?? "en";
+    throw new Error(
+      "In server side you must provide locale from params.lang for getBaseLink"
+    );
   } else {
     const pathname = window.location.pathname;
     const pathnameParts = pathname.split("/");
@@ -37,9 +40,6 @@ export function getBaseLink(
   if (location.charAt(0) === "/") {
     location = location.slice(1);
   }
-  const origin = isServerSide()
-    ? `http://${process.env.HOSTNAME}:${process.env.PORT}`
-    : window.location.origin;
   const localePath = withLocale ? getLocale(locale) + "/" : "";
   return `/${localePath}${location}`;
 }
