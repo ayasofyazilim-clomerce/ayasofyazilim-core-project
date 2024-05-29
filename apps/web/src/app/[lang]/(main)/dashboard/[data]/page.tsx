@@ -147,13 +147,25 @@ function convertEnumField(
   }
 }
 
-function transformData(data: any, dataType: string) {
+function transformData(data: any, dataType: string, editions: any[]) {
   const { enumFields } = dataConfig[dataType] || {};
   if (enumFields) {
     Object.entries(enumFields).forEach(([field, enumArray]) => {
       data[field] = convertEnumField(data[field], enumArray as string[]);
     });
   }
+
+  if (dataConfig[dataType].FormType === "zod") {
+    const edition = editions.find(
+      (edition: { displayName: any }) =>
+        edition.displayName === data.editionName
+    );
+    if (edition) {
+      data.editionId = edition.id;
+      data.editionName = edition.displayName;
+    }
+  }
+
   return data;
 }
 
@@ -191,7 +203,8 @@ export default function Page({
         };
       }
       const transformedData = returnData.items.map(
-        (item: { activationState: number }) => transformData(item, params.data)
+        (item: { activationState: number }) =>
+          transformData(item, params.data, editions)
       );
       setRoles({ ...returnData, items: transformedData });
       setIsLoading(false);
@@ -219,7 +232,7 @@ export default function Page({
     description: "Create a new " + params.data,
     autoFormArgs,
     callback: async (e) => {
-      const transformedData = transformData(e, params.data);
+      const transformedData = transformData(e, params.data, editions);
       await controlledFetch(
         fetchLink,
         {
@@ -292,7 +305,7 @@ export default function Page({
   }
 
   const onEdit = (data: any, row: any) => {
-    const transformedData = transformData(data, params.data);
+    const transformedData = transformData(data, params.data, editions);
     controlledFetch(
       fetchLink,
       {
