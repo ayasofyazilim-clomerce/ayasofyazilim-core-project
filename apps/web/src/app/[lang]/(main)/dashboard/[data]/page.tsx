@@ -102,7 +102,7 @@ const dataConfig: Record<string, any> = {
     FormType: "zod",
     schema: {
       name: z.string().max(64).min(0),
-      editionId: z.string().uuid().nullable().optional(),
+      editionName: z.enum([""]).optional(),
       adminEmailAddress: z.string().email().max(256).min(0),
       adminPassword: z.string().max(128).min(0),
       activationState: z.enum([
@@ -113,7 +113,7 @@ const dataConfig: Record<string, any> = {
     },
     editformSchema: z.object({
       name: z.string().max(64).min(0),
-      editionId: z.string().uuid().nullable().optional(),
+      editionName: z.enum([""]).optional(),
       activationState: z.enum([
         "Active",
         "Active with limited time",
@@ -164,6 +164,11 @@ export default function Page({
 }): JSX.Element {
   const [roles, setRoles] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [editions, setEditions] = useState<any[]>([]);
+  const [tenantSchema, setTenantSchema] = useState(dataConfig.tenant.schema);
+  const [tenantEditFormSchema, setTenantEditFormSchema] = useState(
+    dataConfig.tenant.editformSchema
+  );
   const fetchLink = getBaseLink("/api/admin/" + params.data);
   const {
     formSchema: schema,
@@ -204,7 +209,7 @@ export default function Page({
 
   const formSchema =
     dataConfig[params.data].FormType === "zod"
-      ? z.object(dataConfig[params.data].schema)
+      ? z.object(tenantSchema)
       : createZodObject(schema, dataConfig[params.data].formPositions);
 
   const autoFormArgs = { formSchema };
@@ -246,7 +251,45 @@ export default function Page({
   useEffect(() => {
     setIsLoading(true);
     getRoles();
+    fetchEdition();
   }, []);
+
+  async function fetchEdition() {
+    try {
+      const response = await fetch(getBaseLink("/api/admin/edition"), {
+        method: "GET",
+      });
+      const data = await response.json();
+      setEditions(data);
+
+      const editionDisplayNames = data.map(
+        (edition: any) => edition.displayName
+      );
+      console.log("Fetched edition display names:", editionDisplayNames);
+
+      const updatedTenantSchema = {
+        ...dataConfig.tenant.schema,
+        editionName: z.enum(editionDisplayNames).optional(),
+      };
+
+      const updatedTenantEditFormSchema = z.object({
+        ...dataConfig.tenant.editformSchema.shape,
+        editionName: z.enum(editionDisplayNames).optional(),
+      });
+
+      console.log("Updated tenant schema:", updatedTenantSchema);
+      console.log(
+        "Updated tenant edit form schema:",
+        updatedTenantEditFormSchema
+      );
+
+      setTenantSchema(updatedTenantSchema);
+      setTenantEditFormSchema(updatedTenantEditFormSchema);
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
+    }
+  }
 
   const onEdit = (data: any, row: any) => {
     const transformedData = transformData(data, params.data);
@@ -278,7 +321,7 @@ export default function Page({
 
   const getCustomFormArgs = () => {
     if (dataConfig[params.data].FormType === "zod") {
-      return { formSchema: dataConfig[params.data].editformSchema };
+      return { formSchema: tenantEditFormSchema };
     }
     return { formSchema };
   };
