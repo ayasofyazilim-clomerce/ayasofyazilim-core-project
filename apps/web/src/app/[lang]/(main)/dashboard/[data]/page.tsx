@@ -18,6 +18,7 @@ import {
   $Volo_Saas_Host_Dtos_SaasTenantDto,
 } from "@ayasofyazilim/saas/SaasService";
 import { z } from "zod";
+import { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 
 async function controlledFetch(
   url: string,
@@ -110,6 +111,7 @@ const dataConfig: Record<string, any> = {
         "Active with limited time",
         "Passive",
       ]),
+      activationEndDate: z.date().optional(),
     },
     editformSchema: z.object({
       name: z.string().max(64).min(0),
@@ -119,6 +121,8 @@ const dataConfig: Record<string, any> = {
         "Active with limited time",
         "Passive",
       ]),
+
+      activationEndDate: z.date().optional(),
     }),
     enumFields: {
       activationState: ["Active", "Active with limited time", "Passive"],
@@ -225,7 +229,18 @@ export default function Page({
       ? z.object(tenantSchema)
       : createZodObject(schema, dataConfig[params.data].formPositions);
 
-  const autoFormArgs = { formSchema };
+  const autoFormArgs = {
+    formSchema,
+    dependencies: [
+      {
+        sourceField: "activationState",
+        type: DependencyType.HIDES,
+        targetField: "activationEndDate",
+        when: (activationState: string) =>
+          activationState !== "Active with limited time",
+      },
+    ],
+  };
 
   const action: tableAction = {
     cta: "New " + params.data,
@@ -327,7 +342,18 @@ export default function Page({
 
   const getCustomFormArgs = () => {
     if (dataConfig[params.data].FormType === "zod") {
-      return { formSchema: tenantEditFormSchema };
+      return {
+        formSchema: tenantEditFormSchema,
+        dependencies: [
+          {
+            sourceField: "activationState",
+            type: DependencyType.HIDES,
+            targetField: "activationEndDate",
+            when: (activationState: string) =>
+              activationState !== "Active with limited time",
+          },
+        ],
+      };
     }
     return { formSchema };
   };
