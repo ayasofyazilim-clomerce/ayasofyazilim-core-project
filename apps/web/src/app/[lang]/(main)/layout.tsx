@@ -57,7 +57,7 @@ export default async function Layout({ children, params }: LayoutProps) {
       label: "Pages",
       name: resourcesMap.profile,
       icon: <User size={15} className="mr-2" />,
-      href: getBaseLink("profile", true,, params.lang),
+      href: getBaseLink("profile", true, params.lang),
       permission: true,
     },
     {
@@ -79,14 +79,14 @@ export default async function Layout({ children, params }: LayoutProps) {
       name: "Projects",
       icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("projects", true, params.lang),
-      permission: true
+      permission: true,
     },
     {
       label: "Settings",
       name: "Settings",
       icon: <Presentation size={15} className="mr-2" />,
       href: getBaseLink("settings/profile", true, params.lang),
-      permission: true
+      permission: true,
     },
   ];
   const exampleMenus = exampleMenusFull.filter((menu) => {
@@ -94,8 +94,7 @@ export default async function Layout({ children, params }: LayoutProps) {
       if (typeof menu.permission === "boolean") {
         return menu.permission;
       }
-      if (permission)
-        return permission[menu.permission] || false;
+      if (permission) return permission[menu.permission] || false;
     }
     return false;
   });
