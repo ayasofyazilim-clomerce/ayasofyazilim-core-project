@@ -59,15 +59,15 @@ function localeFromPathname(request: NextRequest) {
 
 function getLocale(request: NextRequest) {
   return (
-    getLocaleFromCookies(request) ||
     localeFromPathname(request) ||
+    getLocaleFromCookies(request) ||
     getLocaleFromBrowser(request)
   );
 }
 
 export const middleware = auth(async (request: NextAuthRequest) => {
   const hostURL = "http://" + request.headers.get("host") || "";
-  
+
   function isUserAuthorized(request: NextAuthRequest) {
     return !!request.auth;
   }
@@ -75,14 +75,17 @@ export const middleware = auth(async (request: NextAuthRequest) => {
     return i18n.locales.includes(path.split("/")[1]);
   }
   function redirectToLogin(locale: string) {
-    return NextResponse.redirect(
-      new URL(`/${locale}/login`, hostURL)
-    );
+    return NextResponse.redirect(new URL(`/${locale}/login`, hostURL));
   }
   function redirectToProfile(locale: string) {
-    return NextResponse.redirect(
-      new URL(`/${locale}/profile`, hostURL)
-    );
+    return NextResponse.redirect(new URL(`/${locale}/profile`, hostURL));
+  }
+  function allowURL(locale: string, request: NextRequest) {
+    const response = NextResponse.next();
+    if (request.cookies.get("locale")?.value !== locale) {
+      response.cookies.set("locale", locale);
+    }
+    return response;
   }
 
   const isAuthorized = isUserAuthorized(request);
@@ -97,27 +100,21 @@ export const middleware = auth(async (request: NextAuthRequest) => {
     }
 
     if (isPathHasLocale(request.nextUrl.pathname)) {
-      return NextResponse.next();
+      return allowURL(locale, request);
     }
     return NextResponse.redirect(
-      new URL(
-        `/${locale}${request.nextUrl.pathname}`,
-        hostURL
-      )
+      new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
     );
   }
 
   // If the user is not authorized and the path is public, continue
   if (publicURLs.includes(pathName) || authPages.includes(pathName)) {
     if (isPathHasLocale(request.nextUrl.pathname)) {
-      return NextResponse.next();
+      return allowURL(locale, request);
     }
 
     return NextResponse.redirect(
-      new URL(
-        `/${locale}${request.nextUrl.pathname}`,
-        hostURL
-      )
+      new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
     );
   }
 

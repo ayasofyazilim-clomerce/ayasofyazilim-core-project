@@ -20,9 +20,8 @@ function getLocale(locale?: string) {
   if (locale) return locale;
 
   if (isServerSide()) {
-    throw new Error(
-      "In server side you must provide locale from params.lang for getBaseLink"
-    );
+    const cookieStore = require("next/headers").cookies();
+    locale = cookieStore.get("locale")?.value ?? "en";
   } else {
     const pathname = window.location.pathname;
     const pathnameParts = pathname.split("/");
