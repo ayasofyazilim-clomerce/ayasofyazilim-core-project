@@ -122,7 +122,15 @@ const dataConfig: Record<string, any> = {
         "Passive",
       ]),
 
-      activationEndDate: z.date().optional(),
+      activationEndDate: z.preprocess((arg) => {
+        if (arg === "" || arg === null || arg === undefined) {
+          return undefined;
+        }
+        if (typeof arg === "string" || arg instanceof Date) {
+          return new Date(arg);
+        }
+        return arg;
+      }, z.date().optional()),
     }),
     enumFields: {
       activationState: ["Active", "Active with limited time", "Passive"],
@@ -301,7 +309,12 @@ export default function Page({
 
       const updatedTenantEditFormSchema = z.object({
         ...dataConfig.tenant.editformSchema.shape,
-        editionName: z.enum(editionDisplayNames).optional(),
+        editionName: z.preprocess((arg) => {
+          if (arg === "" || arg === null || arg === undefined) {
+            return undefined;
+          }
+          return arg;
+        }, z.enum(editionDisplayNames).optional()),
       });
 
       setTenantSchema(updatedTenantSchema);
