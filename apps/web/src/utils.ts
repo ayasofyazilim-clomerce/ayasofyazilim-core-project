@@ -62,10 +62,7 @@ type SchemaType = {
 };
 
 export function createZodObject(
-  schema: SchemaType,
-  positions: Array<any>,
-  convertors?: Record<string, any>
-): ZodType {
+schema: SchemaType, positions: Array<any>, convertors?: Record<string, any> , p0?: {}): ZodType {
   const zodSchema: Record<string, ZodSchema> = {};
   positions.forEach((element: string) => {
     const props = schema.properties[element];
@@ -107,7 +104,18 @@ function createZodType(
       if (schema.maxLength) zodType = zodType.max(schema.maxLength);
       if (schema.pattern) zodType = zodType.regex(schema.pattern);
       if (schema.format === "email") zodType = zodType.email();
-      if (schema.format === "date-time") zodType = z.date();
+      if (schema.format === "date-time") {
+        zodType = z.preprocess((arg) => {
+          if (arg === "" || arg === null || arg === undefined) {
+            return undefined;
+          }
+          if (typeof arg === "string" || arg instanceof Date) {
+            return new Date(arg);
+          }
+          return arg;
+        }, z.date().optional());
+      }
+      
       break;
     case "boolean":
       zodType = z.boolean();
