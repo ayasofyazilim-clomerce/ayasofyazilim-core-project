@@ -49,7 +49,7 @@ type JsonSchema = {
   isReadOnly?: boolean;
   maxLength?: number;
   pattern?: RegExp;
-  format?: "date-time" | "email" | "uuid" ;
+  format?: "date-time" | "email" | "uuid";
   nullable?: boolean;
   enum?: ReadonlyArray<string | number>;
 };
@@ -62,7 +62,10 @@ type SchemaType = {
 };
 
 export function createZodObject(
-schema: SchemaType, positions: Array<any>, convertors?: Record<string, any> , p0?: {}): ZodType {
+  schema: SchemaType,
+  positions: Array<any>,
+  convertors?: Record<string, any>
+): ZodType {
   const zodSchema: Record<string, ZodSchema> = {};
   positions.forEach((element: string) => {
     const props = schema.properties[element];
@@ -95,7 +98,7 @@ schema: SchemaType, positions: Array<any>, convertors?: Record<string, any> , p0
 // })
 function createZodType(
   schema: JsonSchema,
-  isRequired: boolean,
+  isRequired: boolean
 ): ZodSchema<any> {
   let zodType;
   switch (schema.type) {
@@ -111,7 +114,7 @@ function createZodType(
       zodType = z.boolean();
       break;
     case "integer":
-      if(schema.enum) {
+      if (schema.enum) {
         let stringEnums = schema.enum.map((e) => e.toString());
         zodType = z.enum(stringEnums as [string, ...string[]]);
         break;
