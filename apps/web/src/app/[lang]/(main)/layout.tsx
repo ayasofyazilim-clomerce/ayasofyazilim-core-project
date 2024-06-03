@@ -61,6 +61,13 @@ export default async function Layout({ children, params }: LayoutProps) {
       permission: true,
     },
     {
+      label: "details",
+      name: "Details",
+      icon: <User size={15} className="mr-2" />,
+      href: getBaseLink("details", true, params.lang),
+      permission: true,
+    },
+    {
       label: "Identity",
       name: "Role",
       icon: <SquareStack size={15} className="mr-2" />,
