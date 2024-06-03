@@ -8,6 +8,7 @@ const config: Config = {
     "./src/app/**/*.tsx",
     "./src/components/**/*.tsx",
     "./node_modules/@repo/ayasofyazilim-ui/src/**/*.{ts,tsx}",
+    "./node_modules/@repo/ui/src/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/@/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/tiptap/**/*.{ts,tsx}",
   ],
@@ -56,11 +57,7 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

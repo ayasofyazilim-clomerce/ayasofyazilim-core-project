@@ -12,6 +12,7 @@ import { signIn } from "next-auth/react";
 import "./../../globals.css";
 import { getBaseLink } from "src/utils";
 import { signInServer } from "auth-action";
+import { Logo } from "@repo/ui/logo";
 
 export default function Page(): JSX.Element {
   const { cultureName, resources, changeLocale } = useLocale();
@@ -183,10 +184,8 @@ export default function Page(): JSX.Element {
       cultureName={cultureName || "tr"}
       onLangChange={changeLocale}
     >
-      <div className="bg-zinc-800 flex flex-auto justify-center items-center">
-        <div>
-          <img src="https://i.imgur.com/z5WQB9B.png" alt="logo" />
-        </div>
+      <div className="bg-slate-100 flex flex-auto justify-center items-center">
+        <Logo variant="text" textProps={{ className: "h-16" }} />
       </div>
     </Auth>
   );

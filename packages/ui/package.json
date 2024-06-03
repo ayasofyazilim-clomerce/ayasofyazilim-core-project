@@ -2,7 +2,8 @@
   "name": "@repo/ui",
   "version": "0.0.0",
   "exports": {
-    "./test": "./src/test.tsx"
+    "./test": "./src/test.tsx",
+    "./*": "./src/*/index.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -12,18 +13,29 @@
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "18.2.0"
+    "@repo/ayasofyazilim-ui": "workspace:*",
+    "next": "14.1.1",
+    "react": "18.2.0",
+    "react-dom": ">=17"
   },
   "devDependencies": {
-    "@repo/ayasofyazilim-ui": "workspace:*",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/react": "18.2.61",
     "autoprefixer": "10.4.18",
+    "class-variance-authority": "0.7.0",
+    "clsx": "2.1.0",
     "postcss": "8.4.35",
     "react": "18.2.0",
+    "tailwind-merge": "2.2.2",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "lucide-react": "^0.379.0"
   }
 }

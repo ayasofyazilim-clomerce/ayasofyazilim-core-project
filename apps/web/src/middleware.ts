@@ -80,6 +80,9 @@ export const middleware = auth(async (request: NextAuthRequest) => {
   function redirectToProfile(locale: string) {
     return NextResponse.redirect(new URL(`/${locale}/profile`, hostURL));
   }
+  function redirectToRoot(locale: string) {
+    return NextResponse.redirect(new URL(`/${locale}/`, hostURL));
+  }
   function allowURL(locale: string, request: NextRequest) {
     const response = NextResponse.next();
     if (request.cookies.get("locale")?.value !== locale) {
@@ -96,7 +99,7 @@ export const middleware = auth(async (request: NextAuthRequest) => {
   if (isAuthorized) {
     // If the user is authorized and the path is unauthorized specific, redirect to profile
     if (authPages.includes(pathName)) {
-      return redirectToProfile(locale);
+      return redirectToRoot(locale);
     }
 
     if (isPathHasLocale(request.nextUrl.pathname)) {
