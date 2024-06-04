@@ -7,34 +7,34 @@ import { useEffect } from "react";
 const navbarItems = [
   {
     name: "Merchants",
-    id: "Merchants",
+    id: "merchants",
   },
 
   {
-    name: "Refund points",
-    id: "Refund_points",
+    name: "Refund Points",
+    id: "refund_points",
   },
   {
     name: "Customs",
-    id: "Customs",
+    id: "customs",
   },
 
   {
-    name: "Tax free",
-    id: "Tax_free",
+    name: "Tax Free",
+    id: "tax_free",
   },
   {
-    name: "Tax offices",
-    id: "Tax_offices",
+    name: "Tax Offices",
+    id: "tax_offices",
   },
 ];
 function isPathValid(path: string) {
   return (
-    path === "Merchants" ||
-    path === "Refund_points" ||
-    path === "Customs" ||
-    path === "Tax_free" ||
-    path === "Tax_offices" ||
+    path === "merchants" ||
+    path === "refund_points" ||
+    path === "customs" ||
+    path === "tax_free" ||
+    path === "tax_offices" ||
     path === undefined
   );
 }
@@ -45,11 +45,11 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const path = pathname.split("Companies/")?.[1];
+  const path = pathname.split("company/")?.[1];
 
   useEffect(() => {
     if (!path || isPathValid(path) === false) {
-      router.push("Companies/Merchants");
+      router.push("company/merchants");
     }
   }, []);
 

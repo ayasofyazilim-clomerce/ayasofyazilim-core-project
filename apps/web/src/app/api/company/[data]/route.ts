@@ -19,7 +19,7 @@ function isApiError(error: unknown): error is ApiError {
 }
 
 const clients: Clients = {
-  Merchants: async (req: NextRequest) => {
+  merchants: async (req: NextRequest) => {
     const client = await getIdentityServiceClient(req);
     const role = client.role;
     return {
@@ -90,7 +90,7 @@ const clients: Clients = {
       delete: async (id: string) => role.deleteApiIdentityRolesById({ id }),
     };
   },
-  Refund_points: async (req: NextRequest) => {
+  refund_points: async (req: NextRequest) => {
     const client = await getIdentityServiceClient(req);
     const user = client.user;
     return {
@@ -160,7 +160,7 @@ const clients: Clients = {
       delete: async (id: string) => user.deleteApiIdentityUsersById({ id }),
     };
   },
-  Customs: async (req: NextRequest) => {
+  customs: async (req: NextRequest) => {
     const client = await getSaasServiceClient(req);
     const edition = client.edition;
     return {
@@ -233,7 +233,7 @@ const clients: Clients = {
       delete: async (id: string) => edition.deleteApiSaasEditionsById({ id }),
     };
   },
-  Tax_free: async (req: NextRequest) => {
+  tax_free: async (req: NextRequest) => {
     const client = await getSaasServiceClient(req);
     const tenant = client.tenant;
     return {
@@ -245,7 +245,7 @@ const clients: Clients = {
       delete: async (id: string) => tenant.deleteApiSaasTenantsById({ id }),
     };
   },
-  Tax_offices: async (req: NextRequest) => {
+  tax_offices: async (req: NextRequest) => {
     const client = await getSaasServiceClient(req);
     const tenant = client.tenant;
     return {

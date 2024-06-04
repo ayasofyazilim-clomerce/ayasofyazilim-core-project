@@ -69,7 +69,7 @@ type tableData = {
 };
 
 const dataConfig: Record<string, tableData> = {
-  Merchants: {
+  merchants: {
     filterBy: "Company",
     createFormSchema: {
       formPositions: ["Company", "CustomerNumber", "ProductGroups", "Address"],
@@ -85,7 +85,7 @@ const dataConfig: Record<string, tableData> = {
     },
   },
 
-  Refund_points: {
+  refund_points: {
     createFormSchema: {
       formPositions: ["Company", "CustomerNumber", "ProductGroups", "Address"],
       schema: $createRefund_points,
@@ -101,7 +101,7 @@ const dataConfig: Record<string, tableData> = {
     filterBy: "Company",
   },
 
-  Customs: {
+  customs: {
     createFormSchema: {
       formPositions: ["Company", "CustomerNumber", "ProductGroups", "Address"],
       schema: $createCustoms,
@@ -117,7 +117,7 @@ const dataConfig: Record<string, tableData> = {
     filterBy: "Company",
   },
 
-  Tax_free: {
+  tax_free: {
     filterBy: "Company",
     createFormSchema: {
       formPositions: ["Company", "CustomerNumber", "ProductGroups", "Address"],
@@ -133,7 +133,7 @@ const dataConfig: Record<string, tableData> = {
     },
   },
 
-  Tax_offices: {
+  tax_offices: {
     filterBy: "Company",
     createFormSchema: {
       formPositions: ["Company", "CustomerNumber", "ProductGroups", "Address"],
@@ -168,7 +168,7 @@ export default function Page({
 }): JSX.Element {
   const [roles, setRoles] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const fetchLink = getBaseLink("/api/Companies/" + params.data);
+  const fetchLink = getBaseLink("/api/company/" + params.data);
 
   function getRoles() {
     function onData(data: any) {
