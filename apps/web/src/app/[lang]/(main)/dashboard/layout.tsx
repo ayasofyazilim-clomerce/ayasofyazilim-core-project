@@ -22,12 +22,13 @@ const navbarItems = [
   {
     name: "Tenants",
     id: "tenant",
-  }
-
+  },
 ];
 function isPathValid(path: string) {
-  return path === "role" || path === "user" || path==="tenant" || path==="edition" ||path === undefined;
+  const validPaths = navbarItems.map((item) => item.id);
+  return validPaths.includes(path) || path === undefined;
 }
+
 type LayoutProps = {
   children: JSX.Element;
 };
