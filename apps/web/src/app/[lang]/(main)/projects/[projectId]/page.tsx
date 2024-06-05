@@ -1,11 +1,11 @@
 "use server";
 
 import CustomButton from "@repo/ayasofyazilim-ui/molecules/button";
-import { deleteProjectServer } from "action";
 import { redirect } from "next/navigation";
 import { getProjectServiceClient } from "src/lib";
 import { getLocalizationResources } from "src/utils";
 import ProjectForm from "./form";
+import { deleteProjectServer } from "../action";
 
 async function saveProjectSectionRelation(
   id: string,
