@@ -3,20 +3,23 @@
   "scripts": {
     "build": "turbo build",
     "dev:all": "turbo dev",
+    "dev:apps": "turbo dev --filter web --filter public_web --filter docs",
     "dev": "turbo dev --filter web",
+    "pub": "turbo dev --filter public_web",
+    "docs": "turbo dev --filter docs",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11",
+    "eslint": "8.57.0",
+    "prettier": "3.2.5",
+    "prettier-plugin-tailwindcss": "0.5.11",
     "@repo/typescript-config": "workspace:*",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.1.2",
   "engines": {
     "node": ">=18"
   }

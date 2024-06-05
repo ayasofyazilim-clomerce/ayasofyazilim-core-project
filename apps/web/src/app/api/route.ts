@@ -1,6 +1,5 @@
 "use server";
-import { AccountServiceClient } from "ayasofyazilim-saas/AccountService";
-import { cookies } from "next/headers";
+import { AccountServiceClient } from "@ayasofyazilim/saas/AccountService";
 
 const appClient = new AccountServiceClient({
   BASE: process.env.BASE_URL,
@@ -13,11 +12,7 @@ export async function GET(request: Request) {
   // Use the client instance to make the API call
   const response =
     await appClient.abpApplicationLocalization.getApiAbpApplicationLocalization(
-      lang
+      { cultureName: lang }
     );
-
-  // set cookie
-  cookies().set("locale", lang);
-  // return response as json
   return new Response(JSON.stringify(response));
 }

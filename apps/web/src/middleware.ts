@@ -1,6 +1,9 @@
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { auth } from "auth";
+import { NextAuthRequest } from "node_modules/next-auth/lib";
 
 export const i18n = {
   defaultLocale: "en",
@@ -21,7 +24,8 @@ export const i18n = {
     "zh-hant",
   ],
 };
-
+const publicURLs = ["404", "500", "api"];
+const authPages = ["login", "register", "forgot-password", "reset-password"];
 function getLocaleFromBrowser(request: NextRequest) {
   const negotiatorHeaders: { [key: string]: string } = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
@@ -38,39 +42,15 @@ function getLocaleFromCookies(request: NextRequest) {
   }
 }
 
-function isAutherized(request: NextRequest) {
-  const isLogged = request.cookies.get(".AspNetCore.Identity.Application")
-    ? true
-    : false;
-  const publicURLs = [
-    "/",
-    "login",
-    "register",
-    "forgot-password",
-    "reset-password",
-    "404",
-    "500",
-    "api",
-  ];
-  const pathName = request.nextUrl.pathname.split("/")[2] || "/";
-  if (publicURLs.includes(pathName) || isLogged) {
-    return true;
-  }
-
-  return false;
-}
-
 function localeFromPathname(request: NextRequest) {
   const pathname = request.nextUrl.pathname + "/";
   let returnLocale = i18n.defaultLocale;
-  const isLocaleProvided = i18n.locales.find((locale) =>{
-    if(pathname.startsWith(`/${locale}/`)){
+  const isLocaleProvided = i18n.locales.find((locale) => {
+    if (pathname.startsWith(`/${locale}/`)) {
       returnLocale = locale;
       return locale;
     }
-  }
-  );
-  console.log("locale provided", isLocaleProvided)
+  });
   if (isLocaleProvided) {
     return returnLocale;
   }
@@ -78,27 +58,69 @@ function localeFromPathname(request: NextRequest) {
 }
 
 function getLocale(request: NextRequest) {
-  return getLocaleFromCookies(request) || localeFromPathname(request) || getLocaleFromBrowser(request);
+  return (
+    localeFromPathname(request) ||
+    getLocaleFromCookies(request) ||
+    getLocaleFromBrowser(request)
+  );
 }
 
-export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname + "/";
-  const locale = getLocale(request);
-  // check .AspNetCore.Identity.Application cookie from the request
-  if (!isAutherized(request)) {
-    return NextResponse.redirect(new URL("/login", request.url));
+export const middleware = auth(async (request: NextAuthRequest) => {
+  const hostURL = "http://" + request.headers.get("host") || "";
+
+  function isUserAuthorized(request: NextAuthRequest) {
+    return !!request.auth;
+  }
+  function isPathHasLocale(path: string) {
+    return i18n.locales.includes(path.split("/")[1]);
+  }
+  function redirectToLogin(locale: string) {
+    return NextResponse.redirect(new URL(`/${locale}/login`, hostURL));
+  }
+  function redirectToProfile(locale: string) {
+    return NextResponse.redirect(new URL(`/${locale}/profile`, hostURL));
+  }
+  function allowURL(locale: string, request: NextRequest) {
+    const response = NextResponse.next();
+    if (request.cookies.get("locale")?.value !== locale) {
+      response.cookies.set("locale", locale);
+    }
+    return response;
   }
 
-  if ( !pathname.startsWith(`/${locale}/`) ){
+  const isAuthorized = isUserAuthorized(request);
+  const locale = getLocale(request);
+  const pathName = request.nextUrl.pathname.split("/")[2] || "/";
+
+  // If the user is authorized
+  if (isAuthorized) {
+    // If the user is authorized and the path is unauthorized specific, redirect to profile
+    if (authPages.includes(pathName)) {
+      return redirectToProfile(locale);
+    }
+
+    if (isPathHasLocale(request.nextUrl.pathname)) {
+      return allowURL(locale, request);
+    }
     return NextResponse.redirect(
-      new URL(
-        `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}${request.nextUrl.search}`,
-        request.url
-      )
+      new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
     );
   }
-  
-}
+
+  // If the user is not authorized and the path is public, continue
+  if (publicURLs.includes(pathName) || authPages.includes(pathName)) {
+    if (isPathHasLocale(request.nextUrl.pathname)) {
+      return allowURL(locale, request);
+    }
+
+    return NextResponse.redirect(
+      new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
+    );
+  }
+
+  // If the user is not authorized and the path is authorized specific, redirect to login
+  return redirectToLogin(locale);
+});
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],

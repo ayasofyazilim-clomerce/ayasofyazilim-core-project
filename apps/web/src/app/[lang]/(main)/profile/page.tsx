@@ -1,23 +1,19 @@
 "use client";
-import { getAccountServiceClient } from "src/lib";
-import { useUser } from "src/providers/user";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { getBaseLink } from "src/utils";
 
 export default function Page() {
-  const { user } = useUser();
+  const session = useSession();
 
-  if (!user) return null;
+  useEffect(() => {
+    async function getSession() {
+      if (session.status !== "authenticated") return;
+      let fetchConfig = await fetch(getBaseLink("api/config"));
+      let config = await fetchConfig.json();
+    }
+    if (!!session.data) getSession();
+  }, [session.data]);
 
-  return (
-    <div className="grid gap-6">
-      general
-      {Object.keys(user).map((key) => {
-        if (key === "extraProperties") return;
-        return (
-          <div>
-            {key}:{(user as any)[key]}
-          </div>
-        );
-      })}
-    </div>
-  );
+  return <div className="flex-1">profil</div>;
 }

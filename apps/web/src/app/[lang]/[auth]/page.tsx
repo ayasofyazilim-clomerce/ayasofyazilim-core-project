@@ -8,6 +8,10 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
+import "./../../globals.css";
+import { getBaseLink } from "src/utils";
+import { signInServer } from "auth-action";
 
 export default function Page(): JSX.Element {
   const { cultureName, resources, changeLocale } = useLocale();
@@ -47,7 +51,13 @@ export default function Page(): JSX.Element {
   };
   const onLoginSubmit = (values: LoginFormDataType): Promise<string> => {
     return new Promise(async (resolve, reject) => {
-      const response = await fetch("./api/auth/login", {
+      const { password, userIdentifier: username } = values;
+      await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
+      const response = await fetch(getBaseLink("./api/auth/login"), {
         method: "POST",
         body: JSON.stringify(values),
       });
@@ -56,7 +66,7 @@ export default function Page(): JSX.Element {
         return reject(result);
       }
       resolve(result);
-      router.push("/profile");
+      router.push(getBaseLink("profile", true));
     });
   };
   const loginFormSchema = z.object({
@@ -100,7 +110,7 @@ export default function Page(): JSX.Element {
       allowTenantChange: false,
       formSchema: loginFormSchema,
       onForgotPasswordSubmit: onForgotPasswordSubmit,
-      onSubmitFunction: onLoginSubmit,
+      onSubmitFunction: signInServer,
       registerPath: "register",
     };
   } else if (authTypeParam === "register") {
@@ -141,7 +151,6 @@ export default function Page(): JSX.Element {
               url: "account/verify-password-reset-token",
             }),
           });
-          console.log(response);
           if (response.status > 199 && response.status < 300) {
             let res = await response.json();
             if (!res) {
