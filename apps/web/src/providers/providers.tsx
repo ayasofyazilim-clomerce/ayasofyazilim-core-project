@@ -1,27 +1,35 @@
-"use client";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { useParams } from "next/navigation";
+"use server";
+
+import { getLocalizationResources } from "src/utils";
+import AuthSession from "./auth";
 import { ConfigProvider } from "./configuration";
 import { LocaleProvider } from "./locale";
-import { UserProvider } from "./user";
+import { PermissionProvider } from "./permissions";
+import Toaster from "@repo/ayasofyazilim-ui/molecules/toaster";
+import { TooltipProvider } from "@repo/ayasofyazilim-ui/molecules/tooltip";
 
-export default function Providers({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element {
-  const params = useParams();
+interface IProviders {
+  children: JSX.Element;
+  lang: string;
+}
+export default async function Providers({ children, lang }: IProviders) {
+  const resources = await getLocalizationResources(lang);
+  if (!resources) return <></>;
 
-  const lang = params?.lang?.toString() || "en";
   return (
     <div>
-      <ConfigProvider>
-        <TooltipProvider>
-          <UserProvider>
-            <LocaleProvider lang={lang}>{children}</LocaleProvider>
-          </UserProvider>
-        </TooltipProvider>
-      </ConfigProvider>
+      <Toaster richColors />
+      <AuthSession>
+        <PermissionProvider>
+          <ConfigProvider>
+            <TooltipProvider>
+              <LocaleProvider resources={resources} lang={lang}>
+                {children}
+              </LocaleProvider>
+            </TooltipProvider>
+          </ConfigProvider>
+        </PermissionProvider>
+      </AuthSession>
     </div>
   );
 }

@@ -1,29 +1,28 @@
 "use client";
 
-import Spinner from "@repo/ayasofyazilim-ui/molecules/spinner";
-import {
-  Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto,
-  Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto,
-} from "ayasofyazilim-saas/AccountService";
-import { usePathname, useSearchParams } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto } from "@ayasofyazilim/saas/AccountService";
+import { createContext, useContext } from "react";
+import { getBaseLink } from "src/utils";
 
+// To prevent long lines
+type ResourceDto =
+  Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto;
+
+interface ILocaleProvider {
+  resources: Record<string, ResourceDto>;
+  children: JSX.Element;
+  lang: string;
+}
 interface ILocaleContext {
-  cultureName: string | undefined;
   changeLocale: (cultureName: string) => void;
-  resources:
-    | Record<
-        string,
-        Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto
-      >
-    | null
-    | undefined;
+  resources: Record<string, ResourceDto>;
+  cultureName: string | undefined;
 }
 
 export const LocaleContext = createContext<ILocaleContext>({
   cultureName: undefined,
   changeLocale: () => {},
-  resources: undefined,
+  resources: {},
 });
 
 export const useLocale = () => {
@@ -33,71 +32,19 @@ export const useLocale = () => {
 export const LocaleProvider = ({
   children,
   lang,
-}: {
-  children: React.ReactNode;
-  lang: string;
-}) => {
-  const [cultureName, setCultureName] =
-    useState<ILocaleContext["cultureName"]>(lang);
-  const [resources, setResources] = useState<ILocaleContext["resources"]>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const localeFromLocalStorage = localStorage.getItem("locale");
-    if (localeFromLocalStorage) {
-      const locale = JSON.parse(localeFromLocalStorage);
-      setCultureName(locale.cultureName);
-      setResources(locale.resources);
-      return;
-    }
-    changeLocale(lang);
-  }, []);
-
-  async function getLocale(cultureName: string) {
-    try {
-      const response = await fetch(`/api/?lang=${cultureName}`);
-      const data =
-        (await response.json()) as Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto;
-      if (data) {
-        setCultureName(cultureName);
-        setResources(data.resources);
-        localStorage.setItem(
-          "locale",
-          JSON.stringify({
-            cultureName,
-            resources: data.resources,
-            version: 0.1,
-          })
-        );
-        return true;
-      }
-      // later: if error then try getting default language
-    } catch (error) {
-      console.error(error);
-    }
-    return false;
-  }
+  resources,
+}: ILocaleProvider) => {
+  const localeData = { resources: resources, cultureName: lang };
 
   async function changeLocale(cultureName: string) {
-    if (cultureName) {
-      setIsLoading(true);
-      if (await getLocale(cultureName)) {
-        const newPath = pathname.split("/").slice(2).join("/");
-        window.history.pushState(
-          null,
-          "",
-          `/${cultureName}/${newPath}?${searchParams.toString()}`
-        );
-      }
-      setIsLoading(false);
-    }
+    if (!cultureName) return;
+    const newUrl =
+      cultureName + "/" + location.pathname.split("/").slice(2).join("/");
+    location.href = getBaseLink(newUrl, false);
   }
 
   return (
-    <LocaleContext.Provider value={{ cultureName, changeLocale, resources }}>
-      {isLoading && <Spinner size="lg" />}
+    <LocaleContext.Provider value={{ ...localeData, changeLocale }}>
       {children}
     </LocaleContext.Provider>
   );
