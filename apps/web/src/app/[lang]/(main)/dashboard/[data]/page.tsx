@@ -391,6 +391,30 @@ const dataConfig: Record<string, tableData> = {
         "isEnabled",
       ],
       schema: $Volo_Abp_LanguageManagement_Dto_CreateLanguageDto,
+      convertors: {
+        cultureName: {
+          data: async () => {
+            return await fetch(getBaseLink("api/admin/culture")).then((data) =>
+              data.json()
+            );
+          },
+          covertTo: "displayName",
+          get: "displayName",
+          post: "name",
+          type: "async",
+        },
+        uiCultureName: {
+          data: async () => {
+            return await fetch(getBaseLink("api/admin/culture")).then((data) =>
+              data.json()
+            );
+          },
+          covertTo: "displayName",
+          get: "displayName",
+          post: "name",
+          type: "async",
+        },
+      },
     },
     tableSchema: {
       excludeList: [
@@ -407,7 +431,7 @@ const dataConfig: Record<string, tableData> = {
       formPositions: ["displayName", "isEnabled"],
       schema: $Volo_Abp_LanguageManagement_Dto_UpdateLanguageDto,
     },
-    filterBy: "name",
+    filterBy: "displayName",
   },
 };
 

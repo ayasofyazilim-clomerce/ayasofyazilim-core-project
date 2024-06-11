@@ -127,6 +127,13 @@ const clients: Clients = {
         languages.deleteApiLanguageManagementLanguagesById({ id }),
     };
   },
+  culture: async (req: NextRequest) => {
+    const client = await getAdministrationServiceClient(req);
+    const languages = client.languages;
+    return {
+      get: async () => languages.getApiLanguageManagementLanguagesCultureList(),
+    };
+  },
 };
 
 export async function GET(
