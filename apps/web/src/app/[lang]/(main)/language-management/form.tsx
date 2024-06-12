@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,13 +12,22 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -27,6 +35,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -35,22 +53,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useEffect, useMemo, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import Dialog from "@repo/ayasofyazilim-ui/molecules/dialog";
-import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import CustomButton from "@repo/ayasofyazilim-ui/molecules/button";
+import { useMemo, useState } from "react";
+import { addNewTranslationServer } from "./action";
+import { useRouter } from "next/navigation";
 
 export type Language = {
   key: string;
@@ -131,35 +137,6 @@ export const columns: ColumnDef<Language>[] = [
       );
     },
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ];
 
 export function DataTableDemo({
@@ -191,6 +168,7 @@ export function DataTableDemo({
     };
   };
 }) {
+  const router = useRouter();
   const [activeResource, setActiveResource] = useState("AbpLocalization");
   const data = useMemo<Language[]>(() => {
     const _data: Language[] = [];
@@ -206,6 +184,15 @@ export function DataTableDemo({
     });
     return _data;
   }, [activeResource, resources, defaultResources, lang]);
+
+  const [newTranslation, setNewTranslation] = useState({
+    key: "",
+    value: "",
+    baseValue: "",
+    upwithcrowd: false,
+    unirefund: false,
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -231,6 +218,43 @@ export function DataTableDemo({
     },
   });
 
+  async function addNewTranslation() {
+    setIsLoading(true);
+
+    if (newTranslation.unirefund) {
+      await addNewTranslationServer(
+        activeResource,
+        "en",
+        newTranslation.key,
+        newTranslation.baseValue,
+        "unirefund"
+      );
+      await addNewTranslationServer(
+        activeResource,
+        lang,
+        newTranslation.key,
+        newTranslation.value,
+        "unirefund"
+      );
+    }
+    if (newTranslation.upwithcrowd) {
+      await addNewTranslationServer(
+        activeResource,
+        "en",
+        newTranslation.key,
+        newTranslation.baseValue,
+        "upwithcrowd"
+      );
+      await addNewTranslationServer(
+        activeResource,
+        lang,
+        newTranslation.key,
+        newTranslation.value,
+        "upwithcrowd"
+      );
+      router.refresh();
+    }
+  }
   return (
     <div className="w-full">
       <div className="flex items-center py-4 gap-2">
@@ -256,32 +280,135 @@ export function DataTableDemo({
         />
         <div></div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
+        <Dialog>
+          <DialogTrigger asChild>
+            <CustomButton variant="outline" className="ml-auto">
+              New Translation
+            </CustomButton>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>New Translation</DialogTitle>
+              <DialogDescription>
+                Enter the translation you want to add.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4">
+              <div>
+                <Label htmlFor="translation-key" className="text-right">
+                  Resource
+                </Label>
+                <Input
+                  id="translation-key"
+                  className="col-span-3"
+                  value={activeResource}
+                  readOnly
+                  disabled
+                />
+              </div>
+              <div>
+                <Label htmlFor="translation-key" className="text-right">
+                  Key
+                </Label>
+                <Input
+                  id="translation-key"
+                  className="col-span-3"
+                  onChange={(e) =>
+                    setNewTranslation({
+                      ...newTranslation,
+                      key: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="translation-en" className="text-right">
+                  English Translation
+                </Label>
+                <Input
+                  id="translation-en"
+                  className="col-span-3"
+                  onChange={(e) =>
+                    setNewTranslation({
+                      ...newTranslation,
+                      baseValue: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label htmlFor="translation-target" className="text-right">
+                  Target Translation
+                </Label>
+                <Input
+                  id="translation-target"
+                  className="col-span-3"
+                  onChange={(e) =>
+                    setNewTranslation({
+                      ...newTranslation,
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <Separator className="my-1" />
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="unirefund"
+                  checked={newTranslation.unirefund}
+                  onCheckedChange={(e) =>
+                    setNewTranslation({
+                      ...newTranslation,
+                      unirefund: e,
+                    })
+                  }
+                />
+                <label
+                  htmlFor="unirefund"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Add to Unirefund
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="upwithcrowd"
+                  checked={newTranslation.upwithcrowd}
+                  onCheckedChange={(e) =>
+                    setNewTranslation({
+                      ...newTranslation,
+                      upwithcrowd: e,
+                    })
+                  }
+                />
+                <label
+                  htmlFor="upwithcrowd"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Add to Upwithcrowd
+                </label>
+              </div>
+            </div>
+            <DialogFooter>
+              <form action={async () => {}}>
+                <DialogClose asChild>
+                  <CustomButton
+                    type="submit"
+                    onClick={addNewTranslation}
+                    disabled={
+                      !newTranslation.key ||
+                      !newTranslation.baseValue ||
+                      !newTranslation.value
                     }
+                    isLoading={isLoading}
                   >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+                    Save changes
+                  </CustomButton>
+                </DialogClose>
+              </form>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -361,18 +488,6 @@ export function DataTableDemo({
           </Button>
         </div>
       </div>
-      {/* <Dialog>
-        <DialogTrigger>Open</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog> */}
     </div>
   );
 }
