@@ -59,8 +59,8 @@ function localeFromPathname(request: NextRequest) {
 
 function getLocale(request: NextRequest) {
   return (
-    getLocaleFromCookies(request) ||
     localeFromPathname(request) ||
+    getLocaleFromCookies(request) ||
     getLocaleFromBrowser(request)
   );
 }
@@ -80,8 +80,15 @@ export const middleware = auth(async (request: NextAuthRequest) => {
   function redirectToProfile(locale: string) {
     return NextResponse.redirect(new URL(`/${locale}/profile`, hostURL));
   }
-  function redirectToProjects(locale: string) {
-    return NextResponse.redirect(new URL(`/${locale}/projects`, hostURL));
+  function redirectToRoot(locale: string) {
+    return NextResponse.redirect(new URL(`/${locale}/`, hostURL));
+  }
+  function allowURL(locale: string, request: NextRequest) {
+    const response = NextResponse.next();
+    if (request.cookies.get("locale")?.value !== locale) {
+      response.cookies.set("locale", locale);
+    }
+    return response;
   }
 
   const isAuthorized = isUserAuthorized(request);
@@ -92,12 +99,15 @@ export const middleware = auth(async (request: NextAuthRequest) => {
   if (isAuthorized) {
     // If the user is authorized and the path is unauthorized specific, redirect to profile
     if (authPages.includes(pathName)) {
-      return redirectToProjects(locale);
+      return redirectToRoot(locale);
     }
 
     if (isPathHasLocale(request.nextUrl.pathname)) {
-      return NextResponse.next();
+      return allowURL(locale, request);
     }
+    console.log(
+      "(No locale provided type 1) Wrong redirection to pathName:" + pathName
+    );
     return NextResponse.redirect(
       new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
     );
@@ -106,9 +116,12 @@ export const middleware = auth(async (request: NextAuthRequest) => {
   // If the user is not authorized and the path is public, continue
   if (publicURLs.includes(pathName) || authPages.includes(pathName)) {
     if (isPathHasLocale(request.nextUrl.pathname)) {
-      return NextResponse.next();
+      return allowURL(locale, request);
     }
 
+    console.log(
+      "(No locale provided type 2) Wrong redirection to pathName:" + pathName
+    );
     return NextResponse.redirect(
       new URL(`/${locale}${request.nextUrl.pathname}`, hostURL)
     );

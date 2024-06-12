@@ -1,19 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Spinner from "@repo/ayasofyazilim-ui/molecules/spinner";
-import { getAccountServiceClient } from "src/lib";
+"use server";
+
+import { RedirectType, permanentRedirect, redirect } from "next/navigation";
+import { getBaseLink } from "src/utils";
 
 export default async function Page() {
-  return (
-    <Spinner
-      className="stroke-purple-900"
-      variant="transparent"
-      fullScreen={false}
-    />
-  );
+  permanentRedirect(getBaseLink("settings/profile"), RedirectType.push);
 }

@@ -5,6 +5,8 @@ import { auth } from "auth";
 import { NextRequest } from "next/server";
 import { getToken } from "@auth/core/jwt";
 import { SaasServiceClient } from "@ayasofyazilim/saas/SaasService";
+import { SettingServiceClient } from "@ayasofyazilim/saas/SettingService";
+import { AdministrationServiceClient } from "@ayasofyazilim/saas/AdministrationService";
 
 export async function getIdentityServiceClient(
   request: NextRequest
@@ -66,6 +68,30 @@ export async function getSaasServiceClient(
   });
   const token = JWT_Token?.access_token || "";
   return new SaasServiceClient({
+    TOKEN: token as string,
+    BASE: process.env.BASE_URL,
+    HEADERS: {
+      "X-Requested-With": "XMLHttpRequest",
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export function getSettingServiceClient(): SettingServiceClient {
+  return new SettingServiceClient({
+    BASE: process.env.BASE_URL,
+  });
+}
+
+export async function getAdministrationServiceClient(
+  request: NextRequest
+): AdministrationServiceClient {
+  const JWT_Token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET ?? "",
+  });
+  const token = JWT_Token?.access_token || "";
+  return new AdministrationServiceClient({
     TOKEN: token as string,
     BASE: process.env.BASE_URL,
     HEADERS: {

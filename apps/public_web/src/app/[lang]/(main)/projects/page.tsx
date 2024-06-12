@@ -9,6 +9,7 @@ import {
   TabsTrigger,
 } from "@repo/ayasofyazilim-ui/molecules/tabs";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { Volo_Abp_Application_Dtos_PagedResultDto_13 } from "@ayasofyazilim/saas/ProjectService";
 import Button from "@repo/ayasofyazilim-ui/molecules/button";
 import {
@@ -22,13 +23,11 @@ import {
 } from "@repo/ayasofyazilim-ui/molecules/pagination";
 import Progress from "@repo/ayasofyazilim-ui/molecules/progress";
 import DetailsCard from "@repo/ayasofyazilim-ui/organisms/details-card";
-import { Filter } from "components/filter";
+import { Filter } from "@repo/ui/filter";
 import { Link } from "next-view-transitions";
+import { useEffect, useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { cardProps, images, tableProps, tableProps2Col } from "./demo-data";
-import { useEffect, useState } from "react";
-import { getBaseLink } from "src/utils";
-import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Page() {
   const { resources } = useLocale();

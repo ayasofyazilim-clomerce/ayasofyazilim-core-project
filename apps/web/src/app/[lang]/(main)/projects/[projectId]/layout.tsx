@@ -29,7 +29,6 @@ export default function Layout({ children }: { children: JSX.Element }) {
       defaultActiveSectionId={activeSection}
       openOnNewPage={true}
       content={children}
-      vertical={true}
     />
   );
 }

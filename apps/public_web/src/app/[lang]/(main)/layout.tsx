@@ -1,10 +1,12 @@
 "use server";
-import Navbar from "components/navbar";
 
 import MainLayout from "@repo/ayasofyazilim-ui/templates/main-layout";
-import Header from "../../../components/header";
+import Header from "@repo/ui/header";
+import LanguageSelector from "@repo/ui/language-selector";
+import Navbar from "@repo/ui/navbar";
 import { auth } from "auth";
-import { getLocalizationResources } from "src/utils";
+import { signOutServer } from "auth-action";
+import { getBaseLink, getLocalizationResources } from "src/utils";
 
 type LayoutProps = {
   params: { lang: string };
@@ -19,7 +21,19 @@ export default async function Layout({ children, params }: LayoutProps) {
     <MainLayout
       HeaderComponent={
         <>
-          <Header user={user} resources={resources} />
+          <Header
+            user={user}
+            resources={resources}
+            signOutServer={signOutServer}
+            languageSelector={
+              <LanguageSelector
+                menuAlign={"end"}
+                resources={resources}
+                cultureName={params.lang}
+                baseLink={getBaseLink("", false)}
+              />
+            }
+          />
           <Navbar />
         </>
       }

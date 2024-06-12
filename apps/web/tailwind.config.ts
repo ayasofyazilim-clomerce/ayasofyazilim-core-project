@@ -8,6 +8,7 @@ const config: Config = {
     "./src/app/**/*.tsx",
     "./src/components/**/*.tsx",
     "./node_modules/@repo/ayasofyazilim-ui/src/**/*.{ts,tsx}",
+    "./node_modules/@repo/ui/src/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/@/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/tiptap/**/*.{ts,tsx}",
   ],
@@ -28,7 +29,8 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          // DEFAULT: "hsl(var(--primary))",
+          DEFAULT: `hsl(${process.env.PRIMARY_COLOR})`,
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -56,11 +58,7 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

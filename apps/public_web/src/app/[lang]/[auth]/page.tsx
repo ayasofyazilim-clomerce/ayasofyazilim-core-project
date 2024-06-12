@@ -1,17 +1,17 @@
 "use client";
-import { ForgotPasswordFormDataType } from "@repo/ayasofyazilim-ui/molecules/forms/forgot-password-form";
-import { LoginFormDataType } from "@repo/ayasofyazilim-ui/molecules/forms/login-form";
 import { ResetPasswordFormDataType } from "@repo/ayasofyazilim-ui/molecules/forms/reset-password-form";
 import { Auth, authTypes, isAuthType } from "@repo/ayasofyazilim-ui/pages/auth";
+import {
+  sendPasswordResetCodeServer,
+  signInServer,
+  signUpServer,
+} from "auth-action";
 import Error from "next/error";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useLocale } from "src/providers/locale";
 import { z } from "zod";
-import { signIn } from "next-auth/react";
 import "../../globals.css";
-import { getBaseLink } from "src/utils";
-import { signInServer } from "auth-action";
 
 export default function Page(): JSX.Element {
   const { cultureName, resources, changeLocale } = useLocale();
@@ -29,50 +29,18 @@ export default function Page(): JSX.Element {
   }
 
   //Login start
-  const onForgotPasswordSubmit = (
-    values: ForgotPasswordFormDataType
-  ): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await fetch("./api/auth/send-password-reset-code", {
-          method: "POST",
-          body: JSON.stringify(values),
-        });
-        if (response.status > 199 && response.status < 300) {
-          return resolve("");
-        } else {
-          let result = await response.json();
-          return reject(result.error.message);
-        }
-      } catch (e) {
-        return reject(e);
-      }
-    });
-  };
-  const onLoginSubmit = (values: LoginFormDataType): Promise<string> => {
-    return new Promise(async (resolve, reject) => {
-      const { password, userIdentifier: username } = values;
-      await signIn("credentials", {
-        username,
-        password,
-        redirect: false,
-      });
-      const response = await fetch(getBaseLink("./api/auth/login"), {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
-      let result = await response.json();
-      if (result.description !== "Success") {
-        return reject(result);
-      }
-      resolve(result);
-      router.push(getBaseLink("profile", true));
-    });
-  };
+
   const loginFormSchema = z.object({
     userIdentifier: z.string().min(5),
     password: z.string().min(4).max(32),
     tenantId: z.string(),
+  });
+
+  const registerFormSchema = z.object({
+    userName: z.string().min(5),
+    email: z.string().email(),
+    password: z.string().min(4).max(32),
+    //tenantId: z.string(),
   });
   //Login end
   //Register waiting for implementation
@@ -107,18 +75,20 @@ export default function Page(): JSX.Element {
   let props = {};
   if (authTypeParam === "login") {
     props = {
+      router: router,
       allowTenantChange: false,
       formSchema: loginFormSchema,
-      onForgotPasswordSubmit: onForgotPasswordSubmit,
       onSubmitFunction: signInServer,
+      loginFunction: signInServer,
+      passwordResetFunction: sendPasswordResetCodeServer,
       registerPath: "register",
     };
   } else if (authTypeParam === "register") {
     props = {
+      router: router,
       allowTenantChange: true,
-      formSchema: loginFormSchema,
-      onForgotPasswordSubmit: onForgotPasswordSubmit,
-      onSubmitFunction: onLoginSubmit,
+      formSchema: registerFormSchema,
+      registerFunction: signUpServer,
       loginPath: "login",
     };
   } else if (authTypeParam === "reset-password") {

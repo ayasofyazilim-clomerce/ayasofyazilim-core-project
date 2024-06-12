@@ -7,6 +7,7 @@ const config: Config = {
   content: [
     "./src/app/**/*.tsx",
     "./src/components/**/*.tsx",
+    "./node_modules/@repo/ui/src/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/src/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/@/**/*.{ts,tsx}",
     "./node_modules/@repo/ayasofyazilim-ui/tiptap/**/*.{ts,tsx}",
