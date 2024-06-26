@@ -7,6 +7,7 @@ import { getToken } from "@auth/core/jwt";
 import { SaasServiceClient } from "@ayasofyazilim/saas/SaasService";
 import { SettingServiceClient } from "@ayasofyazilim/saas/SettingService";
 import { AdministrationServiceClient } from "@ayasofyazilim/saas/AdministrationService";
+import { MerchantServiceClient } from "@ayasofyazilim/saas/MerchantService";
 
 export async function getIdentityServiceClient(
   request: NextRequest
@@ -92,6 +93,24 @@ export async function getAdministrationServiceClient(
   });
   const token = JWT_Token?.access_token || "";
   return new AdministrationServiceClient({
+    TOKEN: token as string,
+    BASE: process.env.BASE_URL,
+    HEADERS: {
+      "X-Requested-With": "XMLHttpRequest",
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export async function getMerchantServiceClient(
+  request: NextRequest
+): MerchantServiceClient {
+  const JWT_Token = await getToken({
+    req: request,
+    secret: process.env.AUTH_SECRET ?? "",
+  });
+  const token = JWT_Token?.access_token || "";
+  return new MerchantServiceClient({
     TOKEN: token as string,
     BASE: process.env.BASE_URL,
     HEADERS: {
