@@ -4,8 +4,13 @@ import {
   Volo_Abp_Identity_IdentityRoleCreateDto,
   Volo_Abp_Identity_IdentityRoleUpdateDto,
 } from "@ayasofyazilim/saas/IdentityService";
+import { GetApiMerchantServiceMerchantsDetailResponse } from "@ayasofyazilim/saas/MerchantService";
 import { NextRequest } from "next/server";
-import { getIdentityServiceClient, getSaasServiceClient } from "src/lib";
+import {
+  getIdentityServiceClient,
+  getMerchantServiceClient,
+  getSaasServiceClient,
+} from "src/lib";
 
 type Clients = {
   [key: string]: any;
@@ -20,74 +25,29 @@ function isApiError(error: unknown): error is ApiError {
 
 const clients: Clients = {
   merchants: async (req: NextRequest) => {
-    const client = await getIdentityServiceClient(req);
-    const role = client.role;
+    const client = await getMerchantServiceClient(req);
+    const merchant = client.merchant;
     return {
-      get: async () => [
-        {
-          Company:
-            "ARTI BİLGİSAYAR SATIŞ VE EĞİTİM HİZ.İNŞ.MAK.SAN.A.Ş. - Troy Garanti_Galataport AVM.",
-          CustomerNumber: "0850025741-60",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "Meclis-i Mebusan Cad., Kılıçalipaşa Mah., Beyoğlu, İstanbul, Turkey, TR15092",
-        },
-        {
-          Company:
-            "ARTI BİLGİSAYAR SATIŞ VE EĞİTİM HİZ.İNŞ.MAK.SAN.A.Ş. - Troy_Ankara Gordion AVM.",
-          CustomerNumber: "0850025741-66",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "Gordion AVM, Bağlarbaşı Mah., Keçiören, Ankara, Turkey, TR15093",
-        },
-        {
-          Company:
-            "ARTI BİLGİSAYAR SATIŞ VE EĞİTİM HİZ.İNŞ.MAK.SAN.A.Ş. - Troy_Eskişehir Espark AVM.",
-          CustomerNumber: "0850025741-69",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "Yılmaz Büyükerşen Bulvarı No.21, Z kat, Eskişehir, Turkey, TR15094",
-        },
-        {
-          Company: "ÖZGÜR FOTO TEKNİK İTHALAT İHRACAT TİC.VE SAN.LTD.ŞTİ",
-          CustomerNumber: "6930312999",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "1, 1, Kocamustafapaşa Mah., Fatih, İstanbul, Turkey, TR15110",
-        },
-        {
-          Company:
-            "ÖZGÜR FOTO TEKNİK İTHALAT İHRACAT TİC.VE SAN.LTD.ŞTİ - Özgur Foto Teknik_Sirkeci",
-          CustomerNumber: "902122222222",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "1, 1, Kocamustafapaşa Mah., Fatih, İstanbul, Turkey, TR15111",
-        },
-        {
-          Company: "NİHAN GİYİM SANAYİ VE TİCARET LTD.ŞTİ.",
-          CustomerNumber: "8920178795",
-          ProductGroups:
-            "Books & Magazine, newspaper and periodical publications (0.00%), Bread & Bakery (1.00%), Department stores (10.00%), Marine parts (20.00%)",
-          Address:
-            "6.Cadde, No:25 B, Ehlibeyt Mah., Çankaya, Ankara, Turkey, TR15194",
-        },
-      ],
-
-      post: async (requestBody: Volo_Abp_Identity_IdentityRoleCreateDto) =>
-        role.postApiIdentityRoles({ requestBody }),
-      put: async ({
-        id,
-        requestBody,
-      }: {
-        id: string;
-        requestBody: Volo_Abp_Identity_IdentityRoleUpdateDto;
-      }) => role.putApiIdentityRolesById({ id, requestBody }),
-      delete: async (id: string) => role.deleteApiIdentityRolesById({ id }),
+      get: async () => {
+        const details: GetApiMerchantServiceMerchantsDetailResponse =
+          await merchant.getApiMerchantServiceMerchantsDetail();
+        return (
+          details.items?.map((item) => ({
+            Company:
+              item.entityInformations?.[0]?.organizations?.[0]?.name || "",
+            CustomerNumber:
+              item.entityInformations?.[0]?.organizations?.[0]
+                ?.customerNumber || "",
+            ProductGroups:
+              item.entityInformations?.[0]?.organizations?.[0]?.productGroups?.map(
+                (pg) => pg.name
+              ) || [],
+            Address:
+              item.entityInformations?.[0]?.organizations?.[0]
+                ?.contactInformation?.address?.[0]?.fullAddress || "",
+          })) || []
+        );
+      },
     };
   },
   refund_points: async (req: NextRequest) => {
