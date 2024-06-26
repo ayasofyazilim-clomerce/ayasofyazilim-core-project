@@ -26,7 +26,7 @@ export async function signInWithCredentials(credentials: any) {
     username: credentials.username as string,
     password: credentials.password as string,
     scope:
-      "AccountService IdentityService phone roles profile address email offline_access",
+      "AccountService IdentityService MerchantService  phone roles profile address email offline_access",
   };
   Object.keys(urlEncodedContent).forEach((key) =>
     urlencoded.append(key, urlEncodedContent[key])
