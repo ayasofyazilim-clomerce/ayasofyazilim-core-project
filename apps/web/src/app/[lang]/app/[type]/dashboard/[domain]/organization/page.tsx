@@ -68,8 +68,7 @@ const App: React.FC = () => {
   const [selectedUnit, setSelectedUnit] = useState<OrganizationUnit | null>(
     null
   );
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [isSubUnitOpen, setIsSubUnitOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"Users" | "Roles">("Users");
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
@@ -81,14 +80,10 @@ const App: React.FC = () => {
     description: "",
     onConfirm: () => {},
   });
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editUnitData, setEditUnitData] = useState<{
-    id: string;
-    displayName: string;
-  }>({ id: "", displayName: "" });
-  const [isListAllUnitsOpen, setIsListAllUnitsOpen] = useState(false);
   const [DisplayNameEnum, setDisplayNameEnum] = useState<any>();
   const [currentUnitName, setCurrentUnitName] = useState<string>("");
+  const [action, setAction] = useState<tableAction | undefined>(undefined);
+  const [triggerData, setTriggerData] = useState<Record<string, any> | undefined>(undefined);
 
   useEffect(() => {
     const loadData = async () => {
@@ -268,8 +263,7 @@ const App: React.FC = () => {
         const units = await fetchOrganizationUnits();
         setOrganizationUnits(units);
         updateEnums(units);
-        setIsFormVisible(false);
-        setIsSubUnitOpen(false);
+        setOpen(false);
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || "Failed to add organization unit");
@@ -326,7 +320,7 @@ const App: React.FC = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id: editUnitData.id,
+            id: selectedUnit?.id,
             requestBody: { displayName: formData.displayName },
           }),
         }
@@ -336,12 +330,12 @@ const App: React.FC = () => {
         const units = await fetchOrganizationUnits();
         setOrganizationUnits(units);
         updateEnums(units);
-        if (selectedUnit && selectedUnit.id === editUnitData.id) {
+        if (selectedUnit && selectedUnit.id === selectedUnit.id) {
           setSelectedUnit((prevUnit) =>
             prevUnit ? { ...prevUnit, displayName: formData.displayName } : null
           );
         }
-        setIsEditModalOpen(false);
+        setOpen(false);
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || "Failed to update organization unit");
@@ -387,13 +381,14 @@ const App: React.FC = () => {
         console.error("Error moving users:", error);
         toast.error("An error occurred while moving the users");
       }
-      setIsListAllUnitsOpen(false);
+      setOpen(false);
     }
   };
 
   const handleToggleForm = () => {
     setSelectedUnit(null);
-    setIsFormVisible(!isFormVisible);
+    setAction(createAction);
+    setOpen(true);
   };
 
   const handleUnitClick = async (unit: OrganizationUnit) => {
@@ -409,13 +404,15 @@ const App: React.FC = () => {
 
   const handleSubUnit = async (unit: OrganizationUnit) => {
     await handleUnitClick(unit);
-    setIsSubUnitOpen(true);
+    setAction(addSubUnitAction);
+    setOpen(true);
   };
 
   const handleEditUnit = async (unit: OrganizationUnit) => {
     await handleUnitClick(unit);
-    setEditUnitData({ id: unit.id, displayName: unit.displayName });
-    setIsEditModalOpen(true);
+    setAction(editAction);
+    setTriggerData({ displayName: "ttt" });
+    setOpen(true);
   };
 
   const handleListAllUnits = async (unit: OrganizationUnit) => {
@@ -437,14 +434,14 @@ const App: React.FC = () => {
       const DynamicEnum = z.enum([unitNames[0], ...unitNames.slice(1)]);
       setDisplayNameEnum(DynamicEnum);
     }
-
-    setIsListAllUnitsOpen(true);
+    setAction(moveAllUserAction);
+    setOpen(true);
   };
 
   const createFormSchema = dataConfig.organization.createFormSchema;
   const editFormSchema = dataConfig.organization.editFormSchema;
 
-  const action: tableAction = {
+  const createAction: tableAction = {
     autoFormArgs: {
       formSchema: createZodObject(
         createFormSchema.schema,
@@ -460,7 +457,7 @@ const App: React.FC = () => {
     description: "Create a new organization unit",
   };
 
-  const EditAction: tableAction = {
+  const editAction: tableAction = {
     autoFormArgs: {
       formSchema: createZodObject(
         editFormSchema.schema,
@@ -472,7 +469,7 @@ const App: React.FC = () => {
     description: "Edit the name of the organization unit",
   };
 
-  const MoveAllUserAction: tableAction = {
+  const moveAllUserAction: tableAction = {
     autoFormArgs: {
       formSchema: z.object({
         displayName: DisplayNameEnum,
@@ -483,7 +480,7 @@ const App: React.FC = () => {
     description: `Move all users with ${currentUnitName} organization unit to:`,
   };
 
-  const AddSubUnitAction: tableAction = {
+  const addSubUnitAction: tableAction = {
     autoFormArgs: {
       formSchema: createZodObject(
         createFormSchema.schema,
@@ -700,32 +697,11 @@ const App: React.FC = () => {
         </Card>
       </div>
       <AutoformDialog
-        open={isFormVisible}
-        onOpenChange={setIsFormVisible}
+        open={open}
+        onOpenChange={setOpen}
         action={action}
+        triggerData={triggerData}
       />
-      {isEditModalOpen && (
-        <AutoformDialog
-          open={isEditModalOpen}
-          onOpenChange={setIsEditModalOpen}
-          action={EditAction}
-          triggerData={{ displayName: selectedUnit?.displayName || "" }}
-        />
-      )}
-      {isListAllUnitsOpen && (
-        <AutoformDialog
-          open={isListAllUnitsOpen}
-          onOpenChange={setIsListAllUnitsOpen}
-          action={MoveAllUserAction}
-        />
-      )}
-      {isSubUnitOpen && (
-        <AutoformDialog
-          open={isSubUnitOpen}
-          onOpenChange={setIsSubUnitOpen}
-          action={AddSubUnitAction}
-        />
-      )}
       <UserModal
         isOpen={isUserModalOpen}
         onClose={() => setIsUserModalOpen(false)}
