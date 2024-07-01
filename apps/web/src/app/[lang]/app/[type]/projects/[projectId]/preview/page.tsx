@@ -1,12 +1,11 @@
 "use server";
 
+import ScrollArea from "@repo/ayasofyazilim-ui/molecules/scroll-area";
 import TipTapEditor from "@repo/ayasofyazilim-ui/organisms/tiptap";
-import { getProjectServiceClient } from "src/lib";
-
 import ProjectPage from "@repo/ui/upwithcrowd/project/project-page";
-import { auth } from "auth";
 import { ProjectStatusEnums } from "src/enums/project";
 import { getResourceData } from "src/language-data/Projects/projects";
+import { getProjectServiceClient } from "src/lib";
 
 export default async function Page({
   params,
@@ -23,8 +22,6 @@ export default async function Page({
 
   if (!projectData) return null;
 
-  const session = await auth();
-  const user = session?.user;
   const sectionsData =
     projectSectionData?.map((section: any, index) => ({
       key: section.sectionName || "" + index,
@@ -39,12 +36,14 @@ export default async function Page({
     })) || [];
 
   return (
-    <ProjectPage
-      projectData={projectData}
-      sectionsData={sectionsData}
-      languageData={languageData}
-      ProjectStatusEnums={ProjectStatusEnums}
-      user={user}
-    />
+    <ScrollArea className="z-10">
+      <ProjectPage
+        projectData={projectData}
+        sectionsData={sectionsData}
+        languageData={languageData}
+        ProjectStatusEnums={ProjectStatusEnums}
+        isPreview={true}
+      />
+    </ScrollArea>
   );
 }

@@ -13,6 +13,7 @@ import bursa from "/public/bursa.svg";
 import istanbul from "/public/istanbul.svg";
 import konya from "/public/konya.svg";
 import sakarya from "/public/sakarya.svg";
+import { getResourceData } from "src/language-data/AbpUiNavigation/navbar";
 
 export async function getConfig(appName: string = "konya") {
   let configs = {
@@ -107,69 +108,7 @@ type LayoutProps = {
 };
 
 export default async function Layout({ children, params }: LayoutProps) {
-  const resources = await getLocalizationResources(params.lang);
-  const languageData = {
-    Investor:
-      resources?.AbpUiNavigation?.texts?.Investor || "Investor" || "Yatırımcı",
-    Invest:
-      resources?.AbpUiNavigation?.texts?.Invest || "Invest" || "Yatırım Yap",
-    SupportCenter:
-      resources?.AbpUiNavigation?.texts?.SupportCenter ||
-      "Support Center" ||
-      "Destek Merkezi",
-    Entrepreneur:
-      resources?.AbpUiNavigation?.texts?.Entrepreneur ||
-      "Entrepreneur" ||
-      "Girişimci",
-    SubmitYourProject:
-      resources?.AbpUiNavigation?.texts?.SubmitYourProject ||
-      "Submit Your Project" ||
-      "Projeni gönder",
-    HowDoIFindTheNecessaryFunds:
-      resources?.AbpUiNavigation?.texts?.HowDoIFindTheNecessaryFunds ||
-      "How do I find the necessary funds?" ||
-      "Gerekli fonu nasıl bulurum?",
-    Institutional:
-      resources?.AbpUiNavigation?.texts?.Institutional ||
-      "Institutional" ||
-      "Kurumsal",
-    AboutUs:
-      resources?.AbpUiNavigation?.texts?.AboutUs || "About Us" || "Hakkımızda",
-    Contact:
-      resources?.AbpUiNavigation?.texts?.Contact || "Contact" || "İletişim",
-    OurTeam:
-      resources?.AbpUiNavigation?.texts?.OurTeam || "Our Team" || "Takımımız",
-    BoardOfDirectors:
-      resources?.AbpUiNavigation?.texts?.BoardOfDirectors ||
-      "Board of Directors" ||
-      "Yönetim kurulumuz",
-    InvestingCommittee:
-      resources?.AbpUiNavigation?.texts?.InvestingCommittee ||
-      "Investing committee" ||
-      "Yatırım komitesi",
-    Campaigns:
-      resources?.AbpUiNavigation?.texts?.Campaigns ||
-      "Campaigns" ||
-      "Kampanyalar",
-    AdminCenter:
-      resources?.AbpUiNavigation?.texts?.AdminCenter ||
-      "Admin Center" ||
-      "Yönetim Merkezi",
-    EntrepreneurCenter:
-      resources?.AbpUiNavigation?.texts?.EntrepreneurCenter ||
-      "Entrepreneur Center" ||
-      "Girişimci Merkezi",
-    InvestorCenter:
-      resources?.AbpUiNavigation?.texts?.InvestorCenter ||
-      "Investor Center" ||
-      "Yatırımcı Merkezi",
-    ChangeProfile:
-      resources?.AbpUiNavigation?.texts?.ChangeProfile ||
-      "Change Profile" ||
-      "Profili Değiştir",
-    LogOut:
-      resources?.AbpUiNavigation?.texts?.LogOut || "Log Out" || "Çıkış Yap",
-  };
+  const { languageData, resources } = await getResourceData(params.lang);
 
   const session = await auth();
   const user = session?.user;

@@ -272,7 +272,6 @@ export default function Page({
 
   const onEdit = (data: any, row: any, editFormSchema: any) => {
     const parsedData = parseFormValues(editFormSchema, data);
-    console.log(parsedData);
     controlledFetch(
       fetchLink,
       {

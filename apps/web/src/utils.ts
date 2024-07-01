@@ -46,17 +46,35 @@ function getLocale(locale?: string) {
   }
   return locale;
 }
+function getAppType(appType?: string) {
+  if (appType) {
+    if (appType === "public") return appType + "/";
+    return "app/" + appType + "/";
+  }
 
+  if (!isServerSide()) {
+    const pathname = window.location.pathname;
+    const pathnameParts = pathname.split("/");
+    appType = "app/" + pathnameParts?.[3] + "/" ?? "public/";
+  }
+  return "public/";
+}
 export function getBaseLink(
   location: string,
   withLocale?: boolean,
-  locale?: string
+  locale?: string,
+  withAppType?: boolean,
+  appType?: string
 ) {
   // check if location first character is a slash
   if (location.charAt(0) === "/") {
     location = location.slice(1);
   }
-  const localePath = withLocale ? getLocale(locale) + "/" : "";
+  let localePath = withLocale ? getLocale(locale) + "/" : "";
+  if (withAppType) {
+    localePath += getAppType(appType);
+  }
+
   return `/${localePath}${location}`;
 }
 //item & sub item

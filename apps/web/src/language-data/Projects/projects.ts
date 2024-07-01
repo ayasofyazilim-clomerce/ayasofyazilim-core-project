@@ -5,6 +5,7 @@ export async function getResourceData(lang: string) {
   const projectResource = resources?.["ProjectService"]?.texts;
   const accountResource = resources?.AbpAccount?.texts;
   const languageData = {
+    Projects: projectResource?.Projects || "Projects",
     LogIn: resources?.AbpUiNavigation?.texts?.["LogIn"] || "Login",
     DaysLeft: projectResource?.["DaysLeft"] || "Days left",
     InvestNow: projectResource?.["InvestNow"] || "Invest Now",
@@ -19,6 +20,7 @@ export async function getResourceData(lang: string) {
       projectResource?.["CampaignStartDate"] || "Campaign start date",
     CampaignEndDate:
       projectResource?.["CampaignEndDate"] || "Campaign end date",
+    CampaignEnded: projectResource?.["CampaignEnded"] || "Campaign Ended",
     CollectedAmount: projectResource?.["CollectedAmount"] || "Collected amount",
     TargetAmount: projectResource?.["TargetAmount"] || "Target amount",
     Investor: projectResource?.["Investor"] || "Investor",

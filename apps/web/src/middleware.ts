@@ -93,7 +93,11 @@ export const middleware = auth(async (request: NextAuthRequest) => {
 
   const isAuthorized = isUserAuthorized(request);
   const locale = getLocale(request);
-  const pathName = request.nextUrl.pathname.split("/")[2] || "/";
+  const pathName = request.nextUrl.pathname.split("/")[2];
+
+  if (!pathName) {
+    return redirectToRoot(locale);
+  }
 
   // If the user is authorized
   if (isAuthorized) {
