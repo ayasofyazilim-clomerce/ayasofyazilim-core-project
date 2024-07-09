@@ -95,7 +95,7 @@ export default function Page({
                 tempData[schema].convertors[key].type = "async";
               }
             } catch (error) {
-              toast.error(`Feild to fetch ${`${key  } ${  value}`} data`);
+              toast.error(`Feild to fetch ${`${key} ${value}`} data`);
             }
           }
         }

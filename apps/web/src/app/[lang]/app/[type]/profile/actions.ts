@@ -77,7 +77,7 @@ export async function postBacker(formdata: any) {
       requestBody: populateCustomFormData(formdata),
     });
   } catch (e) {
-    result = { error: e};
+    result = { error: e };
   }
 
   return result;
@@ -91,7 +91,7 @@ export async function postIndividual(formdata: any) {
       requestBody: populateIndividual(formdata),
     });
   } catch (e) {
-    result = { error: e};
+    result = { error: e };
   }
   return result;
 }
