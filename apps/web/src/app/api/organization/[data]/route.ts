@@ -1,10 +1,10 @@
-import { Volo_Abp_Http_RemoteServiceErrorResponse } from "@ayasofyazilim/saas/AccountService";
+import type { Volo_Abp_Http_RemoteServiceErrorResponse } from "@ayasofyazilim/saas/AccountService";
 import { ApiError } from "@ayasofyazilim/saas/IdentityService";
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import { getIdentityServiceClient } from "src/lib";
 
 const errorResponse = (message: string, status = 400) =>
-  new Response(JSON.stringify({ message }), { status: status });
+  new Response(JSON.stringify({ message }), { status });
 
 function isApiError(error: unknown): error is ApiError {
   return error instanceof ApiError;
@@ -109,7 +109,7 @@ const clients: Record<string, any> = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { data: string } }
+  { params }: { params: { data: string } },
 ) {
   if (!clients[params.data]) {
     // return status 404
@@ -128,14 +128,14 @@ export async function GET(
       const message = body.error?.message || error.statusText;
       return errorResponse(message, error.status);
     }
-    let errorText = (error as any)?.statusText + " " + (error as any)?.status;
+    const errorText = `${(error as any)?.statusText} ${(error as any)?.status}`;
     return errorResponse(errorText, (error as any)?.status);
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { data: string } }
+  { params }: { params: { data: string } },
 ) {
   if (!clients[params.data]) {
     return errorResponse("Invalid data type");
@@ -150,7 +150,7 @@ export async function DELETE(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { data: string } }
+  { params }: { params: { data: string } },
 ) {
   if (!clients[params.data]) {
     return errorResponse("Invalid data type", 404);
@@ -169,7 +169,7 @@ export async function PUT(
       const body = error.body as Volo_Abp_Http_RemoteServiceErrorResponse;
       return errorResponse(
         body.error?.message || "Something went wrong",
-        error.status
+        error.status,
       );
     }
     return errorResponse("Something went wrong", 500);

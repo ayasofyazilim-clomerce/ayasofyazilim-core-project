@@ -145,7 +145,7 @@ export async function signInWithCredentials(credentials: any) {
       "AccountService IdentityService SaasService MerchantService AdministrationService phone roles profile address email offline_access",
   };
   Object.keys(urlEncodedContent).forEach((key) =>
-    urlencoded.append(key, urlEncodedContent[key])
+    urlencoded.append(key, urlEncodedContent[key]),
   );
   const requestOptions = {
     method: "POST",
@@ -167,7 +167,7 @@ export async function obtainAccessTokenByRefreshToken(refreshToken: string) {
     refresh_token: refreshToken,
   };
   Object.keys(urlEncodedContent).forEach((key) =>
-    urlencoded.append(key, urlEncodedContent[key])
+    urlencoded.append(key, urlEncodedContent[key]),
   );
   const requestOptions = {
     method: "POST",

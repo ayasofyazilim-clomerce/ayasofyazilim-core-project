@@ -21,19 +21,16 @@ import {
   $Volo_Abp_Identity_OrganizationUnitCreateDto,
   $Volo_Abp_Identity_OrganizationUnitUpdateDto,
 } from "@ayasofyazilim/saas/IdentityService";
-import AutoformDialog, {
-  tableAction,
-} from "@repo/ayasofyazilim-ui/molecules/dialog";
+import type { tableAction } from "@repo/ayasofyazilim-ui/molecules/dialog";
+import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
 import { useCallback, useEffect, useState } from "react";
-import { createZodObject, getBaseLink } from "src/utils";
 import { z } from "zod";
+import { createZodObject, getBaseLink } from "src/utils";
+import type { OrganizationUnit, Role, User } from "./action";
 import {
   fetchOrganizationUnits,
   fetchRolesForUnit,
   fetchUsersForUnit,
-  OrganizationUnit,
-  Role,
-  User,
 } from "./action";
 import { ConfirmDialog, RoleModal, UserModal } from "./form";
 
@@ -66,7 +63,7 @@ const App: React.FC = () => {
     OrganizationUnit[]
   >([]);
   const [selectedUnit, setSelectedUnit] = useState<OrganizationUnit | null>(
-    null
+    null,
   );
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"Users" | "Roles">("Users");
@@ -119,7 +116,7 @@ const App: React.FC = () => {
                 id: selectedUnit.id,
                 requestBody: { userIds: selectedUsers.map((user) => user.id) },
               }),
-            }
+            },
           );
           if (response.ok) {
             toast.success("Users added successfully");
@@ -137,7 +134,7 @@ const App: React.FC = () => {
       }
       setIsUserModalOpen(false);
     },
-    [selectedUnit]
+    [selectedUnit],
   );
 
   const handleAddRoles = useCallback(
@@ -155,7 +152,7 @@ const App: React.FC = () => {
                 id: selectedUnit.id,
                 requestBody: { roleIds: selectedRoles.map((role) => role.id) },
               }),
-            }
+            },
           );
           if (response.ok) {
             toast.success("Roles added successfully");
@@ -173,7 +170,7 @@ const App: React.FC = () => {
       }
       setIsRoleModalOpen(false);
     },
-    [selectedUnit]
+    [selectedUnit],
   );
 
   const handleDeleteUser = useCallback(
@@ -195,7 +192,7 @@ const App: React.FC = () => {
                     id: selectedUnit.id,
                     memberId: userId,
                   }),
-                }
+                },
               );
               if (response.ok) {
                 toast.success("User deleted successfully");
@@ -214,7 +211,7 @@ const App: React.FC = () => {
         setIsConfirmDialogOpen(true);
       }
     },
-    [selectedUnit]
+    [selectedUnit],
   );
 
   const handleDeleteRole = useCallback(
@@ -232,8 +229,8 @@ const App: React.FC = () => {
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify({ id: selectedUnit.id, roleId: roleId }),
-                }
+                  body: JSON.stringify({ id: selectedUnit.id, roleId }),
+                },
               );
               if (response.ok) {
                 toast.success("Role deleted successfully");
@@ -252,13 +249,13 @@ const App: React.FC = () => {
         setIsConfirmDialogOpen(true);
       }
     },
-    [selectedUnit]
+    [selectedUnit],
   );
 
   const handleSave = useCallback(
     async (
       formData: { displayName: string },
-      _triggerData?: { id: string }
+      _triggerData?: { id: string },
     ) => {
       try {
         const response = await fetch(getBaseLink("api/admin/organization"), {
@@ -288,7 +285,7 @@ const App: React.FC = () => {
         toast.error("An error occurred while saving the organization unit");
       }
     },
-    [fetchAndUpdateUnits]
+    [fetchAndUpdateUnits],
   );
 
   const handleDeleteUnit = useCallback(
@@ -303,7 +300,7 @@ const App: React.FC = () => {
               {
                 method: "DELETE",
                 body: JSON.stringify(unitId),
-              }
+              },
             );
             if (response.ok) {
               toast.success("Organization unit deleted successfully");
@@ -318,12 +315,12 @@ const App: React.FC = () => {
             } else {
               const errorData = await response.json();
               toast.error(
-                errorData.message || "Failed to delete organization unit"
+                errorData.message || "Failed to delete organization unit",
               );
             }
           } catch (error) {
             toast.error(
-              "An error occurred while deleting the organization unit"
+              "An error occurred while deleting the organization unit",
             );
           }
           setIsConfirmDialogOpen(false);
@@ -331,7 +328,7 @@ const App: React.FC = () => {
       });
       setIsConfirmDialogOpen(true);
     },
-    [fetchAndUpdateUnits, selectedUnit]
+    [fetchAndUpdateUnits, selectedUnit],
   );
 
   const handleUpdateUnit = useCallback(
@@ -348,7 +345,7 @@ const App: React.FC = () => {
               id: _triggerData.id,
               requestBody: { displayName: formData.displayName },
             }),
-          }
+          },
         );
         if (response.ok) {
           toast.success("Organization unit updated successfully");
@@ -363,25 +360,25 @@ const App: React.FC = () => {
         } else {
           const errorData = await response.json();
           toast.error(
-            errorData.message || "Failed to update organization unit"
+            errorData.message || "Failed to update organization unit",
           );
         }
       } catch (error) {
         toast.error("An error occurred while updating the organization unit");
       }
     },
-    [fetchAndUpdateUnits, updateEnums]
+    [fetchAndUpdateUnits, updateEnums],
   );
 
   const handleMoveUsers = useCallback(
     async (
       formData: { targetUnitId: string },
-      _triggerData: { id: string }
+      _triggerData: { id: string },
     ) => {
       if (selectedUnit) {
         try {
           const targetUnit = organizationUnits.find(
-            (unit) => unit.id === formData.targetUnitId
+            (unit) => unit.id === formData.targetUnitId,
           );
           if (!targetUnit) {
             toast.error("Target unit not found");
@@ -398,7 +395,7 @@ const App: React.FC = () => {
                 id: _triggerData.id,
                 organizationId: targetUnit.id,
               }),
-            }
+            },
           );
           if (response.ok) {
             toast.success("Users moved successfully");
@@ -415,7 +412,7 @@ const App: React.FC = () => {
         setOpen(false);
       }
     },
-    [organizationUnits, selectedUnit]
+    [organizationUnits, selectedUnit],
   );
 
   const handleUnitClick = useCallback(async (_unit: OrganizationUnit) => {
@@ -435,7 +432,7 @@ const App: React.FC = () => {
       autoFormArgs: {
         formSchema: createZodObject(
           createFormSchema.schema,
-          createFormSchema.formPositions || []
+          createFormSchema.formPositions || [],
         ),
       },
       callback: (e, triggerData) => {
@@ -457,21 +454,21 @@ const App: React.FC = () => {
         autoFormArgs: {
           formSchema: createZodObject(
             createFormSchema.schema,
-            createFormSchema.formPositions || []
+            createFormSchema.formPositions || [],
           ),
         },
         callback: (e, triggerData) => {
-          const formData = { ...e, ParentId: _unit?.id };
+          const formData = { ...e, ParentId: _unit.id };
           handleSave(formData, triggerData);
           return true;
         },
         cta: "New organization unit",
         description: `Parent: ${_unit.displayName}`,
       });
-      setTriggerData({ id: _unit?.id });
+      setTriggerData({ id: _unit.id });
       setOpen(true);
     },
-    [handleSave, handleUnitClick]
+    [handleSave, handleUnitClick],
   );
 
   const handleEditUnit = useCallback(
@@ -481,17 +478,17 @@ const App: React.FC = () => {
         autoFormArgs: {
           formSchema: createZodObject(
             editFormSchema.schema,
-            editFormSchema.formPositions || []
+            editFormSchema.formPositions || [],
           ),
         },
         callback: handleUpdateUnit,
         cta: "Edit Unit",
         description: "Edit the name of the organization unit",
       });
-      setTriggerData({ displayName: _unit?.displayName, id: _unit?.id });
+      setTriggerData({ displayName: _unit.displayName, id: _unit.id });
       setOpen(true);
     },
-    [handleUnitClick, handleUpdateUnit]
+    [handleUnitClick, handleUpdateUnit],
   );
 
   const handleListAllUnits = useCallback(
@@ -511,7 +508,7 @@ const App: React.FC = () => {
       const availableUnits = organizationUnits.filter((u) => u.id !== _unit.id);
       const unitOptions = availableUnits.map((unit) => {
         const parentUnit = organizationUnits.find(
-          (u) => u.id === unit.parentId
+          (u) => u.id === unit.parentId,
         );
         return {
           id: unit.id,
@@ -527,7 +524,7 @@ const App: React.FC = () => {
           ...unitOptions.map((u) =>
             u.parentName
               ? `${u.displayName} ( Parent: ${u.parentName} )`
-              : `${u.displayName}`
+              : u.displayName,
           ),
         ]);
         setDisplayNameEnum(DynamicEnum);
@@ -543,7 +540,7 @@ const App: React.FC = () => {
               u.parentName
                 ? `${u.displayName} ( Parent: ${u.parentName} )` ===
                   e.targetUnit
-                : `${u.displayName}` === e.targetUnit
+                : u.displayName === e.targetUnit,
             );
             if (!selectedUnit) {
               toast.error("Selected unit not found");
@@ -561,7 +558,7 @@ const App: React.FC = () => {
         toast.error("No other units available to move users.");
       }
     },
-    [fetchRolesForUnit, fetchUsersForUnit, handleMoveUsers, organizationUnits]
+    [fetchRolesForUnit, fetchUsersForUnit, handleMoveUsers, organizationUnits],
   );
 
   const createFormSchema = dataConfig.organization.createFormSchema;
@@ -575,8 +572,8 @@ const App: React.FC = () => {
             <div className="flex justify-between items-center">
               <h2 className="text-xl">Organization Tree</h2>
               <Button
-                onClick={handleToggleForm}
                 className="bg-primary text-white py-2 px-4 rounded"
+                onClick={handleToggleForm}
               >
                 + Add root unit
               </Button>
@@ -663,7 +660,9 @@ const App: React.FC = () => {
                       ? "text-white bg-primary"
                       : "text-gray-700"
                   }`}
-                  onClick={() => setActiveTab("Users")}
+                  onClick={() => {
+                    setActiveTab("Users");
+                  }}
                 >
                   Users ({unitUsers.length})
                 </Button>
@@ -673,7 +672,9 @@ const App: React.FC = () => {
                       ? "text-white bg-primary"
                       : "text-gray-700"
                   }`}
-                  onClick={() => setActiveTab("Roles")}
+                  onClick={() => {
+                    setActiveTab("Roles");
+                  }}
                 >
                   Roles ({unitRoles.length})
                 </Button>
@@ -687,15 +688,19 @@ const App: React.FC = () => {
                   <h3 className="text-sm">{selectedUnit.displayName}</h3>
                   {activeTab === "Users" ? (
                     <Button
-                      onClick={() => setIsUserModalOpen(true)}
                       className="bg-primary text-white py-2 px-4 rounded"
+                      onClick={() => {
+                        setIsUserModalOpen(true);
+                      }}
                     >
                       + Add user
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => setIsRoleModalOpen(true)}
                       className="bg-primary text-white py-2 px-4 rounded"
+                      onClick={() => {
+                        setIsRoleModalOpen(true);
+                      }}
                     >
                       + Add role
                     </Button>
@@ -706,7 +711,7 @@ const App: React.FC = () => {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead></TableHead>
+                          <TableHead />
                           <TableHead>User Name</TableHead>
                           <TableHead>Email Address</TableHead>
                         </TableRow>
@@ -718,9 +723,9 @@ const App: React.FC = () => {
                               <TableCell>
                                 <Button
                                   className="bg-primary text-white"
-                                  onClick={() =>
-                                    handleDeleteUser(user.id, user.userName)
-                                  }
+                                  onClick={() => {
+                                    handleDeleteUser(user.id, user.userName);
+                                  }}
                                 >
                                   Delete
                                 </Button>
@@ -744,7 +749,7 @@ const App: React.FC = () => {
                       <Table>
                         <TableHeader>
                           <TableRow>
-                            <TableHead></TableHead>
+                            <TableHead />
                             <TableHead>Role Name</TableHead>
                           </TableRow>
                         </TableHeader>
@@ -755,9 +760,9 @@ const App: React.FC = () => {
                                 <TableCell>
                                   <Button
                                     className="bg-primary text-white"
-                                    onClick={() =>
-                                      handleDeleteRole(role.id, role.name)
-                                    }
+                                    onClick={() => {
+                                      handleDeleteRole(role.id, role.name);
+                                    }}
                                   >
                                     Delete
                                   </Button>
@@ -783,32 +788,38 @@ const App: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-      {open && (
+      {open ? (
         <AutoformDialog
-          open={open}
-          onOpenChange={setOpen}
           action={action}
+          onOpenChange={setOpen}
+          open={open}
           triggerData={triggerData}
         />
-      )}
+      ) : null}
       <UserModal
-        isOpen={isUserModalOpen}
-        onClose={() => setIsUserModalOpen(false)}
-        onSave={handleAddUsers}
         addedItems={unitUsers}
+        isOpen={isUserModalOpen}
+        onClose={() => {
+          setIsUserModalOpen(false);
+        }}
+        onSave={handleAddUsers}
       />
       <RoleModal
-        isOpen={isRoleModalOpen}
-        onClose={() => setIsRoleModalOpen(false)}
-        onSave={handleAddRoles}
         addedItems={unitRoles}
+        isOpen={isRoleModalOpen}
+        onClose={() => {
+          setIsRoleModalOpen(false);
+        }}
+        onSave={handleAddRoles}
       />
       <ConfirmDialog
+        description={confirmDialogContent.description}
         isOpen={isConfirmDialogOpen}
-        onClose={() => setIsConfirmDialogOpen(false)}
+        onClose={() => {
+          setIsConfirmDialogOpen(false);
+        }}
         onConfirm={confirmDialogContent.onConfirm}
         title={confirmDialogContent.title}
-        description={confirmDialogContent.description}
       />
     </div>
   );

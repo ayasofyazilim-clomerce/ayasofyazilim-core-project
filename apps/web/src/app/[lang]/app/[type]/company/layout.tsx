@@ -52,10 +52,10 @@ export default function Layout({ children }: LayoutProps) {
     <div>
       <SectionLayout
         content={children}
+        contentClassName="block"
         defaultActiveSectionId={path}
         openOnNewPage
         sections={navbarItems}
-        contentClassName="block"
         vertical={false}
       />
     </div>

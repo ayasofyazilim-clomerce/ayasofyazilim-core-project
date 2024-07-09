@@ -24,7 +24,7 @@ export default function Page(): JSX.Element {
   const searchParams = useSearchParams();
   const authTypeParam = params.auth as authTypes;
   const [errorMessage, setErrorMessage] = useState<string | null | undefined>(
-    null
+    null,
   );
   if (!isAuthType(authTypeParam)) {
     return (
@@ -127,7 +127,7 @@ export default function Page(): JSX.Element {
             const res = await response.json();
             if (!res) {
               setErrorMessage(
-                resources.AbpIdentity.texts?.["Volo.Abp.Identity:InvalidToken"]
+                resources.AbpIdentity.texts?.["Volo.Abp.Identity:InvalidToken"],
               );
             }
             resolve("");

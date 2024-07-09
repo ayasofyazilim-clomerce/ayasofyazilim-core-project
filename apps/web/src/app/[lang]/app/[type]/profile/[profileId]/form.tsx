@@ -30,7 +30,7 @@ export function BackerForm({
       post: postBacker,
       put: putBacker,
     },
-  }
+  };
   function submitFormData(formData) {
     if (profileId === "new") {
       functionTypes[formType].post(formData);
@@ -41,33 +41,39 @@ export function BackerForm({
   return (
     <>
       <div className="flex flex-row justify-end">
-        <Button className="w-48 flex float-right" onClick={() => {
-          if (formType === "individual") {
-            setFormType("investor");
-          } else {
-            setFormType("individual");
-          }
-        }}> Change to {formType === "individual" ? "investor" : "individual"} profile</Button>
+        <Button
+          className="w-48 flex float-right"
+          onClick={() => {
+            if (formType === "individual") {
+              setFormType("investor");
+            } else {
+              setFormType("individual");
+            }
+          }}
+        >
+          {" "}
+          Change to {formType === "individual" ? "investor" : "individual"}{" "}
+          profile
+        </Button>
       </div>
       <div className="grid gap-4 py-4">
         <ScrollArea className="max-h-[600px]">
-          <ScrollBar forceMount/>
+          <ScrollBar forceMount />
           <AutoForm
-            // id="backer-form-new"  
+            // id="backer-form-new"
             formSchema={formSchema[formType]}
             onParsedValuesChange={(values) => {
               setData(values);
             }}
-            onSubmit={(formData) => { submitFormData(formData); }}
+            onSubmit={(formData) => {
+              submitFormData(formData);
+            }}
             values={backer}
           >
-            <AutoFormSubmit >
-              <>
-                Add {formType}
-              </>
+            <AutoFormSubmit>
+              <>Add {formType}</>
             </AutoFormSubmit>
           </AutoForm>
-
         </ScrollArea>
       </div>
       <div className="flex-row mb-2">

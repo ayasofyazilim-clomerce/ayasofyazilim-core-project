@@ -15,7 +15,7 @@ async function controlledFetch(
   options: RequestInit,
   onSuccess: (data?: any) => void,
   successMessage = "Successful",
-  showToast = true
+  showToast = true,
 ) {
   try {
     const getData = await fetch(url, options);
@@ -37,7 +37,7 @@ function convertEnumField(
   enumArray: {
     data: string[];
     type: "enum";
-  }
+  },
 ): string | number {
   const data = enumArray.data;
   if (typeof value === "number") {
@@ -76,7 +76,7 @@ export default function Page({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const fetchLink = getBaseLink(`/api/admin/${params.data}`);
   const [formData, setFormData] = useState<tableData>(
-    dataConfig[params.domain][params.data]
+    dataConfig[params.domain][params.data],
   );
 
   async function processConvertors() {
@@ -94,7 +94,9 @@ export default function Page({
                 tempData[schema].convertors[key].data = tempValue;
                 tempData[schema].convertors[key].type = "async";
               }
-            } catch (error) {}
+            } catch (error) {
+              toast.error(`Feild to fetch ${`${key  } ${  value}`} data`);
+            }
           }
         }
       }
@@ -137,7 +139,7 @@ export default function Page({
       } as RequestInit,
       onData,
       "",
-      false
+      false,
     );
   }
 
@@ -151,7 +153,7 @@ export default function Page({
         formSchema: createZodObject(
           createFormSchema.schema,
           createFormSchema.formPositions || [],
-          createFormSchema.convertors || {}
+          createFormSchema.convertors || {},
         ),
         dependencies: createFormSchema.dependencies,
       },
@@ -164,7 +166,7 @@ export default function Page({
             body: JSON.stringify(transformedData),
           },
           getRoles,
-          "Added Successfully"
+          "Added Successfully",
         );
       },
     };
@@ -180,7 +182,7 @@ export default function Page({
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {}
+      schema.convertors || {},
     );
     if (!schema.convertors) return newSchema.parse(data);
     const transformedSchema = newSchema.transform((val) => {
@@ -211,7 +213,7 @@ export default function Page({
         }),
       },
       getRoles,
-      "Updated Successfully"
+      "Updated Successfully",
     );
   };
 
@@ -223,7 +225,7 @@ export default function Page({
         body: JSON.stringify(row.id),
       },
       getRoles,
-      "Deleted Successfully"
+      "Deleted Successfully",
     );
   };
 
@@ -231,7 +233,7 @@ export default function Page({
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {}
+      schema.convertors || {},
     );
     return newSchema;
   }

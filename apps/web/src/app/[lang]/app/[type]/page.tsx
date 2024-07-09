@@ -303,8 +303,6 @@ const DashboardJson = {
       data: top5Chains,
       component: (
         <DataTable
-          filterBy="result"
-          data={top5Chains}
           columnsData={{
             type: "Custom",
             data: [
@@ -335,6 +333,8 @@ const DashboardJson = {
               },
             ],
           }}
+          data={top5Chains}
+          filterBy="result"
         />
       ),
       className: "",
@@ -348,8 +348,6 @@ const DashboardJson = {
       data: top5Stores,
       component: (
         <DataTable
-          filterBy="result"
-          data={top5Stores}
           columnsData={{
             type: "Custom",
             data: [
@@ -384,6 +382,8 @@ const DashboardJson = {
               },
             ],
           }}
+          data={top5Stores}
+          filterBy="result"
         />
       ),
       className: "",
@@ -398,7 +398,7 @@ export default function Page() {
     setListOrder(
       list.map((item: any, index: any) => {
         return { ...item, order: index + 1 };
-      })
+      }),
     );
   }
   function handleEditMode() {
@@ -414,6 +414,7 @@ export default function Page() {
         <SortableLayout
           className="h-full p-4 grid-cols-2"
           editMode={sortableEditMode}
+          getLatestList={getLatestList}
           items={DashboardJson.items}
           renderItem={(item: any) => {
             return (
@@ -432,13 +433,12 @@ export default function Page() {
               </Card>
             );
           }}
-          getLatestList={getLatestList}
         />
         <div className="w-full h-16 bg-white border-b flex items-center px-4 sticky top-0">
           <Button
             className="p-0 w-8 h-8 shadow bg-white text-slate-900"
-            variant={"secondary"}
             onClick={handleEditMode}
+            variant="secondary"
           >
             {sortableEditMode ? (
               <SaveAll className="w-4" />
@@ -455,10 +455,10 @@ export default function Page() {
 export function AreaChartHero({ item }: any) {
   return (
     <AreaChart
+      categories={["SolarPanels", "Inverters"]}
       className="h-80"
       data={item.data}
       index="date"
-      categories={["SolarPanels", "Inverters"]}
       valueFormatter={(number: number) =>
         `$${Intl.NumberFormat("us").format(number).toString()}`
       }
@@ -468,13 +468,13 @@ export function AreaChartHero({ item }: any) {
 export function BarChartHero({ item }: any) {
   return (
     <BarChart
+      categories={item.categories}
       className="h-80"
+      colors={["emerald"]}
       data={item.data}
       index={item.index}
-      colors={["emerald"]}
-      categories={item.categories}
       valueFormatter={(number: number) =>
-        `${Intl.NumberFormat("us").format(number).toString()}`
+        Intl.NumberFormat("us").format(number).toString()
       }
     />
   );
@@ -485,20 +485,20 @@ export function BarListHero({ item }: any) {
 export function CategoryBarHero({ item }: any) {
   return (
     <CategoryBar
-      values={item.data}
-      marker={{ value: 99, tooltip: "68", showAnimation: true }}
-      colors={["pink", "amber", "emerald"]}
       className="mx-auto p-4 w-full"
+      colors={["pink", "amber", "emerald"]}
+      marker={{ value: 99, tooltip: "68", showAnimation: true }}
+      values={item.data}
     />
   );
 }
 export function LineChartHero({ item }: any) {
   return (
     <LineChart
+      categories={["SolarPanels", "Inverters"]}
       className="h-80"
       data={item.data}
       index="date"
-      categories={["SolarPanels", "Inverters"]}
       valueFormatter={(number: number) =>
         `$${Intl.NumberFormat("us").format(number).toString()}`
       }

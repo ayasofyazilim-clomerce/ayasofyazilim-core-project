@@ -61,7 +61,7 @@ export default function ProfileForm({
       }
 
       const profileResponse = await updateUserProfileServer(
-        userDataForm as any
+        userDataForm as any,
       );
       if (profileResponse.status === 200) {
         toast.success("Başarılı.");

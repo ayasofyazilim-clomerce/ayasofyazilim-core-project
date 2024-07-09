@@ -18,7 +18,7 @@ export async function getIdentityServiceClient() {
   return new IdentityServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
@@ -28,21 +28,21 @@ export async function getAccountServiceClient() {
   return new AccountServiceClient({
     TOKEN: token,
     BASE: process.env.AUTH_URL,
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
 export function getProjectServiceClient(): ProjectServiceClient {
   return new ProjectServiceClient({
     BASE: process.env.PROJECT_SERVICE_URL ?? "",
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
 export function getProjectServiceDetailClient(): ProjectServiceClient {
   return new ProjectServiceClient({
     BASE: process.env.PROJECT_SERVICE_URL ?? "",
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
@@ -52,7 +52,7 @@ export async function getSaasServiceClient() {
   return new SaasServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
@@ -68,7 +68,7 @@ export async function getAdministrationServiceClient() {
   return new AdministrationServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
@@ -78,7 +78,7 @@ export async function getBackerServiceClient(): Promise<BackerServiceClient> {
   return new BackerServiceClient({
     TOKEN: token,
     BASE: "http://192.168.1.105:44326",
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }
 
@@ -88,6 +88,6 @@ export async function getMerchantServiceClient() {
   return new MerchantServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
-    HEADERS: HEADERS,
+    HEADERS,
   });
 }

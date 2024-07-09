@@ -70,7 +70,7 @@ export default function ProjectForm({
 }: IProjectFormProps) {
   const [formValues, setFormValues] =
     useState<UpwithCrowd_ProjectService_ProjectsDto_UpdateProjectDto>(
-      projectData
+      projectData,
     );
   const [formValuesValidation, setFormValuesValidation] = useState<
     Record<string, boolean | undefined>
@@ -113,7 +113,7 @@ export default function ProjectForm({
         projectId,
         isApproved
           ? ProjectStatusEnums.APPROVED
-          : ProjectStatusEnums.NOT_APPROVED
+          : ProjectStatusEnums.NOT_APPROVED,
       );
       setFormValuesValidationChanged(false);
       if (result.status === 200) {
@@ -135,7 +135,7 @@ export default function ProjectForm({
       formValues.status = ProjectStatusEnums.IN_DRAFT_STAGE;
       const result = await updateProjectServer(
         projectId,
-        formValues as PutApiProjectServiceProjectsByIdData
+        formValues as PutApiProjectServiceProjectsByIdData,
       );
       if (result.status === 200) {
         setIsSubmitDisabled(true);
@@ -524,7 +524,7 @@ export default function ProjectForm({
                             slider={!isInputEditDisabled}
                             subLabel=""
                             value={parseInt(
-                              formValues.additionalFundRate || "0"
+                              formValues.additionalFundRate || "0",
                             )}
                           />
                           <p className="text-[0.8rem] text-muted-foreground mt-2">
@@ -599,7 +599,7 @@ export default function ProjectForm({
                   isLoading ||
                   !formValuesValidationChanged ||
                   Object.values(formValuesValidation).filter(
-                    (i) => i === undefined
+                    (i) => i === undefined,
                   ).length !== 0
                 }
                 isLoading={isLoading}

@@ -24,9 +24,8 @@ const fetchData = async <T>(url: string): Promise<T[]> => {
     if (response.ok) {
       const data = await response.json();
       return data.items;
-    } else {
-      return [];
     }
+    return [];
   } catch (error) {
     return [];
   }

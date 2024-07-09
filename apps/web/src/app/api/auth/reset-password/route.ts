@@ -23,6 +23,6 @@ export async function POST(reqest: NextRequest) {
   };
   return fetch(
     `${process.env.BASE_URL}/api/account/reset-password`,
-    requestOptions
+    requestOptions,
   );
 }

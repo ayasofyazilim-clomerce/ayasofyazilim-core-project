@@ -55,14 +55,14 @@ export default function ProjectForm({
     ) {
       return await updateProjectSectionRelationServer(
         section.sectionRelationId,
-        editorContent
+        editorContent,
       );
     }
 
     return await createProjectSectionRelationServer(
       projectId,
       editorId,
-      editorContent
+      editorContent,
     );
   }
   function onWordCountChanged(id: string, count: number) {

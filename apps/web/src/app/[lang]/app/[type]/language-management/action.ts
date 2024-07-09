@@ -54,7 +54,7 @@ export async function addNewTranslationServer(
   cultureName: string,
   name: string,
   value: string,
-  project: string
+  project: string,
 ) {
   "use server";
   try {
@@ -66,7 +66,7 @@ export async function addNewTranslationServer(
           cultureName,
           name,
           value,
-        }
+        },
       );
     revalidatePath("/[lang]/app/[type]/language-management", "page");
     return {

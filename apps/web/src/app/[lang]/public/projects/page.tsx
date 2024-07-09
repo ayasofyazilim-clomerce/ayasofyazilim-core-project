@@ -16,11 +16,11 @@ export default async function Page({ params }: { params: { lang: string } }) {
 
   const fundableProjects =
     projectData.items?.filter(
-      (i) => ProjectStatusEnums[i.status || 0] === "FUNDABLE"
+      (i) => ProjectStatusEnums[i.status || 0] === "FUNDABLE",
     ) || [];
   const approvedProjects =
     projectData.items?.filter(
-      (i) => ProjectStatusEnums[i.status || 0] === "APPROVED"
+      (i) => ProjectStatusEnums[i.status || 0] === "APPROVED",
     ) || [];
 
   return (

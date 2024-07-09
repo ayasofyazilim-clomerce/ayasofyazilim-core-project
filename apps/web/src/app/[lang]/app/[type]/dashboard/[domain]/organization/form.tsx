@@ -7,11 +7,12 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { fetchRoles, fetchUsers, Role, User } from "./action";
 import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Table, Row } from "@tanstack/react-table";
-import { Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
+import type { Table, Row } from "@tanstack/react-table";
+import type { Volo_Abp_Identity_IdentityUserDto } from "@ayasofyazilim/saas/AccountService";
+import { fetchRoles, fetchUsers } from "./action";
+import type { Role, User } from "./action";
 
 interface GenericModalProps<T> {
   isOpen: boolean;
@@ -29,7 +30,7 @@ interface GenericModalProps<T> {
   checkboxColumnKey: keyof T;
 }
 
-export const GenericModal = <T extends { id: string }>({
+export function GenericModal<T extends { id: string }>({
   isOpen,
   onClose,
   onSave,
@@ -39,7 +40,7 @@ export const GenericModal = <T extends { id: string }>({
   filterBy,
   title,
   checkboxColumnKey,
-}: GenericModalProps<T>) => {
+}: GenericModalProps<T>) {
   const [items, setItems] = useState<T[]>([]);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
@@ -49,7 +50,7 @@ export const GenericModal = <T extends { id: string }>({
       const loadItems = async () => {
         const _items = await fetchItems();
         const filteredItems = _items.filter(
-          (item) => !addedItems.some((addedItem) => addedItem.id === item.id)
+          (item) => !addedItems.some((addedItem) => addedItem.id === item.id),
         );
         setItems(filteredItems);
         setSelectedItems(new Set(addedItems.map((item) => item.id)));
@@ -98,30 +99,28 @@ export const GenericModal = <T extends { id: string }>({
       header: ({ table }: { table: Table<any> }) => {
         const rows = table.getRowModel().rows;
         const isAllSelected = rows.every((row: Row<T>) =>
-          selectedItems.has(row.original.id)
+          selectedItems.has(row.original.id),
         );
         return (
           <Checkbox
+            aria-label="Select all"
             checked={isAllSelected}
             onCheckedChange={(value) => {
-              table.toggleAllPageRowsSelected(!!value);
-              handleToggleAll(!!value, rows);
+              table.toggleAllPageRowsSelected(Boolean(value));
+              handleToggleAll(Boolean(value), rows);
             }}
-            aria-label="Select all"
           />
         );
       },
       cell: ({ row }: { row: Row<Volo_Abp_Identity_IdentityUserDto> }) => (
         <Checkbox
-          checked={
-            row.getIsSelected() || selectedItems.has(row.original.id as string)
-          }
+          aria-label="Select row"
+          checked={row.getIsSelected() || selectedItems.has(row.original.id!)}
           className="mr-6"
           onCheckedChange={(value) => {
-            row.toggleSelected(!!value);
-            handleToggleItem(row.original.id as string);
+            row.toggleSelected(Boolean(value));
+            handleToggleItem(row.original.id!);
           }}
-          aria-label="Select row"
         />
       ),
       enableSorting: false,
@@ -138,15 +137,15 @@ export const GenericModal = <T extends { id: string }>({
   ];
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog onOpenChange={onClose} open={isOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <DataTable
           columnsData={{ type: "Custom", data: enhancedColumns }}
-          filterBy={filterBy}
           data={items}
+          filterBy={filterBy}
           isLoading={loading}
         />
         <DialogFooter>
@@ -156,7 +155,7 @@ export const GenericModal = <T extends { id: string }>({
       </DialogContent>
     </Dialog>
   );
-};
+}
 
 export const UserModal: React.FC<
   Omit<
@@ -166,7 +165,7 @@ export const UserModal: React.FC<
 > = (props) => (
   <GenericModal
     {...props}
-    fetchItems={fetchUsers}
+    checkboxColumnKey="userName"
     columns={[
       {
         header: "User Name",
@@ -177,9 +176,9 @@ export const UserModal: React.FC<
         accessorKey: "email",
       },
     ]}
+    fetchItems={fetchUsers}
     filterBy="userName"
     title="Select users"
-    checkboxColumnKey="userName"
   />
 );
 
@@ -191,16 +190,16 @@ export const RoleModal: React.FC<
 > = (props) => (
   <GenericModal
     {...props}
-    fetchItems={fetchRoles}
+    checkboxColumnKey="name"
     columns={[
       {
         header: "Role Name",
         accessorKey: "name",
       },
     ]}
+    fetchItems={fetchRoles}
     filterBy="name"
     title="Select roles"
-    checkboxColumnKey="name"
   />
 );
 
@@ -220,7 +219,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   description,
 }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog onOpenChange={onClose} open={isOpen}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
@@ -228,7 +227,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <p>{description}</p>
         <DialogFooter>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={onConfirm} className="bg-primary text-white">
+          <Button className="bg-primary text-white" onClick={onConfirm}>
             Yes
           </Button>
         </DialogFooter>

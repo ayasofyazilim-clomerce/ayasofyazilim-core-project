@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: JSX.Element }) {
   const projectId = pathname.split("/")[0];
   const activeSection = pathname.split("/")[1] || "general";
   if (!projectId) {
-    redirect(`/app/${  type  }/projects`);
+    redirect(`/app/${type}/projects`);
   }
   const navbarItems = [
     {

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   // Use the client instance to make the API call
   const response =
     await appClient.abpApplicationLocalization.getApiAbpApplicationLocalization(
-      { cultureName: lang }
+      { cultureName: lang },
     );
   return new Response(JSON.stringify(response));
 }

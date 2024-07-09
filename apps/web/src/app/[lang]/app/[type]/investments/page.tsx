@@ -14,34 +14,7 @@ import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Payment } from "node_modules/@repo/ayasofyazilim-ui/src/molecules/tables/data";
 
-export default function Page() {
-  const cards = [
-    {
-      title: "Paid",
-      content: "15%",
-      description: "Number of paid taxes",
-      footer: "Your target is 100%",
-    },
-    {
-      title: "Paid",
-      content: "15%",
-      description: "Number of paid taxes",
-      footer: "Your target is 100%",
-    },
-    {
-      title: "People",
-      content: "15k",
-      description: "Number of people in the system",
-      footer: "Your target is 20K",
-    },
-    {
-      title: "WIP",
-      content: "1",
-      description: "Number of WIP refunds",
-      footer: "Your target is 0",
-    },
-  ];
-
+function columnsGenerator() {
   const columns: ColumnDef<Payment>[] = [
     {
       id: "select",
@@ -138,6 +111,37 @@ export default function Page() {
       },
     },
   ];
+  return columns;
+}
+
+export default function Page() {
+  const cards = [
+    {
+      title: "Paid",
+      content: "15%",
+      description: "Number of paid taxes",
+      footer: "Your target is 100%",
+    },
+    {
+      title: "Paid",
+      content: "15%",
+      description: "Number of paid taxes",
+      footer: "Your target is 100%",
+    },
+    {
+      title: "People",
+      content: "15k",
+      description: "Number of people in the system",
+      footer: "Your target is 20K",
+    },
+    {
+      title: "WIP",
+      content: "1",
+      description: "Number of WIP refunds",
+      footer: "Your target is 0",
+    },
+  ];
+
   const data: Payment[] = [
     {
       id: "m5gr84i9",
@@ -180,9 +184,9 @@ export default function Page() {
           data: columns,
         }}
         data={data}
-        withCards={true}
-        withTable={true}
-        filterBy={"test"}
+        filterBy="test"
+        withCards
+        withTable
       />
     </div>
   );

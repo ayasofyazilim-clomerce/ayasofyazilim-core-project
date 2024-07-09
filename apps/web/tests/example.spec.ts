@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -15,8 +15,9 @@ test.describe("Login page main functionalities", () => {
     await page.goto("/");
     await page.url();
     await page.getByRole("heading", { name: "admin", exact: true }).click();
-    await expect(page.locator('body')).toContainText('admin');await expect(page.getByRole('button', { name: 'English' })).toBeVisible();
-    await expect(page.locator('h6')).toContainText('admin@abp.io');
-    await expect(page.getByRole('button', { name: 'English' })).toBeVisible();
+    await expect(page.locator("body")).toContainText("admin");
+    await expect(page.getByRole("button", { name: "English" })).toBeVisible();
+    await expect(page.locator("h6")).toContainText("admin@abp.io");
+    await expect(page.getByRole("button", { name: "English" })).toBeVisible();
   });
 });

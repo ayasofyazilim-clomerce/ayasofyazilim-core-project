@@ -15,7 +15,7 @@ export async function getProjectByIdServer(projectId: string) {
     return await getProjectServiceClient().project.getApiProjectServiceProjectsDetailById(
       {
         id: projectId,
-      }
+      },
     );
   } catch (error) {
     return {};
@@ -30,7 +30,7 @@ export async function getProjectsServer() {
   }
 }
 export async function createNewProjectServer(
-  body: PostApiProjectServiceProjectsData["requestBody"]
+  body: PostApiProjectServiceProjectsData["requestBody"],
 ) {
   "use server";
   try {
@@ -53,7 +53,7 @@ export async function createNewProjectServer(
 }
 export async function updateProjectServer(
   id: string,
-  body: PutApiProjectServiceProjectsByIdData
+  body: PutApiProjectServiceProjectsByIdData,
 ) {
   "use server";
   try {
@@ -79,7 +79,7 @@ export async function updateProjectServer(
 }
 export async function updateProjectStatusServer(
   id: string,
-  body: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | undefined
+  body: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | undefined,
 ) {
   "use server";
   try {
@@ -104,7 +104,7 @@ export async function updateProjectStatusServer(
   }
 }
 export async function deleteProjectServer(
-  body: DeleteApiProjectServiceProjectsByIdData
+  body: DeleteApiProjectServiceProjectsByIdData,
 ) {
   "use server";
   try {
@@ -151,7 +151,7 @@ export async function getDefaultProjectSectionsServer() {
 export async function createProjectSectionRelationServer(
   projectId: string,
   projectSectionId: string,
-  value: string
+  value: string,
 ): Promise<string> {
   return new Promise(async (resolve) => {
     try {
@@ -163,7 +163,7 @@ export async function createProjectSectionRelationServer(
             value,
             projectSectionId,
           },
-        }
+        },
       );
       resolve("OK");
     } catch (error: any) {
@@ -173,7 +173,7 @@ export async function createProjectSectionRelationServer(
 }
 export async function updateProjectSectionRelationServer(
   id: string,
-  value: string
+  value: string,
 ): Promise<string> {
   return new Promise(async (resolve) => {
     try {
@@ -182,7 +182,7 @@ export async function updateProjectSectionRelationServer(
         await client.projectSectionRelation.getApiProjectServiceProjectSectionRelationById(
           {
             id,
-          }
+          },
         );
       data.value = value;
 
@@ -190,7 +190,7 @@ export async function updateProjectSectionRelationServer(
         {
           id,
           requestBody: data,
-        }
+        },
       );
       resolve("OK");
     } catch (error: any) {

@@ -20,7 +20,7 @@ export default function StatusForm({
     try {
       const result = await updateProjectStatusServer(
         projectId,
-        ProjectStatusEnums.SENT_FOR_APPROVAL
+        ProjectStatusEnums.SENT_FOR_APPROVAL,
       );
 
       if (result.status === 200) {

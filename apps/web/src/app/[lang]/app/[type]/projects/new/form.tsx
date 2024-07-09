@@ -17,8 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type {
-  UpwithCrowd_ProjectService_ProjectsDto_CreateProjectDto} from "@ayasofyazilim/saas/ProjectService";
+import type { UpwithCrowd_ProjectService_ProjectsDto_CreateProjectDto } from "@ayasofyazilim/saas/ProjectService";
 import { default as CustomButton } from "@repo/ayasofyazilim-ui/molecules/button";
 import { NumericInput } from "@repo/ayasofyazilim-ui/molecules/numeric-input";
 import Stepper, {
@@ -85,12 +84,12 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
               <Label htmlFor="projectName">{languageData.ProjectName}</Label>
               <Input
                 id="projectName"
-                onChange={(e) =>
-                  { setFormValues({
+                onChange={(e) => {
+                  setFormValues({
                     ...formValues,
                     projectName: e.target.value,
-                  }); }
-                }
+                  });
+                }}
                 value={formValues.projectName || ""}
               />
               <p className="text-[0.8rem] text-muted-foreground">
@@ -102,12 +101,12 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
                 {languageData.ProjectDescription}
               </Label>
               <Textarea
-                onChange={(e) =>
-                  { setFormValues({
+                onChange={(e) => {
+                  setFormValues({
                     ...formValues,
                     projectDefinition: e.target.value,
-                  }); }
-                }
+                  });
+                }}
                 value={formValues.projectDefinition || ""}
               />
               <p className="text-[0.8rem] text-muted-foreground">
@@ -136,12 +135,12 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
               </Label>
               <div className="relative">
                 <Select
-                  onValueChange={(value) =>
-                    { setFormValues({
+                  onValueChange={(value) => {
+                    setFormValues({
                       ...formValues,
                       fundCollectionType: value,
-                    }); }
-                  }
+                    });
+                  }}
                   value={formValues.fundCollectionType || ""}
                 >
                   <SelectTrigger>
@@ -204,9 +203,9 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
               </Label>
               <div className="relative">
                 <Select
-                  onValueChange={(value) =>
-                    { setFormValues({ ...formValues, overFunding: value }); }
-                  }
+                  onValueChange={(value) => {
+                    setFormValues({ ...formValues, overFunding: value });
+                  }}
                   value={formValues.overFunding || ""}
                 >
                   <SelectTrigger>
@@ -273,7 +272,8 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
         >
           <div className="flex flex-col gap-2" />
 
-          {projectId ? <div className="flex flex-col items-center">
+          {projectId ? (
+            <div className="flex flex-col items-center">
               <CircleCheckBigIcon color="#2dac5c" size={120} />
               <h3 className="mt-2">
                 {languageData["Messages:ProjectCreated"]}
@@ -282,20 +282,23 @@ export default function NewProjectForm({ languageData }: INewProjectFormProps) {
                 <Link
                   href={getBaseLink(
                     `app/entrepreneur/projects/${projectId}`,
-                    true
+                    true,
                   )}
                 >
                   {languageData.ViewProject}
                 </Link>
               </CustomButton>
-            </div> : null}
-          {error ? <div className="flex flex-col items-center">
+            </div>
+          ) : null}
+          {error ? (
+            <div className="flex flex-col items-center">
               <CircleXIcon color="#fe1265" size={120} />
               <h3 className="mt-2">
                 {languageData["Messages:ProjectCreationError"]}
               </h3>
               <p className="text-sm text-muted-foreground">{error}</p>
-            </div> : null}
+            </div>
+          ) : null}
           {!projectId && !error && (
             <>
               <div className="flex flex-col gap-4 bg-white p-4">

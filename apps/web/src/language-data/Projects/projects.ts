@@ -14,16 +14,14 @@ export async function getResourceData(lang: string) {
     DaysLeft: projectResource?.DaysLeft || "Days left",
     InvestNow: projectResource?.InvestNow || "Invest Now",
     InvestmentOpportunities:
-      projectResource?.InvestmentOpportunities ||
-      "Investment Opportunitiesies",
+      projectResource?.InvestmentOpportunities || "Investment Opportunitiesies",
     ProjectsToOpenForInvestmentSoon:
       projectResource?.ProjectsToOpenForInvestmentSoon ||
       "Projects to open for investment soon",
     StartingSoon: projectResource?.StartingSoon || "Starting Soon",
     CampaignStartDate:
       projectResource?.CampaignStartDate || "Campaign start date",
-    CampaignEndDate:
-      projectResource?.CampaignEndDate || "Campaign end date",
+    CampaignEndDate: projectResource?.CampaignEndDate || "Campaign end date",
     CampaignEnded: projectResource?.CampaignEnded || "Campaign Ended",
     CollectedAmount: projectResource?.CollectedAmount || "Collected amount",
     TargetAmount: projectResource?.TargetAmount || "Target amount",
@@ -53,8 +51,7 @@ export async function getResourceData(lang: string) {
     ProjectDescriptionInfo:
       projectResource?.ProjectDescriptionInfo ||
       "Briefly describe your project in a way that attracts investors' attention.",
-    FundCollectionType:
-      projectResource?.FundCollectionType || "Project type",
+    FundCollectionType: projectResource?.FundCollectionType || "Project type",
     FundCollectionTypeInfo:
       projectResource?.FundCollectionTypeInfo || "Type of your project.",
     FundCollectionTypeSHRE:
@@ -72,8 +69,7 @@ export async function getResourceData(lang: string) {
     AdditionalFundingYes: projectResource?.AdditionalFundingYes || "Yes",
     AdditionalFundingNo: projectResource?.AdditionalFundingNo || "No",
     AdditionalFundingRate:
-      projectResource?.AdditionalFundingRate ||
-      "Rate of additional funding",
+      projectResource?.AdditionalFundingRate || "Rate of additional funding",
     AdditionalFundingRateInfo:
       projectResource?.AdditionalFundingRateInfo ||
       "The rate of additional funding that will be collected in case your project is overfunded.",
@@ -92,15 +88,12 @@ export async function getResourceData(lang: string) {
     YouCanInvestWithCreditCardOrEft:
       projectResource?.YouCanInvestWithCreditCardOrEft ||
       "You can invest with Credit Card or Eft",
-    InvestmentAmount:
-      projectResource?.InvestmentAmount || "Investment Amount",
-    InvestmentMethod:
-      projectResource?.InvestmentMethod || "Investment Method",
+    InvestmentAmount: projectResource?.InvestmentAmount || "Investment Amount",
+    InvestmentMethod: projectResource?.InvestmentMethod || "Investment Method",
     RemainingTime: projectResource?.RemainingTime || "Remaining Time",
     QualifiedFundRate:
       projectResource?.QualifiedFundRate || "Qualified Fund Rate",
-    InvestingProfile:
-      projectResource?.InvestingProfile || "Investing Profile",
+    InvestingProfile: projectResource?.InvestingProfile || "Investing Profile",
     Share: projectResource?.Share || "Share",
     "DisplayName:Email": accountResource?.["DisplayName:Email"] || "Email",
     "DisplayName:PhoneNumber":

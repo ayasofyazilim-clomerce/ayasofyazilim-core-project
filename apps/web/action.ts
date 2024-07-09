@@ -3,7 +3,7 @@ import { Volo_Abp_Account_UpdateProfileDto } from "@ayasofyazilim/saas/AccountSe
 import { getAccountServiceClient } from "src/lib";
 
 export async function updateUserProfileServer(
-  body: Volo_Abp_Account_UpdateProfileDto
+  body: Volo_Abp_Account_UpdateProfileDto,
 ): Promise<{
   status: number;
   userData?: any;

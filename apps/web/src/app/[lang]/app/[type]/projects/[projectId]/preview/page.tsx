@@ -17,7 +17,7 @@ export default async function Page({
 
   const { project: projectData, projectSectionRelations: projectSectionData } =
     await getProjectServiceClient().project.getApiProjectServiceProjectsDetailById(
-      { id: projectId }
+      { id: projectId },
     );
 
   if (!projectData) return null;

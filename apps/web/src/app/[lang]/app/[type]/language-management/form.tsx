@@ -133,7 +133,7 @@ export function DataTableDemo({
 }: IDataTableDemo) {
   const router = useRouter();
   const [activeResource, setActiveResource] = useState(
-    Object.keys(resources)[0]
+    Object.keys(resources)[0],
   );
   const data = useMemo<Language[]>(() => {
     const _data: Language[] = [];
@@ -177,14 +177,14 @@ export function DataTableDemo({
           "en",
           keys[i],
           baseData[keys[i]],
-          "unirefund"
+          "unirefund",
         );
         await addNewTranslationServer(
           activeResource,
           lang,
           keys[i],
           _data[keys[i]],
-          "unirefund"
+          "unirefund",
         );
       }
       if (newTranslation.upwithcrowd) {
@@ -193,14 +193,14 @@ export function DataTableDemo({
           "en",
           keys[i],
           baseData[keys[i]],
-          "upwithcrowd"
+          "upwithcrowd",
         );
         await addNewTranslationServer(
           activeResource,
           lang,
           keys[i],
           _data[keys[i]],
-          "upwithcrowd"
+          "upwithcrowd",
         );
       }
     }
@@ -216,14 +216,14 @@ export function DataTableDemo({
         "en",
         newTranslation.key,
         newTranslation.baseValue,
-        "unirefund"
+        "unirefund",
       );
       await addNewTranslationServer(
         activeResource,
         lang,
         newTranslation.key,
         newTranslation.value,
-        "unirefund"
+        "unirefund",
       );
     }
     if (newTranslation.upwithcrowd) {
@@ -232,14 +232,14 @@ export function DataTableDemo({
         "en",
         newTranslation.key,
         newTranslation.baseValue,
-        "upwithcrowd"
+        "upwithcrowd",
       );
       await addNewTranslationServer(
         activeResource,
         lang,
         newTranslation.key,
         newTranslation.value,
-        "upwithcrowd"
+        "upwithcrowd",
       );
       router.refresh();
       setNewTranslation({
@@ -549,7 +549,7 @@ export function DataTableDemo({
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </>
                     </TableHead>
@@ -570,7 +570,7 @@ export function DataTableDemo({
                       <>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </>
                     </TableCell>
