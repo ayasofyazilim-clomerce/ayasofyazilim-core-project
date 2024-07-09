@@ -2,10 +2,21 @@
 
 import CardList from "@repo/ayasofyazilim-ui/organisms/card-list";
 import { useState } from "react";
-import { deleteBacker, getBackers, getBackersIndividuals } from "./actions";
+import {
+  deleteBacker,
+  getBackers,
+  getBackersIndividuals,
+  IBackersProps,
+} from "./actions";
 
-export function BackerList({ backers, type }: { type: string }) {
-  const [backersState, setBackers] = useState(backers);
+export function BackerList({
+  backers,
+  type,
+}: {
+  type: string;
+  backers: IBackersProps[];
+}) {
+  const [backersState, setBackers] = useState<IBackersProps[]>(backers);
   const cards = backersState?.map((backer) => {
     return {
       title: backer.name || "",
@@ -14,19 +25,19 @@ export function BackerList({ backers, type }: { type: string }) {
       footer: backer.customerNumber || "",
       onEdit: `profile/${backer.backerId}`,
       onDelete: async () => {
-        await deleteBacker(backer.backerId);
+        await deleteBacker(backer.backerId || "");
         await updataBackers();
       },
     };
   });
   async function updataBackers() {
-    let backers;
+    let _backers: IBackersProps[] = [];
     if (type === "companies") {
-      backers = await getBackers();
+      _backers = await getBackers();
     } else if (type === "individuals") {
-      backers = await getBackersIndividuals();
+      _backers = await getBackersIndividuals();
     }
-    setBackers(backers);
+    setBackers(_backers);
   }
   return (
     <div className="max-h-[350px]">

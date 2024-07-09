@@ -105,14 +105,14 @@ export const columns: ColumnDef<Language>[] = [
   },
   {
     accessorKey: "key",
-    header: ({}) => {
+    header: () => {
       return <div className="capitalize">Key</div>;
     },
     cell: ({ row }) => <div>{row.getValue("key")}</div>,
   },
   {
     accessorKey: "baseValue",
-    header: ({}) => {
+    header: () => {
       return <div className="capitalize">Base Value</div>;
     },
     cell: ({ row }) => <div>{row.getValue("baseValue")}</div>,

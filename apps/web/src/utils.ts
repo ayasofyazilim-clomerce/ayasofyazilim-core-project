@@ -63,7 +63,7 @@ export function getBaseLink(
   appType?: string,
 ) {
   // check if location first character is a slash
-  let newLocation = "";
+  let newLocation = location;
   if (location.startsWith("/")) {
     newLocation = location.slice(1);
   }

@@ -14,7 +14,7 @@ import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Payment } from "node_modules/@repo/ayasofyazilim-ui/src/molecules/tables/data";
 
-function columnsGenerator() {
+function generateColumns() {
   const columns: ColumnDef<Payment>[] = [
     {
       id: "select",
@@ -141,6 +141,7 @@ export default function Page() {
       footer: "Your target is 0",
     },
   ];
+  const columns = generateColumns();
 
   const data: Payment[] = [
     {

@@ -96,6 +96,13 @@ export async function postIndividual(formdata: any) {
   return result;
 }
 
+export interface IBackersProps {
+  name: string | null | undefined;
+  legalStatusCode: string | null | undefined;
+  taxpayerId: string | null | undefined;
+  backerId: string | undefined;
+  customerNumber?: string | null | undefined;
+}
 export async function getBackers() {
   const client = await getBackerServiceClient();
   const result = await client.backer.getApiBackerServiceBackers({
@@ -116,7 +123,7 @@ export async function getBackers() {
       backerId: id,
     });
   }
-  return returnArray;
+  return returnArray as IBackersProps[];
 }
 
 export async function deleteBacker(backerId: string) {
@@ -144,32 +151,27 @@ export async function getBacker(profileId: string) {
   const organizations = result.entityInformations?.[0]?.organizations?.length;
   if (organizations && organizations > 0) {
     const organization = result.entityInformations?.[0]?.organizations?.[0];
-    return (
-      {
-        companyName: organization?.name,
-        legalStatusCode: organization?.legalStatusCode,
-        taxpayerId: organization?.taxpayerId,
-        customerNumber: "not available by backend API",
-        emailAddress:
-          organization?.contactInformation?.emails?.[0]?.emailAddress,
-        telephone: organization?.contactInformation?.telephones?.[0],
-        address: organization?.contactInformation?.addresses?.[0],
-        type: "organization",
-      } || {}
-    );
+    return {
+      companyName: organization?.name,
+      legalStatusCode: organization?.legalStatusCode,
+      taxpayerId: organization?.taxpayerId,
+      customerNumber: "not available by backend API",
+      emailAddress: organization?.contactInformation?.emails?.[0]?.emailAddress,
+      telephone: organization?.contactInformation?.telephones?.[0],
+      address: organization?.contactInformation?.addresses?.[0],
+      type: "organization",
+    };
   }
   const individuals = result.entityInformations?.[0]?.individuals?.length;
   if (individuals && individuals > 0) {
     const individual = result.entityInformations?.[0]?.individuals?.[0];
-    return (
-      {
-        name: individual?.name?.name,
-        emailAddress: individual?.contactInformation?.emails?.[0]?.emailAddress,
-        telephone: individual?.contactInformation?.telephones?.[0],
-        address: individual?.contactInformation?.addresses?.[0],
-        type: "individual",
-      } || {}
-    );
+    return {
+      name: individual?.name?.name,
+      emailAddress: individual?.contactInformation?.emails?.[0]?.emailAddress,
+      telephone: individual?.contactInformation?.telephones?.[0],
+      address: individual?.contactInformation?.addresses?.[0],
+      type: "individual",
+    };
   }
 }
 

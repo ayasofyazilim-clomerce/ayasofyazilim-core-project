@@ -1,167 +1,18 @@
 
-./src/app/api/admin/[data]/route.ts
-26:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-43:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-55:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-67:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-79:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-92:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-105:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-117:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-130:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-138:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-146:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-154:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-163:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-
-./src/app/api/auth/reset-password/route.ts
-25:8  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/app/api/auth/send-password-reset-code/route.ts
-15:14  Error: APP_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-25:8  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/app/api/company/[data]/route.ts
-22:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-25:21  Error: Async method 'get' has no 'await' expression.  @typescript-eslint/require-await
-93:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-96:21  Error: Async method 'get' has no 'await' expression.  @typescript-eslint/require-await
-163:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-166:21  Error: Async method 'get' has no 'await' expression.  @typescript-eslint/require-await
-236:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-239:21  Error: Async method 'get' has no 'await' expression.  @typescript-eslint/require-await
-248:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-251:21  Error: Async method 'get' has no 'await' expression.  @typescript-eslint/require-await
-336:7  Error: Unexpected console statement.  no-console
-
-./src/app/api/post/route.ts
-18:19  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/app/api/route.ts
-5:9  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/app/[lang]/app/[type]/company/[data]/page.tsx
-44:5  Error: Unexpected console statement.  no-console
-49:11  Error: Interface name `formModifier` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-62:11  Error: Interface name `tableData` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-194:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-216:15  Error: Promise-returning function provided to property where a void return was expected.  @typescript-eslint/no-misused-promises
-230:9  Error: 'tableHeaders' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-230:9  Error: 'tableHeaders' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-273:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-288:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-
-./src/app/[lang]/app/[type]/country-settings/page.tsx
-6:16  Error: Async function 'Page' has no 'await' expression.  @typescript-eslint/require-await
-
-./src/app/[lang]/app/[type]/country-settings/[group]/mockSettingsResponse.ts
-1:1  Error: Filename is not in kebab case. Rename it to `mock-settings-response.ts`.  unicorn/filename-case
-
-./src/app/[lang]/app/[type]/country-settings/[group]/page.tsx
-25:8  Error: Unnecessary conditional, value is always falsy.  @typescript-eslint/no-unnecessary-condition
-
-./src/app/[lang]/app/[type]/dashboard/data.ts
-38:18  Error: Interface name `formModifier` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-51:18  Error: Interface name `tableData` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-107:64  Error: Expected '===' and instead saw '=='.  eqeqeq
-113:64  Error: Expected '===' and instead saw '=='.  eqeqeq
-183:64  Error: Expected '===' and instead saw '=='.  eqeqeq
-189:64  Error: Expected '===' and instead saw '=='.  eqeqeq
-225:22  Error: Redundant use of `await` on a return value.  no-return-await
-236:22  Error: Redundant use of `await` on a return value.  no-return-await
-338:22  Error: Redundant use of `await` on a return value.  no-return-await
-364:22  Error: Redundant use of `await` on a return value.  no-return-await
-
-./src/app/[lang]/app/[type]/dashboard/[domain]/layout.tsx
-26:20  Error: 'value' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-26:20  Error: 'value' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-27:19  Error: 'value' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-27:19  Error: 'value' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-
 ./src/app/[lang]/app/[type]/dashboard/[domain]/[data]/page.tsx
-31:5  Error: Unexpected console statement.  no-console
-94:33  Error: Unexpected `await` inside a loop.  no-await-in-loop
-100:15  Error: Unexpected console statement.  no-console
-137:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-151:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-163:17  Error: Promise-returning function provided to property where a void return was expected.  @typescript-eslint/no-misused-promises
-178:9  Error: 'tableHeaders' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-178:9  Error: 'tableHeaders' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-195:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-225:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-240:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-261:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-
-./src/app/[lang]/app/[type]/details/page.tsx
-4:16  Error: Async function 'Page' has no 'await' expression.  @typescript-eslint/require-await
-
-./src/app/[lang]/app/[type]/error.tsx
-13:5  Error: Unexpected console statement.  no-console
-
-./src/app/[lang]/app/[type]/investments/page.tsx
-10:16  Error: Async function 'Page' has no 'await' expression.  @typescript-eslint/require-await
-42:21  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-52:19  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-65:19  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-71:21  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-80:19  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-84:21  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-85:19  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-100:19  Error: Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “Page” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true.  react/no-unstable-nested-components
-114:41  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/app/[lang]/app/[type]/language-management/action.ts
-33:10  Error: Redundant use of `await` on a return value.  no-return-await
-77:5  Error: Unexpected console statement.  no-console
-
-./src/app/[lang]/app/[type]/language-management/form.tsx
-47:11  Error: Interface name `IDataTableDemo` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-105:16  Error: 'column' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-105:16  Error: 'column' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-112:16  Error: 'column' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-112:16  Error: 'column' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-137:64  Error: Array.prototype.map() expects a return value from arrow function.  array-callback-return
-167:11  Error: 'data' is already declared in the upper scope on line 135 column 9.  @typescript-eslint/no-shadow
-170:5  Error: Expected a `for-of` loop instead of a `for` loop with this simple iteration.  @typescript-eslint/prefer-for-of
-171:7  Error: Unexpected console statement.  no-console
-173:9  Error: Unexpected `await` inside a loop.  no-await-in-loop
-180:9  Error: Unexpected `await` inside a loop.  no-await-in-loop
-189:9  Error: Unexpected `await` inside a loop.  no-await-in-loop
-196:9  Error: Unexpected `await` inside a loop.  no-await-in-loop
-276:19  Error: Unnecessary conditional, expected left-hand side of `??` operator to be possibly null or undefined.  @typescript-eslint/no-unnecessary-condition
-390:28  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-390:41  Error: Unexpected empty async arrow function.  @typescript-eslint/no-empty-function
-399:29  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-411:49  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
-517:28  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-517:41  Error: Unexpected empty async arrow function.  @typescript-eslint/no-empty-function
-526:29  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/app/[lang]/app/[type]/layout.tsx
-28:6  Error: Type Alias name `navigationItmes` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-36:17  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-46:9  Error: 'permission' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-46:9  Error: 'permission' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+148:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
+242:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
 
 ./src/app/[lang]/app/[type]/profile/actions.ts
-82:3  Error: Unexpected console statement.  no-console
-90:5  Error: Unexpected console statement.  no-console
-92:3  Error: Unexpected console statement.  no-console
-97:3  Error: Unexpected console statement.  no-console
-105:5  Error: Unexpected console statement.  no-console
-107:3  Error: Unexpected console statement.  no-console
-119:18  Error: Unexpected `await` inside a loop.  no-await-in-loop
-143:3  Error: Unexpected console statement.  no-console
-160:12  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-160:12  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-174:12  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-174:12  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-193:18  Error: Unexpected `await` inside a loop.  no-await-in-loop
+79:15  Error: Empty block statement.  no-empty
+Error: Unexpected undescribed directive comment. Include descriptions to explain why the comment is necessary.  eslint-comments/require-description
+147:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
+147:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
+164:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
+164:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
 
 ./src/app/[lang]/app/[type]/profile/backerlist.tsx
-9:5  Error: Unexpected console statement.  no-console
-19:17  Error: Unexpected console statement.  no-console
-26:13  Error: 'backers' is already declared in the upper scope on line 8 column 30.  @typescript-eslint/no-shadow
+23:9  Error: 'backers' is already declared in the upper scope on line 7 column 30.  @typescript-eslint/no-shadow
 
 ./src/app/[lang]/app/[type]/profile/layout.tsx
 2:51  Error: 'type' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
@@ -172,281 +23,61 @@
 23:10  Error: 'data' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/[lang]/app/[type]/projects/action.ts
-20:5  Error: Unexpected console statement.  no-console
-29:5  Error: Unexpected console statement.  no-console
-38:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-61:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-87:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-112:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
-125:5  Error: Unexpected console statement.  no-console
-139:5  Error: Unexpected console statement.  no-console
-160:22  Error: Promise returned in function argument where a void return was expected.  @typescript-eslint/no-misused-promises
-160:22  Error: Promise executor functions should not be async.  no-async-promise-executor
-174:7  Error: Unexpected console statement.  no-console
-183:22  Error: Promise returned in function argument where a void return was expected.  @typescript-eslint/no-misused-promises
-183:22  Error: Promise executor functions should not be async.  no-async-promise-executor
+37:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
+60:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
+86:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
+111:20  Error: Unexpected `await` of a non-Promise (non-"Thenable") value.  @typescript-eslint/await-thenable
+136:19  Error: Empty block statement.  no-empty
+156:22  Error: Promise executor functions should not be async.  no-async-promise-executor
+178:22  Error: Promise executor functions should not be async.  no-async-promise-executor
 
 ./src/app/[lang]/app/[type]/projects/new/form.tsx
-37:18  Error: Interface name `INewProjectFormProps` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
 55:9  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-358:25  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/app/[lang]/app/[type]/projects/new/page.tsx
-9:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-9:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/[lang]/app/[type]/projects/page.tsx
-19:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-19:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
 ./src/app/[lang]/app/[type]/projects/[projectId]/details/form.tsx
-16:18  Error: Interface name `INewProjectFormProps` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-29:3  Error: 'resources' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-29:3  Error: 'resources' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-35:32  Error: Array.prototype.map() expects a return value from arrow function.  array-callback-return
-51:7  Error: Unexpected console statement.  no-console
-52:14  Error: Redundant use of `await` on a return value.  no-return-await
-58:12  Error: Redundant use of `await` on a return value.  no-return-await
-84:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+34:3  Error: 'resources' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
+34:3  Error: 'resources' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
+40:32  Error: Array.prototype.map() expects a return value from arrow function.  array-callback-return
+56:14  Error: Redundant use of `await` on a return value.  no-return-await
+62:12  Error: Redundant use of `await` on a return value.  no-return-await
+88:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
 
 ./src/app/[lang]/app/[type]/projects/[projectId]/details/page.tsx
 19:30  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-22:62  Error: Expected '===' and instead saw '=='.  eqeqeq
 
 ./src/app/[lang]/app/[type]/projects/[projectId]/form.tsx
-59:18  Error: Interface name `INewProjectFormProps` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-181:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
-304:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
-444:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
-593:26  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-628:32  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-640:26  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/app/[lang]/app/[type]/projects/[projectId]/page.tsx
-15:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-15:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/[lang]/app/[type]/projects/[projectId]/preview/page.tsx
-16:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-16:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
-./src/app/[lang]/app/[type]/projects/[projectId]/statusForm.tsx
-1:1  Error: Filename is not in kebab case. Rename it to `status-form.tsx`.  unicorn/filename-case
-8:18  Error: Interface name `INewProjectFormProps` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-42:15  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/app/[lang]/app/[type]/settings/profile/form.tsx
-60:15  Error: 'response' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-60:15  Error: 'response' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-101:20  Error: Promise-returning function provided to attribute where a void return was expected.  @typescript-eslint/no-misused-promises
-115:11  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-
-./src/app/[lang]/app/[type]/settings/sectionItems.tsx
-1:1  Error: Filename is not in kebab case. Rename it to `section-items.tsx`.  unicorn/filename-case
-
-./src/app/[lang]/layout.tsx
-6:11  Error: Interface name `IRootLayoutProps` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-10:17  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-19:5  Error: <html> elements must have the lang prop.  jsx-a11y/html-has-lang
-
-./src/app/[lang]/public/error.tsx
-13:5  Error: Unexpected console statement.  no-console
+185:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+306:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
+446:13  Error: Do not pass children as props. Instead, nest children between the opening and closing tags.  react/no-children-prop
 
 ./src/app/[lang]/public/landing.tsx
-55:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-69:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-83:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-109:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-123:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-138:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-146:63  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
-168:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-191:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-214:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-238:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-262:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-288:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-321:15  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-334:13  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-343:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-379:11  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-385:9  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
-401:13  Error: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+152:63  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
 
 ./src/app/[lang]/public/layout.tsx
-13:19  Error: Unable to resolve path to module '../../../../../../../../public/bursa.svg'.  import/no-unresolved
-14:22  Error: Unable to resolve path to module '../../../../../../../../public/istanbul.svg'.  import/no-unresolved
-15:19  Error: Unable to resolve path to module '../../../../../../../../public/konya.svg'.  import/no-unresolved
-16:21  Error: Unable to resolve path to module '../../../../../../../../public/sakarya.svg'.  import/no-unresolved
 18:8  Error: Async function 'getConfig' has no 'await' expression.  @typescript-eslint/require-await
 102:10  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-176:42  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-208:20  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/app/[lang]/public/page.tsx
-7:19  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
 
 ./src/app/[lang]/public/projects/page.tsx
-14:8  Error: Unnecessary conditional, value is always falsy.  @typescript-eslint/no-unnecessary-condition
-29:8  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-
-./src/app/[lang]/public/projects/[projectId]/page.tsx
-16:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-16:25  Error: 'resources' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+28:8  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
 
 ./src/app/[lang]/[auth]/page.tsx
-55:24  Error: Promise returned in function argument where a void return was expected.  @typescript-eslint/no-misused-promises
-55:24  Error: Promise executor functions should not be async.  no-async-promise-executor
-70:11  Error: Expected the Promise rejection reason to be an Error.  @typescript-eslint/prefer-promise-reject-errors
-73:9  Error: Expected the Promise rejection reason to be an Error.  @typescript-eslint/prefer-promise-reject-errors
-98:14  Error: Unnecessary conditional, both sides of the expression are literal values.  @typescript-eslint/no-unnecessary-condition
-116:25  Error: Promise returned in function argument where a void return was expected.  @typescript-eslint/no-misused-promises
-116:25  Error: Promise executor functions should not be async.  no-async-promise-executor
-141:13  Error: Expected the Promise rejection reason to be an Error.  @typescript-eslint/prefer-promise-reject-errors
-144:11  Error: Expected the Promise rejection reason to be an Error.  @typescript-eslint/prefer-promise-reject-errors
-148:5  Error: Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.  @typescript-eslint/no-floating-promises
-155:18  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-157:7  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
-157:7  Error: Use "@ts-expect-error" to ensure an error is actually being suppressed.  @typescript-eslint/prefer-ts-expect-error
-
-./src/enums/project.ts
-2:3  Error: Enum Member name `IN_DRAFT_STAGE` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-3:3  Error: Enum Member name `SENT_FOR_APPROVAL` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-4:3  Error: Enum Member name `NOT_APPROVED` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-7:3  Error: Enum Member name `FUNDING_SUCCESSFUL` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-8:3  Error: Enum Member name `FUNDING_UNSUCCESSFUL` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-9:3  Error: Enum Member name `FUNDING_COMPLETED` must match one of the following formats: PascalCase  @typescript-eslint/naming-convention
-
-./src/language-data/AbpUiNavigation/navbar.ts
-6:15  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-6:47  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-7:16  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-7:49  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-8:14  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-8:45  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-9:14  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-9:45  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-10:16  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-10:49  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-12:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-13:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-15:15  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-15:47  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-17:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-18:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-21:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-22:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-25:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-26:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-29:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-29:48  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-31:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-31:48  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-33:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-34:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-37:15  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-37:47  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-38:13  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-38:43  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-40:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-40:44  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-42:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-42:43  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-44:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-45:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-48:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-49:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-52:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-52:44  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-53:14  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-53:45  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-54:14  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-54:45  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-55:14  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-55:45  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-57:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-58:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-61:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-62:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-64:16  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-64:49  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-66:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-66:42  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-68:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-69:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-72:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-73:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-76:7  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-77:7  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-81:13  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-81:43  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
+53:24  Error: Promise executor functions should not be async.  no-async-promise-executor
+96:14  Error: Unnecessary conditional, both sides of the expression are literal values.  @typescript-eslint/no-unnecessary-condition
+114:25  Error: Promise executor functions should not be async.  no-async-promise-executor
+153:7  Error: Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free.  @typescript-eslint/ban-ts-comment
+153:7  Error: Use "@ts-expect-error" to ensure an error is actually being suppressed.  @typescript-eslint/prefer-ts-expect-error
 
 ./src/lib.ts
-10:1  Error: Dependency cycle via auth-action:5  import/no-cycle
-17:13  Error: AUTH_SECRET is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-22:11  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-35:11  Error: AUTH_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-45:11  Error: PROJECT_SERVICE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-55:11  Error: PROJECT_SERVICE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-68:13  Error: AUTH_SECRET is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-73:11  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-83:11  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-92:13  Error: AUTH_SECRET is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-97:11  Error: BASE_URL is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-
-./src/middleware.ts
-48:55  Error: Array.prototype.find() expects a value to be returned at the end of arrow function.  array-callback-return
-68:65  Error: Async arrow function has no 'await' expression.  @typescript-eslint/require-await
-69:19  Error: Unexpected constant truthiness on the left-hand side of a `||` expression.  no-constant-binary-expression
-71:29  Error: 'request' is already declared in the upper scope on line 68 column 39.  @typescript-eslint/no-shadow
-80:12  Error: 'redirectToProfile' is defined but never used. Allowed unused vars must match /^_/u.  no-unused-vars
-80:12  Error: 'redirectToProfile' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-86:37  Error: 'request' is already declared in the upper scope on line 68 column 39.  @typescript-eslint/no-shadow
-112:5  Error: Unexpected console statement.  no-console
-126:5  Error: Unexpected console statement.  no-console
-
-./src/providers/application.tsx
-5:11  Error: Interface name `IApplicationProvider` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-9:11  Error: Interface name `IApplicationContext` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-
-./src/providers/auth.tsx
-2:33  Error: Unable to resolve path to module 'next-auth/react'.  import/no-unresolved
-
-./src/providers/locale.tsx
-11:11  Error: Interface name `ILocaleProvider` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-16:11  Error: Interface name `ILocaleContext` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-24:23  Error: Unexpected empty method 'changeLocale'.  @typescript-eslint/no-empty-function
-39:3  Error: Async function 'changeLocale' has no 'await' expression.  @typescript-eslint/require-await
-47:53  Error: Promise-returning function provided to property where a void return was expected.  @typescript-eslint/no-misused-promises
-
-./src/providers/permissions.tsx
-13:59  Error: Don't use `Object` as a type. The `Object` type actually means "any non-nullish value", so it is marginally better than `unknown`.
-- If you want a type meaning "any object", you probably want `object` instead.
-- If you want a type meaning "any value", you probably want `unknown` instead.
-- If you really want a type meaning "any non-nullish value", you probably want `NonNullable<unknown>` instead.  @typescript-eslint/ban-types
-
-./src/providers/providers.tsx
-12:11  Error: Interface name `IProviders` must not match the RegExp: /^I[A-Z]|^(Interface|Props|State)$/u  @typescript-eslint/naming-convention
-18:8  Error: Unnecessary conditional, value is always falsy.  @typescript-eslint/no-unnecessary-condition
-20:19  Error: APPLICATION_NAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
+9:1  Error: Dependency cycle via auth-action:5  import/no-cycle
 
 ./src/utils.ts
-24:17  Error: HOSTNAME is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-24:41  Error: PORT is not listed as a dependency in turbo.json  turbo/no-undeclared-env-vars
-28:5  Error: Unexpected console statement.  no-console
 38:25  Error: Require statement not part of import statement.  @typescript-eslint/no-var-requires
-39:5  Error: Assignment to function parameter 'locale'.  no-param-reassign
-43:5  Error: Assignment to function parameter 'locale'.  no-param-reassign
-56:5  Error: Assignment to function parameter 'appType'.  no-param-reassign
-56:15  Error: Unexpected constant nullishness on the left-hand side of a `??` expression.  no-constant-binary-expression
-56:15  Error: Unnecessary conditional, expected left-hand side of `??` operator to be possibly null or undefined.  @typescript-eslint/no-unnecessary-condition
-69:5  Error: Assignment to function parameter 'location'.  no-param-reassign
-127:9  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-128:42  Error: 'key' is defined but never used. Allowed unused args must match /^_/u.  no-unused-vars
-128:42  Error: 'key' is defined but never used. Allowed unused args must match /^_/u.  @typescript-eslint/no-unused-vars
-128:47  Error: Array.prototype.map() expects a return value from arrow function.  array-callback-return
-134:16  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
-200:68  Error: Expected '===' and instead saw '=='.  eqeqeq
-210:5  Error: Duplicate case label.  no-duplicate-case
+54:5  Error: Assignment to function parameter 'appType'.  no-param-reassign
+54:15  Error: Unexpected constant nullishness on the left-hand side of a `??` expression.  no-constant-binary-expression
+54:15  Error: Unnecessary conditional, expected left-hand side of `??` operator to be possibly null or undefined.  @typescript-eslint/no-unnecessary-condition
+126:9  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
+127:44  Error: Array.prototype.map() expects a return value from arrow function.  array-callback-return
+133:16  Error: Unnecessary conditional, value is always truthy.  @typescript-eslint/no-unnecessary-condition
+206:5  Error: Duplicate case label.  no-duplicate-case
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
