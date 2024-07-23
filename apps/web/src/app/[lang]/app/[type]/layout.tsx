@@ -135,6 +135,16 @@ export default async function Layout({ children, params }: LayoutProps) {
       type: "admin",
       appType: "unirefund",
     },
+
+    {
+      key: "Templates",
+      title: languageData.Templates,
+      href: getBaseLink(`app/${type}/templates/rebate`, true, params.lang),
+      icon: <FileBadge className="text-slate-500 w-4" />,
+      type: "admin",
+      appType: "unirefund",
+    },
+
     {
       key: "company",
       title: languageData.Companies,
@@ -208,7 +218,7 @@ export default async function Layout({ children, params }: LayoutProps) {
         </div>
       }
     >
-      <div className="mt-5 mx-10 h-[calc(100vh-84px)]">{children}</div>
+      <div className="mt-5 mx-10 h-[calc(100vh-104px)]">{children}</div>
     </MainLayout>
   );
 }
