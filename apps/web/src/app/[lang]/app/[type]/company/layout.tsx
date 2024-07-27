@@ -97,7 +97,6 @@ export default function Layout({ children }: LayoutProps) {
         defaultActiveSectionId={path}
         linkElement={Link}
         sections={navbarItems}
-        vertical
       >
         <SectionLayoutContent sectionId={path}>{children}</SectionLayoutContent>
       </SectionLayout>
