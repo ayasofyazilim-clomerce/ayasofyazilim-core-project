@@ -1,6 +1,5 @@
 import type { Volo_Abp_Http_RemoteServiceErrorResponse } from "@ayasofyazilim/saas/AccountService";
 import { ApiError } from "@ayasofyazilim/saas/IdentityService";
-import type { GetApiMerchantServiceMerchantsDetailResponse } from "@ayasofyazilim/saas/MerchantService";
 import type { NextRequest } from "next/server";
 import {
   getIdentityServiceClient,
@@ -20,85 +19,65 @@ function isApiError(error: unknown): error is ApiError {
 const clients: Clients = {
   merchants: async () => {
     const client = await getMerchantServiceClient();
-    const merchant = client.merchant;
+    const merchant = client.organization;
 
     return {
-      get: async () => {
-        const getDetails: GetApiMerchantServiceMerchantsDetailResponse =
-          await merchant.getApiMerchantServiceMerchantsDetail({
-            maxResultCount: 1000,
-          });
-        return (
-          getDetails.items?.map((item) => {
-            const organization =
-              item.entityInformations?.[0]?.organizations?.[0];
-            return {
-              Company: organization?.name || "",
-              CustomerNumber: organization?.customerNumber || "",
-              ProductGroups:
-                organization?.productGroups?.map((pg) => pg.name) || [],
-              Address:
-                organization?.contactInformation?.address?.[0]?.fullAddress ||
-                "",
-            };
-          }) || []
-        );
-      },
-      post: async (formdata: any) => {
-        return merchant.postApiMerchantServiceMerchantsCreateMerchantWithComponents(
-          {
-            requestBody: {
-              entityInformationTypes: [
+      get: async () => merchant.getApiMerchantServiceOrganizationsDetail(),
+
+      post: async (formdata: any) =>
+        merchant.postApiMerchantServiceOrganizations({
+          requestBody: {
+            name: formdata.name,
+            taxpayerId: formdata.taxpayerId,
+            legalStatusCode: formdata.legalStatusCode,
+            customerNumber: formdata.customerNumber,
+            contactInformation: {
+              telephones: [
                 {
-                  organizations: [
-                    {
-                      name: formdata.Company,
-                      taxpayerId: "string",
-                      legalStatusCode: "string",
-                      customerNumber: formdata.CustomerNumber,
-                      contactInformation: {
-                        startDate: "2024-06-27T10:53:06.853Z",
-                        endDate: "2024-06-27T10:53:06.853Z",
-                        telephone: [
-                          {
-                            areaCode: "string",
-                            localNumber: "string",
-                            ituCountryCode: "string",
-                          },
-                        ],
-                        address: [
-                          {
-                            typeCode: 0,
-                            addressLine: "string",
-                            city: "string",
-                            terriority: "string",
-                            postalCode: "string",
-                            country: "string",
-                            fullAddress: formdata.Address,
-                          },
-                        ],
-                        email: [
-                          {
-                            emailAddress: "string",
-                          },
-                        ],
-                      },
-                      productGroups: [
-                        {
-                          name: formdata.ProductGroups,
-                          vatRate: 0,
-                          productCode: "string",
-                          isActive: true,
-                        },
-                      ],
-                    },
-                  ],
+                  areaCode: formdata.areaCode,
+                  localNumber: formdata.localNumber,
+                  ituCountryCode: formdata.ituCountryCode,
+                  primaryFlag: formdata.primaryFlag,
+                  typeCode: formdata.telephoneTypeCode,
+                },
+              ],
+              addresses: [
+                {
+                  addressLine: formdata.addressLine,
+                  city: formdata.city,
+                  terriority: formdata.terriority,
+                  postalCode: formdata.postalCode,
+                  country: formdata.country,
+                  fullAddress: formdata.fullAddress,
+                  primaryFlag: formdata.addressPrimaryFlag,
+                  typeCode: formdata.addressTypeCode,
+                },
+              ],
+              emails: [
+                {
+                  emailAddress: formdata.emailAddress,
+                  primaryFlag: formdata.emailPrimaryFlag,
+                  typeCode: formdata.emailTypeCode,
                 },
               ],
             },
+            productGroups: [
+              {
+                name: formdata.productName,
+                vatRate: formdata.vatRate,
+                productCode: formdata.productCode,
+                isActive: formdata.isActive,
+              },
+            ],
           },
-        );
-      },
+          entityInformationTypeId: "b1846b27-0ba9-eb4d-4c22-3a13f6a4ad2d",
+        }),
+
+      put: async (requestBody: any) =>
+        merchant.putApiMerchantServiceOrganizations({ requestBody }),
+
+      delete: async (id: string) =>
+        merchant.deleteApiMerchantServiceOrganizations({ id }),
     };
   },
 
