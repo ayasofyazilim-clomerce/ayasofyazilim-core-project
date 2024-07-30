@@ -7,7 +7,6 @@ import type {
 } from "@repo/ayasofyazilim-ui/molecules/tables";
 import { toast } from "@/components/ui/sonner";
 import type { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
-import { $UniRefund_MerchantService_Organizations_OrganizationDto } from "@ayasofyazilim/saas/MerchantService";
 import { createZodObject, getBaseLink } from "src/utils";
 import {
   $createCustoms,
@@ -19,6 +18,7 @@ import {
   $editRefund_points,
   $editTax_free,
   $showCustoms,
+  $showMerchants,
   $showRefund_points,
   $showTax_free,
 } from "./schemas.gen";
@@ -165,7 +165,7 @@ const dataConfig: Record<string, tableData> = {
         "productCode",
         "isActive",
       ],
-      schema: $UniRefund_MerchantService_Organizations_OrganizationDto,
+      schema: $showMerchants,
     },
   },
 
