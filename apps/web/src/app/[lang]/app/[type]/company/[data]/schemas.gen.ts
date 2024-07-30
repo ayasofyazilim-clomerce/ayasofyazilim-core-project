@@ -131,90 +131,90 @@ export const $showMerchants = {
       minLength: 0,
       type: "string",
     },
-    // areaCode: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // localNumber: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // ituCountryCode: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // primaryFlag: {
-    //   type: "boolean",
-    // },
-    // telephoneTypeCode: {
-    //   type: "integer",
-    // },
-    // addressLine: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // city: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // terriority: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // postalCode: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // country: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // fullAddress: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // addressPrimaryFlag: {
-    //   type: "boolean",
-    // },
-    // addressTypeCode: {
-    //   type: "integer",
-    // },
-    // emailAddress: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // emailPrimaryFlag: {
-    //   type: "boolean",
-    // },
-    // emailTypeCode: {
-    //   type: "integer",
-    // },
-    // productName: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // vatRate: {
-    //   type: "integer",
-    // },
-    // productCode: {
-    //   maxLength: 64,
-    //   minLength: 0,
-    //   type: "string",
-    // },
-    // isActive: {
-    //   type: "boolean",
-    // },
+    areaCode: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    localNumber: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    ituCountryCode: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    primaryFlag: {
+      type: "boolean",
+    },
+    telephoneTypeCode: {
+      type: "integer",
+    },
+    addressLine: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    city: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    terriority: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    postalCode: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    country: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    fullAddress: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    addressPrimaryFlag: {
+      type: "boolean",
+    },
+    addressTypeCode: {
+      type: "integer",
+    },
+    emailAddress: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    emailPrimaryFlag: {
+      type: "boolean",
+    },
+    emailTypeCode: {
+      type: "integer",
+    },
+    productName: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    vatRate: {
+      type: "integer",
+    },
+    productCode: {
+      maxLength: 64,
+      minLength: 0,
+      type: "string",
+    },
+    isActive: {
+      type: "boolean",
+    },
   },
 } as const;
 
