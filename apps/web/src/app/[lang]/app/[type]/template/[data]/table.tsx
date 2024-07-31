@@ -37,6 +37,7 @@ interface ActionsCellProps {
   onEdit: () => void;
   onSave: () => void;
   onRemove: () => void;
+  onCancel: () => void;
 }
 
 interface FooterCellProps {
@@ -50,12 +51,13 @@ const ActionsCell = ({
   onEdit,
   onSave,
   onRemove,
+  onCancel,
 }: ActionsCellProps) => (
   <div className="flex items-center justify-center">
     {isEditing ? (
       <>
         <Button
-          onClick={onEdit}
+          onClick={onCancel}
           variant={"ghost"}
           className="rounded-none w-full h-14 border-r border-r-slate-200 text-red-500"
         >
@@ -127,7 +129,9 @@ function createTableColumns(
   editedRows: Record<number, boolean>,
   setEditedRows: React.Dispatch<React.SetStateAction<Record<number, boolean>>>,
   saveEdit: (_rowIndex: number) => void,
-  removeRow: (_rowIndex: number) => void
+  removeRow: (_rowIndex: number) => void,
+  startEdit: (_rowIndex: number) => void,
+  cancelEdit: (_rowIndex: number) => void
 ): ColumnDef<RebateRecord, any>[] {
   return [
     ...columns,
@@ -138,13 +142,16 @@ function createTableColumns(
           rowIndex={row.index}
           isEditing={editedRows[row.index]}
           onEdit={() => {
-            setEditedRows((prev) => ({ ...prev, [row.index]: true }));
+            startEdit(row.index);
           }}
           onSave={() => {
             saveEdit(row.index);
           }}
           onRemove={() => {
             removeRow(row.index);
+          }}
+          onCancel={() => {
+            cancelEdit(row.index);
           }}
         />
       ),
@@ -179,6 +186,9 @@ function RebateTable({
 }: RebateTableProps) {
   const [data, setData] = useState<RebateRecord[]>(initialData);
   const [editedRows, setEditedRows] = useState<Record<number, boolean>>({});
+  const [originalData, setOriginalData] = useState<
+    Record<number, RebateRecord>
+  >({});
 
   useEffect(() => {
     setData(initialData);
@@ -226,7 +236,38 @@ function RebateTable({
 
   const saveEdit = useCallback((rowIndex: number) => {
     setEditedRows((prev) => ({ ...prev, [rowIndex]: false }));
+    setOriginalData((prev) => {
+      const { [rowIndex]: _, ...rest } = prev;
+      return rest;
+    });
   }, []);
+
+  const startEdit = useCallback(
+    (rowIndex: number) => {
+      setOriginalData((prev) => ({
+        ...prev,
+        [rowIndex]: { ...data[rowIndex] },
+      }));
+      setEditedRows((prev) => ({ ...prev, [rowIndex]: true }));
+    },
+    [data]
+  );
+
+  const cancelEdit = useCallback(
+    (rowIndex: number) => {
+      setData((prevData) => {
+        const newData = [...prevData];
+        newData[rowIndex] = originalData[rowIndex];
+        return newData;
+      });
+      setEditedRows((prev) => ({ ...prev, [rowIndex]: false }));
+      setOriginalData((prev) => {
+        const { [rowIndex]: _, ...rest } = prev;
+        return rest;
+      });
+    },
+    [originalData]
+  );
 
   const renderCellContent = useCallback(
     (rowIndex: number, accessorKey: string, inputType?: string) => {
@@ -306,9 +347,11 @@ function RebateTable({
         editedRows,
         setEditedRows,
         saveEdit,
-        removeRow
+        removeRow,
+        startEdit,
+        cancelEdit
       ),
-    [columns, editedRows, saveEdit, removeRow]
+    [columns, editedRows, saveEdit, removeRow, startEdit, cancelEdit]
   );
 
   const table = useReactTable({
