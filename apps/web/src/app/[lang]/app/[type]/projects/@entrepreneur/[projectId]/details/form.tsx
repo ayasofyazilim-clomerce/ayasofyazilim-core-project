@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import { createOrUpdateProjectSectionRelationServer } from "../../../action";
 
-export interface IProjectFormProps {
+export interface ProjectFormProps {
   projectId: string;
   sectionData:
     | {
@@ -24,7 +24,7 @@ export interface IProjectFormProps {
 export default function ProjectForm({
   sectionData,
   canSectionsEditable,
-}: IProjectFormProps) {
+}: ProjectFormProps) {
   const [formValues, setFormValues] = useState<Record<string, number>>(() => {
     const data: Record<string, number> = {};
     sectionData?.forEach((section) => {

@@ -241,7 +241,7 @@ export default function Page({
         <div className="text-3xl text-center font-bold mb-8">
           Yakında Yatırma Açılacak Projeler
         </div>
-        <div className="flex flex-row flex-wrap gap-3 justify-center">
+        <div className="flex flex-row flex-wrap gap-3 justify-center mb-5">
           {projectsWillStartSoon?.map((project: any) => (
             <ProjectCard
               ProjectStatusEnums={ProjectStatusEnums}
@@ -280,7 +280,7 @@ export default function Page({
           </div>
         </div>
       </div>
-      <h3 className="text-2xl md:text-5xl font-bold text-center w-full max-w-4xl mx-auto my-20 flex flex-col md:flex-row flex-wrap  items-center gap-0">
+      <h3 className="text-2xl md:text-5xl font-bold text-center w-full max-w-4xl mx-auto my-20 md:flex flex-col md:flex-row flex-wrap  items-center gap-0 hidden ">
         <img alt="" className="mr-4" src={config.logo} /> ile
         <FlipWords
           className="text-black min-w-[230px] text-center md:text-left"

@@ -4,7 +4,30 @@ import konya from "public/konya.svg";
 import sakarya from "public/sakarya.svg";
 import { getBaseLink } from "src/utils";
 
-export const cityConfigs: Record<string, any> = {
+export const cityConfigs: Record<
+  string,
+  {
+    key: string;
+    name: string;
+    link: string;
+    with: string;
+    its: string;
+    full: string;
+    logo: string;
+    texts: {
+      hero: string;
+    };
+    colors: {
+      primary: string;
+      secondary: string;
+    };
+    images: {
+      hero: string;
+      second: string;
+      footer: string;
+    };
+  }
+> = {
   bursa: {
     key: "bursa",
     name: "Bursa",
@@ -113,5 +136,5 @@ export const cityConfigs: Record<string, any> = {
 };
 
 export function getConfig(appName = "konya") {
-  return cityConfigs[appName] || cityConfigs.konya;
+  return cityConfigs[appName];
 }

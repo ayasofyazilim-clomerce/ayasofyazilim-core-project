@@ -41,17 +41,6 @@ export default function Page() {
         vertical
       >
         <SectionLayoutContent sectionId="fundable">
-          {/* {fundedProjects.map((project) => (
-            <ProjectCard
-              ProjectStatusEnums={ProjectStatusEnums}
-              actionText={languageData.ViewProject}
-              horizontal
-              key={project.id}
-              languageData={languageData}
-              project={project}
-              projectURL={`${projectURL}/${project.id}`}
-            />
-          ))} */}
           {!fundedProjects.length && (
             <div className="flex h-full">
               <div className="flex flex-col items-center m-auto">

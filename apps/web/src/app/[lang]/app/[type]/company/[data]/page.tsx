@@ -10,7 +10,6 @@ import type { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/org
 import { createZodObject, getBaseLink } from "src/utils";
 import {
   $createCustoms,
-  $createMerchants,
   $createRefund_points,
   $createTax_free,
   $editCustoms,
@@ -22,12 +21,13 @@ import {
   $showRefund_points,
   $showTax_free,
 } from "./schemas.gen";
+import { $UniRefund_MerchantService_Organizations_CreateOrganizationDto } from "@ayasofyazilim/saas/MerchantService";
 async function controlledFetch(
   url: string,
   options: RequestInit,
   onSuccess: (_data?: any) => void,
   successMessage = "Successful",
-  showToast = true,
+  showToast = true
 ) {
   try {
     const getData = await fetch(url, options);
@@ -43,7 +43,7 @@ async function controlledFetch(
     toast.error("Something went wrong 3 ");
   }
 }
-interface formModifier {
+interface FormModifier {
   formPositions?: string[];
   excludeList?: string[];
   schema: any;
@@ -55,14 +55,14 @@ interface formModifier {
     when: (_value: any) => boolean;
   }[];
 }
-interface tableData {
-  createFormSchema: formModifier;
-  editFormSchema: formModifier;
-  tableSchema: formModifier;
+interface TableData {
+  createFormSchema: FormModifier;
+  editFormSchema: FormModifier;
+  tableSchema: FormModifier;
   filterBy: string;
 }
 
-const dataConfig: Record<string, tableData> = {
+const dataConfig: Record<string, TableData> = {
   merchants: {
     filterBy: "name",
     createFormSchema: {
@@ -71,29 +71,10 @@ const dataConfig: Record<string, tableData> = {
         "taxpayerId",
         "legalStatusCode",
         "customerNumber",
-        "areaCode",
-        "localNumber",
-        "ituCountryCode",
-        "primaryFlag",
-        "telephoneTypeCode",
-        "addressLine",
-        "city",
-        "terriority",
-        "postalCode",
-        "country",
-        "fullAddress",
-        "addressPrimaryFlag",
-        "addressTypeCode",
-        "emailAddress",
-        "emailPrimaryFlag",
-        "emailTypeCode",
-        "productName",
-        "vatRate",
-        "productCode",
-        "isActive",
+        "contactInformation",
+        "productGroups",
       ],
-
-      schema: $createMerchants,
+      schema: $UniRefund_MerchantService_Organizations_CreateOrganizationDto,
     },
     editFormSchema: {
       formPositions: [
@@ -228,7 +209,7 @@ const dataConfig: Record<string, tableData> = {
 };
 function convertEnumField(
   value: string | number,
-  enumArray: string[],
+  enumArray: string[]
 ): string | number {
   if (typeof value === "number") {
     return enumArray[value];
@@ -266,14 +247,14 @@ export default function Page({
       setRoles({ ...returnData, items: transformedData });
       setIsLoading(false);
     }
-    controlledFetch(
+    void controlledFetch(
       fetchLink,
       {
         method: "GET",
       } as RequestInit,
       onData,
       "",
-      false,
+      false
     ).catch();
   }
   const createFormSchema = dataConfig[params.data].createFormSchema;
@@ -284,33 +265,50 @@ export default function Page({
       formSchema: createZodObject(
         createFormSchema.schema,
         createFormSchema.formPositions || [],
-        createFormSchema.convertors || {},
+        createFormSchema.convertors || {}
       ),
       dependencies: createFormSchema.dependencies,
-      fieldConfig: { withoutBorder: true },
-    },
-    callback: async (e) => {
-      const transformedData = parseFormValues(createFormSchema, e);
-      await controlledFetch(
-        fetchLink,
-        {
-          method: "POST",
-          body: JSON.stringify(transformedData),
+      fieldConfig: {
+        withoutBorder: true,
+        contactInformation: {
+          telephones: {
+            withoutBorder: true,
+          },
+          emails: {
+            withoutBorder: true,
+          },
+          addresses: {
+            withoutBorder: true,
+          },
         },
-        getRoles,
-        "Added Successfully",
-      );
+        productGroups: { withoutBorder: true },
+      },
+    },
+    callback: (e) => {
+      async function onData() {
+        const transformedData = parseFormValues(createFormSchema, e);
+        await controlledFetch(
+          fetchLink,
+          {
+            method: "POST",
+            body: JSON.stringify(transformedData),
+          },
+          getRoles,
+          "Added Successfully"
+        );
+      }
+      void onData();
     },
   };
   useEffect(() => {
     setIsLoading(true);
     getRoles();
   }, []);
-  function parseFormValues(schema: formModifier, data: any) {
+  function parseFormValues(schema: FormModifier, data: any) {
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {},
+      schema.convertors || {}
     );
     if (!schema.convertors) return newSchema.parse(data);
     const transformedSchema = newSchema.transform((val) => {
@@ -326,7 +324,7 @@ export default function Page({
   }
   const onEdit = (data: any, row: any, editFormSchema: any) => {
     const parsedData = parseFormValues(editFormSchema, data);
-    controlledFetch(
+    void controlledFetch(
       fetchLink,
       {
         method: "PUT",
@@ -336,25 +334,25 @@ export default function Page({
         }),
       },
       getRoles,
-      "Updated Successfully",
+      "Updated Successfully"
     );
   };
   const onDelete = (e: any, row: any) => {
-    controlledFetch(
+    void controlledFetch(
       fetchLink,
       {
         method: "DELETE",
         body: JSON.stringify(row.id),
       },
       getRoles,
-      "Deleted Successfully",
+      "Deleted Successfully"
     );
   };
-  function convertZod(schema: formModifier) {
+  function convertZod(schema: FormModifier) {
     const newSchema = createZodObject(
       schema.schema,
       schema.formPositions || [],
-      schema.convertors || {},
+      schema.convertors || {}
     );
     return newSchema;
   }

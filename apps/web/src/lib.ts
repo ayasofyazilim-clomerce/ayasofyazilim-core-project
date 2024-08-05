@@ -73,7 +73,7 @@ export async function getBackerServiceClient(): Promise<BackerServiceClient> {
   const token = session?.access_token;
   return new BackerServiceClient({
     TOKEN: token,
-    BASE: "http://192.168.1.105:44326",
+    BASE: process.env.BASE_URL,
     HEADERS,
   });
 }

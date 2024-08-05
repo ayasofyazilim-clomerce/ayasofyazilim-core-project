@@ -70,8 +70,8 @@ function StatusBadge({ status, title }: IStatusBadgeProps) {
 function InformationLine({ label, value }: IInformationLineProps) {
   return (
     <div className="items-center py-1 flex justify-between text-center flex-row">
-      <div className="text-xs flex gap-0 font-semibold">{label}</div>
-      <div className="text-xs flex gap-0">{value}</div>
+      <div className="text-xs flex gap-0 font-semibold text-left">{label}</div>
+      <div className="text-xs flex gap-0 right">{value}</div>
     </div>
   );
 }
@@ -102,7 +102,7 @@ export default function ProjectCard({
   return (
     <div
       key={project.id}
-      className={`bg-white border rounded-md flex ${horizontal ? "flex-row" : "flex-col  basis-11/12 md:basis-1/3"}`}
+      className={`bg-white border rounded-md flex ${horizontal ? "flex-row mb-4" : "flex-col max-w-96 basis-11/12 md:basis-1/3"}`}
     >
       <div className={horizontal ? "basis-2/4 relative" : "relative"}>
         <img

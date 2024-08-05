@@ -12,7 +12,7 @@ export function isServerSide() {
   return typeof window === "undefined";
 }
 
-export type resourceResult = Record<
+export type ResourceResult = Record<
   string,
   | {
       texts?: Record<string, string> | null | undefined;
@@ -23,7 +23,7 @@ export type resourceResult = Record<
 
 export async function getLocalizationResources(
   languageCode: string,
-): Promise<resourceResult> {
+): Promise<ResourceResult> {
   try {
     const response = await fetch(
       `http://${process.env.HOSTNAME}:${process.env.PORT}/api/?lang=${languageCode}`,
@@ -211,6 +211,7 @@ function createZodType(schema: JsonSchema, isRequired: boolean): ZodSchema {
       if (schema.default) zodType = zodType.default(schema.default === "true");
       break;
     case "integer":
+    case "number":
       if (schema.enum) {
         const stringEnums = schema.enum.map((e: any) => e.toString());
         zodType = z.enum(stringEnums as [string, ...string[]]);

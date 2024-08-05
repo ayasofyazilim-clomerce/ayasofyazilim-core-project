@@ -44,7 +44,17 @@ export default defineConfig({
   projects: [
     { name: "setup", testMatch: /.*\.setup\.ts/ },
     {
-      name: "chromium",
+      name: "Unirefund",
+      testDir: "./tests/unirefund",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: authFile,
+      },
+      dependencies: ["setup"],
+    },
+    {
+      name: "Upwithcrowd",
+      testDir: "./tests/upwithcrowd",
       use: {
         ...devices["Desktop Chrome"],
         storageState: authFile,

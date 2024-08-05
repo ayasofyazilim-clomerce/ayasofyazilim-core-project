@@ -3,7 +3,7 @@ import type { ResetPasswordFormDataType } from "@repo/ayasofyazilim-ui/molecules
 import type { authTypes } from "@repo/ayasofyazilim-ui/pages/auth";
 import { Auth, isAuthType } from "@repo/ayasofyazilim-ui/pages/auth";
 import { Logo } from "@repo/ui/logo";
-import Error from "next/error";
+import NextError from "next/error";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
@@ -28,7 +28,10 @@ export default function Page(): JSX.Element {
   );
   if (!isAuthType(authTypeParam)) {
     return (
-      <Error statusCode={404} title={resources.AbpUi?.texts?.PageNotFound} />
+      <NextError
+        statusCode={404}
+        title={resources.AbpUi?.texts?.PageNotFound}
+      />
     );
   }
 
@@ -51,7 +54,7 @@ export default function Page(): JSX.Element {
   //ResetPassword start
   const onResetPasswordSubmit = async (values: ResetPasswordFormDataType) => {
     return new Promise((resolve, reject) => {
-      (async () => {
+      void (async () => {
         try {
           const response = await fetch("./api/auth/reset-password", {
             method: "POST",
@@ -67,9 +70,10 @@ export default function Page(): JSX.Element {
             return;
           }
           const result = await response.json();
-          reject(result.error.code);
-        } catch (e) {
-          reject(e);
+
+          reject(new Error(result.error.code));
+        } catch (e: any) {
+          reject(new Error(e));
         }
       })();
     });
@@ -117,7 +121,7 @@ export default function Page(): JSX.Element {
       };
       const verifyResetToken = async () => {
         await new Promise((resolve, reject) => {
-          (async () => {
+          void (async () => {
             try {
               const response = await fetch("./api/post", {
                 method: "POST",
@@ -142,15 +146,15 @@ export default function Page(): JSX.Element {
               } else {
                 const result = await response.json();
                 setErrorMessage(result.error.code);
-                reject(result.error.code);
+                reject(new Error(result.error.code));
               }
-            } catch (e) {
-              reject(e);
+            } catch (e: any) {
+              reject(new Error(e));
             }
           })();
         });
       };
-      verifyResetToken();
+      void verifyResetToken();
       break;
     }
   }

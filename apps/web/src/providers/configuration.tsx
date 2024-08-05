@@ -1,9 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { createContext, useContext, useState } from "react";
 
-const configurationContext = createContext<any>({});
+const configurationContext = createContext<{
+  config?: string | undefined;
+  setConfig?: Dispatch<SetStateAction<string | undefined>>;
+}>({});
 
 export const useConfig = () => {
   return useContext(configurationContext);

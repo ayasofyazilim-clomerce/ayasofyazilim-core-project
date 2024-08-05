@@ -62,52 +62,9 @@ const clients: Clients = {
           };
         });
       },
-      post: async (formdata: any) =>
+      post: async (requestBody: any) =>
         merchant.postApiMerchantServiceOrganizations({
-          requestBody: {
-            name: formdata.name,
-            taxpayerId: formdata.taxpayerId,
-            legalStatusCode: formdata.legalStatusCode,
-            customerNumber: formdata.customerNumber,
-            contactInformation: {
-              telephones: [
-                {
-                  areaCode: formdata.areaCode,
-                  localNumber: formdata.localNumber,
-                  ituCountryCode: formdata.ituCountryCode,
-                  primaryFlag: formdata.primaryFlag,
-                  typeCode: formdata.telephoneTypeCode,
-                },
-              ],
-              addresses: [
-                {
-                  addressLine: formdata.addressLine,
-                  city: formdata.city,
-                  terriority: formdata.terriority,
-                  postalCode: formdata.postalCode,
-                  country: formdata.country,
-                  fullAddress: formdata.fullAddress,
-                  primaryFlag: formdata.addressPrimaryFlag,
-                  typeCode: formdata.addressTypeCode,
-                },
-              ],
-              emails: [
-                {
-                  emailAddress: formdata.emailAddress,
-                  primaryFlag: formdata.emailPrimaryFlag,
-                  typeCode: formdata.emailTypeCode,
-                },
-              ],
-            },
-            productGroups: [
-              {
-                name: formdata.productName,
-                vatRate: formdata.vatRate,
-                productCode: formdata.productCode,
-                isActive: formdata.isActive,
-              },
-            ],
-          },
+          requestBody,
           entityInformationTypeId: "e5f7f9e0-ceee-71f6-7b93-3a136c155b82",
         }),
       put: async (requestBody: {

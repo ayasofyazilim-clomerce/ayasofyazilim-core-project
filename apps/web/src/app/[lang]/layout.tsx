@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Providers from "../../providers/providers";
 import "../globals.css";
 
-interface IRootLayoutProps {
+interface RootLayoutProps {
   params: { lang: string };
   children: JSX.Element;
 }
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title,
   description: "Unirefund is a web app for managing your refund process.",
 };
-export default function RootLayout({ children, params }: IRootLayoutProps) {
+export default function RootLayout({ children, params }: RootLayoutProps) {
   return (
     <html lang={params.lang}>
       <body className={GeistSans.className} data-app-name={appName}>

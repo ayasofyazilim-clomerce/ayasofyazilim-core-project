@@ -11,12 +11,12 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@repo/ayasofyazilim-ui/atoms/menubar";
+import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import AppLogo from "../app-logo";
 import { ProfileMenu } from "../profile-menu";
-import { Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 export type link = {
   text: string;
@@ -96,7 +96,7 @@ function MenuCreator(link: link): JSX.Element {
   if (link.submenu) {
     return (
       <MenubarMenu key={link.text}>
-        <MenubarTrigger className="hover:text-primary focus:text-primary data-[state=open]:text-primary cursor-pointer">
+        <MenubarTrigger className="hover:text-primary focus:text-primary data-[state=open]:text-primary cursor-pointer rounded-md">
           {link.text}
         </MenubarTrigger>
         <MenubarContent>

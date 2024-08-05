@@ -42,39 +42,41 @@ export default function ProfileForm({
     setIsSubmitDisabled(!(formChanged || imageFile !== null));
   }, [userDataForm, imageFile]);
 
-  async function onSubmit() {
+  function onSubmit() {
+    async function update() {
+      try {
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append("ImageContent", imageFile);
+          formData.append("type", "2");
+
+          await fetch("/api/profile/myprofile", {
+            method: "POST",
+            body: formData,
+          });
+        }
+
+        const profileResponse = await updateUserProfileServer(
+          userDataForm as any,
+        );
+        if (profileResponse.status === 200) {
+          toast.success("Başarılı.");
+          setIsSubmitDisabled(true);
+          setImageFile(null); // Reset the imageFile state
+        } else {
+          toast.error(profileResponse.message);
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
     if (isSubmitDisabled) {
       return;
     }
     setIsLoading(true);
-
-    try {
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("ImageContent", imageFile);
-        formData.append("type", "2");
-
-        await fetch("/api/profile/myprofile", {
-          method: "POST",
-          body: formData,
-        });
-      }
-
-      const profileResponse = await updateUserProfileServer(
-        userDataForm as any,
-      );
-      if (profileResponse.status === 200) {
-        toast.success("Başarılı.");
-        setIsSubmitDisabled(true);
-        setImageFile(null); // Reset the imageFile state
-      } else {
-        toast.error(profileResponse.message);
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    void update();
   }
 
   function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {

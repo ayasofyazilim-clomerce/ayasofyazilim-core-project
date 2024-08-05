@@ -22,17 +22,12 @@ export function Hero({ variant = "invesdor", config }: HeroProps) {
         <div className="absolute z-10 inset-0 pointer-events-none flex items-center justify-center">
           <div className="flex flex-col gap-16 items-center justify-center">
             <div className="flex flex-col gap-4 items-center justify-center">
-              {/* <div className={"tracking-widest text-8xl font-bold text-black"}>
-                UPWITH
-                <span className="text-primary">{config?.logo || "KONYA"}</span>
-              </div> */}
               <img src={config.logo} />
-              <span className="text-xl text-slate-700">
+              <span className="text-xl text-slate-700 text-center">
                 SPK Lisanslı kitle fonlama platformu.
               </span>
             </div>
             <h3 className="text-black font-bold text-3xl md:text-4xl lg:text-7xl text-center">
-              {/* <span> {config?.its || "Konya'nın"}</span> geleceğine ortak olun. */}
               {config.texts.hero}
             </h3>
           </div>
@@ -81,17 +76,12 @@ export function Hero({ variant = "invesdor", config }: HeroProps) {
         >
           <div className="flex flex-col gap-16 items-center justify-center">
             <div className="flex flex-col gap-4 items-center justify-center">
-              {/* <div className={"tracking-widest text-8xl font-bold text-black"}>
-                UPWITH
-                <span className="text-primary">{config?.logo || "KONYA"}</span>
-              </div> */}
               <img src={config.logo} />
-              <span className="text-xl text-slate-700">
+              <span className="text-xl text-slate-700 text-center">
                 SPK Lisanslı kitle fonlama platformu.
               </span>
             </div>
             <h3 className="text-black font-bold text-3xl md:text-4xl lg:text-7xl text-center">
-              {/* <span> {config?.its || "Konya'nın"}</span> geleceğine ortak olun. */}
               {config.texts.hero}
             </h3>
           </div>

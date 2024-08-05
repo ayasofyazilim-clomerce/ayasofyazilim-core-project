@@ -8,22 +8,22 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { UpwithCrowd_ProjectService_ProjectsDto_CreateProjectDto } from "@ayasofyazilim/saas/ProjectService";
 import { default as CustomButton } from "@repo/ayasofyazilim-ui/molecules/button";
 import { NumericInput } from "@repo/ayasofyazilim-ui/molecules/numeric-input";
+import SelectTabs, {
+  SelectTabsContent,
+} from "@repo/ayasofyazilim-ui/molecules/select-tabs";
 import Stepper, {
   StepperContent,
 } from "@repo/ayasofyazilim-ui/organisms/stepper";
-import { CircleCheckBigIcon, CircleXIcon } from "lucide-react";
+import {
+  Blocks,
+  CircleCheckBigIcon,
+  CircleXIcon,
+  HandCoins,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { getBaseLink } from "src/utils";
@@ -33,14 +33,14 @@ export const numberFormatter = new Intl.NumberFormat("tr", {
   maximumFractionDigits: 0,
 });
 
-export interface INewProjectFormProps {
+export interface NewProjectFormProps {
   languageData: any;
   fundraiserId: string;
 }
 export default function NewProjectForm({
   languageData,
   fundraiserId,
-}: INewProjectFormProps) {
+}: NewProjectFormProps) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [formValues, setFormValues] =
     useState<UpwithCrowd_ProjectService_ProjectsDto_CreateProjectDto>({
@@ -61,18 +61,19 @@ export default function NewProjectForm({
   const [loading, setLoading] = useState(false);
   const [projectId, setProjectId] = useState<string>();
 
-  async function createNewProject() {
+  function createNewProject() {
     setLoading(true);
-    const response = await createNewProjectServer(formValues);
-    if (response.status === 200 && response.projectData) {
-      setProjectId(response.projectData.id);
-    } else {
-      setError(response.message);
-    }
-    setLoading(false);
+    void createNewProjectServer(formValues).then((response) => {
+      if (response.status === 200 && response.projectData) {
+        setProjectId(response.projectData.id);
+      } else {
+        setError(response.message);
+      }
+      setLoading(false);
+    });
   }
   return (
-    <Card className="p-6">
+    <Card className="px-6 py-4">
       <Stepper
         activeTabIndex={activeTabIndex}
         nextButtonText={languageData.Next}
@@ -93,7 +94,7 @@ export default function NewProjectForm({
             <h4 className="text-2xl font-bold text-black">
               {languageData.CreateProject}
             </h4>
-            <div className="grid w-full items-center gap-3 mt-4">
+            <div className="grid w-full items-center gap-3 mt-2">
               <Label htmlFor="projectName">{languageData.ProjectName}</Label>
               <Input
                 id="projectName"
@@ -142,40 +143,36 @@ export default function NewProjectForm({
               {languageData.ProjectDetails}
             </h4>
 
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="grid w-full items-center gap-3 mt-2 ">
               <Label htmlFor="fundCollectionType">
                 {languageData.FundCollectionType}
               </Label>
               <div className="relative">
-                <Select
+                <SelectTabs
                   onValueChange={(value) => {
-                    setFormValues({
-                      ...formValues,
-                      fundCollectionType: value,
-                    });
+                    setFormValues({ ...formValues, fundCollectionType: value });
                   }}
                   value={formValues.fundCollectionType || ""}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="SHRE">
-                        {languageData.FundCollectionTypeSHRE}
-                      </SelectItem>
-                      <SelectItem value="DBIT">
-                        {languageData.FundCollectionTypeDBIT}
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                  <SelectTabsContent value="SHRE">
+                    <div className="flex flex-row gap-1 items-center">
+                      <Blocks />
+                      {languageData.FundCollectionTypeSHRE}
+                    </div>
+                  </SelectTabsContent>
+                  <SelectTabsContent value="DBIT">
+                    <div className="flex flex-row gap-1 items-center">
+                      <HandCoins />
+                      {languageData.FundCollectionTypeDBIT}
+                    </div>
+                  </SelectTabsContent>
+                </SelectTabs>
               </div>
               <p className="text-[0.8rem] text-muted-foreground">
                 {languageData.FundCollectionTypeInfo}
               </p>
             </div>
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="grid w-full items-center gap-3 mt-2 ">
               <div className="relative">
                 <NumericInput
                   direction="column"
@@ -210,31 +207,30 @@ export default function NewProjectForm({
               {languageData.AdditionalFunding}
             </h4>
 
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="grid w-full items-center gap-3 mt-2 ">
               <Label htmlFor="overFunding">
                 {languageData.AdditionalFunding}
               </Label>
               <div className="relative">
-                <Select
-                  onValueChange={(value) => {
+                <SelectTabs
+                  onValueChange={(value: string) => {
                     setFormValues({ ...formValues, overFunding: value });
                   }}
                   value={formValues.overFunding || ""}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="Y">
-                        {languageData.AdditionalFundingYes}
-                      </SelectItem>
-                      <SelectItem value="N">
-                        {languageData.AdditionalFundingNo}
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                  <SelectTabsContent value="Y">
+                    <div className="flex flex-row gap-1 items-center">
+                      <Blocks />
+                      {languageData.AdditionalFundingYes}
+                    </div>
+                  </SelectTabsContent>
+                  <SelectTabsContent value="N">
+                    <div className="flex flex-row gap-1 items-center">
+                      <HandCoins />
+                      {languageData.AdditionalFundingNo}
+                    </div>
+                  </SelectTabsContent>
+                </SelectTabs>
               </div>
               <p className="text-[0.8rem] text-muted-foreground">
                 {languageData.AdditionalFundingInfo}
@@ -249,7 +245,7 @@ export default function NewProjectForm({
               >
                 <AccordionItem value="item-1">
                   <AccordionContent>
-                    <div className="grid w-full items-center gap-3 mt-4 ">
+                    <div className="grid w-full items-center gap-3 mt-2 ">
                       <div className="relative">
                         <NumericInput
                           direction="column"

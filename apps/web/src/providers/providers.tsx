@@ -9,11 +9,11 @@ import { PermissionProvider } from "./permissions";
 import { ApplicationProvider } from "./application";
 import Tooltip from "./tooltip";
 
-interface IProvidersProps {
+interface ProvidersProps {
   children: JSX.Element;
   lang: string;
 }
-export default async function Providers({ children, lang }: IProvidersProps) {
+export default async function Providers({ children, lang }: ProvidersProps) {
   const resources = await getLocalizationResources(lang);
 
   const appName = process.env.APPLICATION_NAME || "UNIREFUND";

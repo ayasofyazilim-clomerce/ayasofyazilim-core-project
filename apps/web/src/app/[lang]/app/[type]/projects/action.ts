@@ -49,11 +49,13 @@ export async function getProjectsServer(
 }
 export async function getPublicProjectsServer(
   status?: 0 | 2 | 1 | 3 | 4 | 5 | 6 | 7 | undefined,
+  maxResultCount?: number | undefined,
 ) {
   try {
     const client = await getProjectServiceClient();
     return await client.projectPublic.getApiProjectServicePublicProjects({
       status,
+      maxResultCount,
     });
   } catch (error) {
     return {} as GetApiProjectServiceProjectsResponse;
@@ -265,7 +267,7 @@ export async function createOrUpdateProjectSectionRelationServer(
     }
     revalidatePath("/");
     return response;
-  } catch (error: any) {
+  } catch (error) {
     return error;
   }
 }

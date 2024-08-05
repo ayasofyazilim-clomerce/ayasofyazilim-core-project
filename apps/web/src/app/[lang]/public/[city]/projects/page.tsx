@@ -70,7 +70,7 @@ export default async function Page({
           <h2 className="text-2xl font-bold mb-8 mt-10 text-center">
             {languageData.ProjectsToOpenForInvestmentSoon}
           </h2>
-          <div className="flex flex-wrap flex-row flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap flex-row flex-wrap gap-3 justify-center mb-5">
             {projectsWillStartSoon.map((project) => (
               <ProjectCard
                 ProjectStatusEnums={ProjectStatusEnums}

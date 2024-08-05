@@ -4,9 +4,11 @@ import ProjectCard from "@repo/ui/upwithcrowd/project/project-card";
 import { redirect } from "next/navigation";
 import { ProjectStatusEnums } from "src/enums/project";
 import { getResourceData } from "src/language-data/Projects/projects";
-import { getProjectServiceClient } from "src/lib";
 import { getBaseLink } from "src/utils";
-import { getProjectSectionsServer } from "../../action";
+import {
+  getProjectSectionsServer,
+  getPublicProjectByIdServer,
+} from "../../action";
 import ProjectForm from "./form";
 import StatusForm from "./status-form";
 
@@ -14,11 +16,8 @@ export default async function Page({ params }: any) {
   const { projectId, type } = params;
   const { languageData } = await getResourceData(params.lang);
 
-  const client = await getProjectServiceClient();
   const { project: projectData, projectSectionRelations: sectionData } =
-    await client.projectPublic.getApiProjectServicePublicProjectsDetailById({
-      id: projectId,
-    });
+    await getPublicProjectByIdServer(projectId);
 
   if (!projectData) {
     redirect(`/app/${params.type}/projects`);
@@ -57,7 +56,7 @@ export default async function Page({ params }: any) {
           projectId={projectId}
         />
       </div>
-      <div className="basis-2/5 min-w-72">
+      <div className="basis-2/5 min-w-72 max-w-96">
         <ProjectCard
           ProjectStatusEnums={ProjectStatusEnums}
           languageData={languageData}

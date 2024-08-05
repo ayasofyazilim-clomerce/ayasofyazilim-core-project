@@ -1,0 +1,14 @@
+name: Release Unirefund
+run-name: ${{ github.actor }} is taking unirefund live 🚀
+on:
+  push:
+    branches: [ unirefund ]
+
+jobs:
+  release_unirefund:
+    timeout-minutes: 60
+    runs-on: self-hosted
+    steps:
+    - run: echo "🎉 Going Live!"
+    - name: Release unirefund
+      run: ssh ubuntu "cd ~/frontend/unirefund_prod && chmod 777 publish.sh && ./publish.sh 3575 unirefund_prod"

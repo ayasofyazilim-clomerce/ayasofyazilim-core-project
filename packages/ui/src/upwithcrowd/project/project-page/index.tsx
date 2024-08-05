@@ -25,7 +25,7 @@ export default function ProjectPage({
 }: IProjectCardProps): JSX.Element {
   function getDateDifferanceInDays() {
     const date1Obj = new Date();
-    const targetObj = new Date(projectData?.projectEndDate || 0);
+    const targetObj = new Date(projectData?.endDate || 0);
     const diffTime = Math.abs(targetObj.getTime() - date1Obj.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
@@ -106,7 +106,7 @@ export default function ProjectPage({
     <div className="w-full">
       <div className="flex flex-col">
         <div
-          className={"md:h-[600px]  bg-cover bg-no-repeat bg-center"}
+          className={"md:h-[600px]  bg-cover bg-no-repeat bg-center relative"}
           style={{
             backgroundImage: `url(${defaultImages?.[projectData.id as keyof typeof defaultImages] || "https://placehold.co/1920x600"})`,
           }}
@@ -119,6 +119,13 @@ export default function ProjectPage({
             alt="image"
             className="w-full mt-20 mb-10 md:hidden"
           />
+          <div className="flex flex-col gap-2 items-center mb-4 absolute bottom-0 right-3 text-xs md:hidden">
+            <img
+              className="h-10 w-10 object-cover"
+              src="https://placehold.co/40x40/EEE/000"
+            />
+            <div>OnePlanet</div>
+          </div>
           <div className="container items-end justify-between h-full hidden md:flex">
             <div className="flex flex-col gap-2 mb-5 p-4 rounded-md bg-white/80">
               <div className="text-4xl font-bold">{projectData.name}</div>
@@ -133,17 +140,12 @@ export default function ProjectPage({
             </div>
           </div>
         </div>
-        <div className="container items-end justify-between h-full  md:hidden py-8">
-          <div className="flex flex-col gap-2 items-center mb-4">
-            <img
-              className="h-16 w-16 object-cover"
-              src="https://placehold.co/40x40/EEE/000"
-            />
-            <div>OnePlanet</div>
-          </div>
+        <div className="container items-end justify-between h-full  md:hidden py-5 md:py-8">
           <div className="flex flex-col gap-2 rounded-md bg-white/80">
-            <div className="text-2xl font-bold">{projectData.name}</div>
-            <div className="text-xl ">{projectData.definition}</div>
+            <div className="text:lg md:text-2xl font-bold">
+              {projectData.name}
+            </div>
+            <div className="text-md md:text-xl ">{projectData.definition}</div>
           </div>
         </div>
         <div className="bg-white pb-16">
@@ -165,12 +167,12 @@ export default function ProjectPage({
             </div>
           </Progress>
           <div className="border pt-2 pb-2 bg-white">
-            <div className="container flex justify-between ">
+            <div className="container flex justify-between flex-col md:flex-row gap-3">
               <div className="basis-1/3">
                 <div className="text-muted bg-muted bg-muted/50"></div>
                 <div>
-                  <b>
-                    {projectData.startDate !== "0001-01-01T00:00:00"
+                  <b className="text-sm md:text-md">
+                    {projectData.startDate
                       ? new Date(projectData.startDate || 0)
                           .toLocaleString("tr", {
                             day: "2-digit",
@@ -203,9 +205,9 @@ export default function ProjectPage({
               <div className="basis-1/3 text-end">
                 <div className="text-muted bg-muted bg-muted/50"></div>
                 <div>
-                  <b>
+                  <b className="text-sm md:text-md">
                     {projectData.startDate !== "0001-01-01T00:00:00"
-                      ? new Date(projectData.projectEndDate || 0)
+                      ? new Date(projectData.endDate || 0)
                           .toLocaleString("tr", {
                             day: "2-digit",
                             month: "2-digit",
@@ -263,8 +265,8 @@ export default function ProjectPage({
               </div>
             </div>
             <div className="basis-2/3 gap-2 flex flex-col">
-              <div className="mt-1.5 md:m-auto flex gap-2 justify-end md:justify-around w-full">
-                <CardContent className="md:w-full p-0 md:p-6">
+              <div className="mt-1.5 flex gap-2 justify-end md:justify-around w-full">
+                <CardContent className="md:w-full p-0 md:px-6">
                   <div className="flex md:flex-row flex-col flex-wrap md:mt-5">
                     <div className="basis-1/2 mb-3">
                       <div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">

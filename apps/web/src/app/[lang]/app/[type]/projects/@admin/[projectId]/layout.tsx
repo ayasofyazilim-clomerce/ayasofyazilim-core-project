@@ -21,16 +21,11 @@ export default function Layout({ children }: { children: JSX.Element }) {
       link: getBaseLink(`app/${type}/projects/${projectId}`, true),
       name: "Genel Bilgiler",
     },
-    // {
-    //   id: "details",
-    //   link: getBaseLink(`app/${type}/projects/${projectId}/details`, true),
-    //   name: "Proje Detayı",
-    // },
-    // {
-    //   id: "preview",
-    //   link: getBaseLink(`app/${type}/projects/${projectId}/preview`, true),
-    //   name: "Önizleme",
-    // },
+    {
+      id: "details",
+      link: getBaseLink(`app/${type}/projects/${projectId}/details`, true),
+      name: "Proje Detayı",
+    },
   ];
   return (
     <SectionLayout
@@ -38,7 +33,7 @@ export default function Layout({ children }: { children: JSX.Element }) {
       linkElement={Link}
       sections={navbarItems}
     >
-      <SectionLayoutContent sectionId={activeSection}>
+      <SectionLayoutContent className="p-0" sectionId={activeSection}>
         {children}
       </SectionLayoutContent>
     </SectionLayout>

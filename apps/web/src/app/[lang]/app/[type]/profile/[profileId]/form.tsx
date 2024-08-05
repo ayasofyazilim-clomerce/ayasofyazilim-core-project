@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirmation-modal";
-import ScrollArea from "@repo/ayasofyazilim-ui/molecules/scroll-area";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
@@ -22,9 +22,13 @@ function initBackerData(backer: any) {
     address: backer.address,
     generalInformation: {
       name: backer.name,
+      companyName: backer.companyName,
+      taxpayerId: backer.taxpayerId,
+      legalStatusCode: backer.legalStatusCode,
+      customerNumber: backer.customerNumber,
       emailAddress: backer.emailAddress,
-      phoneNumber: backer?.localNumber
-        ? `+${backer?.areaCode}${backer?.localNumber}`
+      phoneNumber: backer?.telephone?.localNumber
+        ? `+${backer?.telephone?.areaCode}${backer?.telephone?.localNumber}`
         : "+90",
     },
   };
@@ -39,6 +43,7 @@ export function BackerForm({
   backer: any;
   profileId: string;
 }) {
+  const [isCreated, setIsCreated] = useState(false);
   const backerData = initBackerData(backer);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const router = useRouter();
@@ -61,6 +66,7 @@ export function BackerForm({
       put: putBacker,
     },
   };
+
   const isPhoneValid = (phone: string) => {
     try {
       const phoneUtil = PhoneNumberUtil.getInstance();
@@ -70,16 +76,22 @@ export function BackerForm({
     }
   };
 
-  function submitFormData(formData: any) {
+  async function submitFormData(formData: any) {
     const isValid = isPhoneValid(formData.generalInformation.phoneNumber);
     if (!isValid) {
       return;
     }
     //PUT servisi henüz hazır değil
     const submitData = {
-      name: formData.generalInformation.name,
-      emailAdress: formData.generalInformation.emailAddress,
-      telephones: [
+      name:
+        formData.generalInformation.name ||
+        formData.generalInformation.companyName,
+      emailAddress: formData.generalInformation.emailAddress,
+      taxpayerId: formData.generalInformation.taxpayerId,
+      legalStatusCode: formData.generalInformation.legalStatusCode,
+      customerNumber: formData.generalInformation.customerNumber,
+
+      telephone: [
         {
           areaCode: formData.generalInformation.phoneNumber
             .split("+")[1]
@@ -87,13 +99,20 @@ export function BackerForm({
           localNumber: formData.generalInformation.phoneNumber
             .split("+")[1]
             .substring(3),
+          ITUCountryCode: "1",
         },
       ],
       address: formData.address,
     };
-
-    if (profileId === "new") {
-      functionTypes[formType].post(submitData);
+    if (profileId === "new-organization" || profileId === "new-individual") {
+      const result = await functionTypes[formType].post(submitData);
+      if (result.id) {
+        toast.success("Profil oluşturuldu.");
+        setIsCreated(true);
+        router.back();
+      } else {
+        toast.error("Bir hata oluştu.");
+      }
     } else {
       functionTypes[formType].put(profileId, submitData);
     }
@@ -103,9 +122,14 @@ export function BackerForm({
       title: "Profili Sil",
       description: `"${_backer.name}" isimli profili silmek istediğinize emin misiniz?`,
       onConfirm: () => {
-        deleteBacker(_backer.backerId).then(() => {
-          router.back();
-        });
+        deleteBacker(profileId)
+          .then(() => {
+            router.back();
+            toast.success("Profil silindi.");
+          })
+          .catch(() => {
+            toast.error("Bir hata oluştu.");
+          });
         setIsConfirmDialogOpen(false);
       },
     });
@@ -114,7 +138,7 @@ export function BackerForm({
   return (
     <>
       <div className="flex justify-end flex-row mb-2">
-        {profileId !== "new" && (
+        {profileId !== "new-organization" && profileId !== "new-individual" && (
           <Button
             onClick={() => {
               handleDeleteBacker(backer);
@@ -125,31 +149,34 @@ export function BackerForm({
           </Button>
         )}
       </div>
-      <ScrollArea className="h-full ">
-        <AutoForm
-          className="pb-10"
-          fieldConfig={{
-            generalInformation: {
-              phoneNumber: {
-                fieldType: "phone",
-                inputProps: {
-                  showLabel: true,
-                },
+      <AutoForm
+        className="pb-10"
+        fieldConfig={{
+          generalInformation: {
+            phoneNumber: {
+              fieldType: "phone",
+              inputProps: {
+                showLabel: true,
               },
             },
-          }}
-          formSchema={formSchema[formType]}
-          onSubmit={(formData) => {
-            submitFormData(formData);
-          }}
-          showInRow
-          values={backerData}
-        >
+          },
+        }}
+        formSchema={formSchema[formType]}
+        onSubmit={(formData) => {
+          void submitFormData(formData);
+        }}
+        showInRow
+        values={backerData}
+      >
+        {isCreated ||
+        (profileId !== "new-organization" && profileId !== "new-individual") ? (
+          <></>
+        ) : (
           <AutoFormSubmit>
             <>Kaydet</>
           </AutoFormSubmit>
-        </AutoForm>
-      </ScrollArea>
+        )}
+      </AutoForm>
 
       <ConfirmDialog
         description={confirmDialogContent.description}

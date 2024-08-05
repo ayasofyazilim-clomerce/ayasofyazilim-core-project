@@ -2,24 +2,24 @@
 
 import type { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto } from "@ayasofyazilim/saas/AccountService";
 import { createContext, useContext } from "react";
-import type { resourceResult } from "src/utils";
+import type { ResourceResult } from "src/utils";
 import { getBaseLink } from "src/utils";
 
 type ResourceDto =
   Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationResourceDto;
-type ResourcesProps = Record<string, ResourceDto> | resourceResult;
-interface ILocaleProviderProps {
+type ResourcesProps = Record<string, ResourceDto> | ResourceResult;
+interface LocaleProviderProps {
   resources: ResourcesProps;
   children: JSX.Element;
   lang: string;
 }
-interface ILocaleContextProps {
+interface LocaleContextProps {
   changeLocale?: (_cultureName: string) => void;
   resources: ResourcesProps;
   cultureName: string | undefined;
 }
 
-export const LocaleContext = createContext<ILocaleContextProps>({
+export const LocaleContext = createContext<LocaleContextProps>({
   cultureName: undefined,
   resources: {},
 });
@@ -32,7 +32,7 @@ export function LocaleProvider({
   children,
   lang,
   resources,
-}: ILocaleProviderProps) {
+}: LocaleProviderProps) {
   function changeLocale(cultureName: string) {
     if (!cultureName) return;
     const newUrl = `${cultureName}/${location.pathname.split("/").slice(2).join("/")}`;

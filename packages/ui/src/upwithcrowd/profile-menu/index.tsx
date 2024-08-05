@@ -85,10 +85,7 @@ export function ProfileMenu({
                 <User className="mr-2 h-4 w-4" />
                 <span>{user.name}</span>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem>
-                <Building2 className="mr-2 h-4 w-4" />
-                <span>Ayasofyazılım</span>
-              </DropdownMenuItem> */}
+
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <PlusCircle className="mr-2 h-4 w-4" />

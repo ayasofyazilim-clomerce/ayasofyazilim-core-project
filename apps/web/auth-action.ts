@@ -29,7 +29,10 @@ export async function signInServer({
       password,
     });
     if (result?.description !== "Success") {
-      return result;
+      return {
+        status: 500,
+        description: result.error.message,
+      };
     }
 
     await signIn("credentials", {

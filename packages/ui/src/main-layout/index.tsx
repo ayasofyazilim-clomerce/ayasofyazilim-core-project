@@ -198,10 +198,10 @@ export function MenuItemTrigger({
   }
   return (
     <Tooltip>
-      <AccordionTrigger
+      <div
         key={item.key}
         data-has-child={item.submenu ? true : false}
-        className={`${isActive ? " border-r-2 border-primary bg-red-50" : ""} flex px-4 justify-start hover:no-underline  h-10 items-center gap-2 [&[data-has-child=false]>svg]:hidden p-0 ${isFromSubMenu ? "pl-6 pr-4" : `${minNavbar ? "pr-0" : "pr-4"}`} `}
+        className={`${isActive ? " border-r-2 border-primary bg-red-50" : ""} flex justify-start hover:no-underline  h-10 items-center gap-2 [&[data-has-child=false]>svg]:hidden p-0 ${isFromSubMenu ? "pl-6 pr-4" : `${minNavbar ? "pr-0" : "pr-4"}`} `}
       >
         <Link
           href={item.href}
@@ -225,7 +225,7 @@ export function MenuItemTrigger({
           )}
           {item.badge && !minNavbar && <NavigationBadge {...item.badge} />}
         </Link>
-      </AccordionTrigger>
+      </div>
     </Tooltip>
   );
 }
