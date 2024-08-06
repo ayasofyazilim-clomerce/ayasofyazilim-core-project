@@ -23,6 +23,8 @@ export default async function Layout({ children, params }: LayoutProps) {
   const appName = params.city;
   const config = getConfig(appName);
 
+  const project = process.env.APPLICATION_NAME;
+
   const session = await auth();
   const user = session?.user;
   const links: linksProp = [
@@ -94,23 +96,26 @@ export default async function Layout({ children, params }: LayoutProps) {
     registerURL: getBaseLink(`register`, true, params.lang),
     user,
     imageURL: "https://github.com/shadcn.png",
-    menuLinks: [
-      {
-        href: getBaseLink(`app/admin`, true, params.lang),
-        title: languageData.AdminCenter,
-        icon: <ShieldAlert className="mr-2 h-4 w-4" />,
-      },
-      {
-        href: getBaseLink(`app/entrepreneur`, true, params.lang),
-        title: languageData.EntrepreneurCenter,
-        icon: <Projector className="mr-2 h-4 w-4" />,
-      },
-      {
-        href: getBaseLink(`app/investor`, true, params.lang),
-        title: languageData.InvestorCenter,
-        icon: <Worm className="mr-2 h-4 w-4" />,
-      },
-    ],
+    menuLinks:
+      project === "UPWITHCROWD"
+        ? [
+            {
+              href: getBaseLink(`app/admin`, true, params.lang),
+              title: languageData.AdminCenter,
+              icon: <ShieldAlert className="mr-2 h-4 w-4" />,
+            },
+            {
+              href: getBaseLink(`app/entrepreneur`, true, params.lang),
+              title: languageData.EntrepreneurCenter,
+              icon: <Projector className="mr-2 h-4 w-4" />,
+            },
+            {
+              href: getBaseLink(`app/investor`, true, params.lang),
+              title: languageData.InvestorCenter,
+              icon: <Worm className="mr-2 h-4 w-4" />,
+            },
+          ]
+        : [],
     isLoggedIn: Boolean(user),
     signOutFunction: signOutServer,
     resources,

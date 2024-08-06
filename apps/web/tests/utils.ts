@@ -26,7 +26,7 @@ export async function loginAsAdmin(page: Page) {
 
 export async function expectStatusMessage(
   page: Page,
-  message: string | RegExp | readonly (string | RegExp)[]
+  message: string | RegExp | readonly (string | RegExp)[],
 ) {
   await expect(page.getByRole("status")).toContainText(message);
 }

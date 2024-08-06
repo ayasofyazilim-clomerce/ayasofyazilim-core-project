@@ -106,7 +106,7 @@ export function ProfileMenu({
           ))}
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
+        {menuLinks && menuLinks.length > 0 && <DropdownMenuSeparator />}
 
         {signOutFunction && (
           <DropdownMenuItem

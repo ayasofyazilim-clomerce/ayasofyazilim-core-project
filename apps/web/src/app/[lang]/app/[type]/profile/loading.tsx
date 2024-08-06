@@ -1,14 +1,13 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PageHeader } from "@repo/ayasofyazilim-ui/molecules/page-header";
 import { SectionLayoutNavbar } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 
 export default function Page() {
   return (
     <>
-      <div className="mb-4 space-y-2">
-        <Skeleton className="h-6 w-80 bg-gray-200" />
-        <Skeleton className="h-6 w-120 bg-gray-200" />
-      </div>
+      <PageHeader isLoading={true} />
+
       <div className="flex justify-end flex-row my-2">
         <Skeleton className="h-9 w-40 bg-gray-200" />
       </div>
