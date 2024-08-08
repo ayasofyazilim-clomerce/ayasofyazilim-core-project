@@ -143,6 +143,14 @@ export default async function Layout({ children, params }: LayoutProps) {
       appType: "unirefund",
     },
     {
+      key: "Template",
+      title: languageData.Template,
+      href: getBaseLink(`app/${type}/template/rebate`, true, params.lang),
+      icon: <FileBadge className="text-slate-500 w-4" />,
+      type: "admin",
+      appType: "unirefund",
+    },
+    {
       key: "company",
       title: languageData.Companies,
       href: getBaseLink(`app/${type}/company/merchants`, true, params.lang),
