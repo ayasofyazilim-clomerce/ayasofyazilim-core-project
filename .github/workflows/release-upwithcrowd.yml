@@ -11,4 +11,4 @@ jobs:
     steps:
     - run: echo "🎉 Going Live!"
     - name: Release upwithcrowd
-      run: ssh ubuntu "cd ~/frontend/prod_upwithcrowd && chmod 777 publish.sh && ./publish.sh 3599 upwithcrowd_prod"
+      run: ssh ubuntu "cd ~/frontend/upwithcrowd_prod && chmod 777 publish.sh && ./publish.sh 3599 upwithcrowd_prod"
