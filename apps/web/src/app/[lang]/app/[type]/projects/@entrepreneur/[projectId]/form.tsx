@@ -112,7 +112,7 @@ export default function ProjectForm({
 
       const result = await updateProjectServer(
         projectId,
-        formValues as PutApiProjectServiceProjectsByIdData["requestBody"]
+        formValues as PutApiProjectServiceProjectsByIdData["requestBody"],
       );
       if (result.status === 200) {
         setIsSubmitDisabled(true);
@@ -389,7 +389,7 @@ export default function ProjectForm({
                       className={cn(
                         "w-[280px] justify-start text-left font-normal",
                         !formValues.startDate &&
-                          "text-muted-foreground border-red-500"
+                          "text-muted-foreground border-red-500",
                       )}
                       variant="outline"
                     >

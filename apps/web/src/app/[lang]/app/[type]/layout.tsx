@@ -122,7 +122,7 @@ export default async function Layout({ children, params }: LayoutProps) {
       icon: <Presentation className="text-slate-500 w-4" />,
       submenu: dashboards,
       type: "admin",
-      appType: "unirefund",
+      appType: "upwithcrowd",
     },
     ...dashboards,
     {
