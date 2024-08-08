@@ -1,10 +1,33 @@
 import bursa from "public/bursa.svg";
-import istanbul from "public/istanbul.svg";
+// import istanbul from "public/istanbul.svg";
 import konya from "public/konya.svg";
 import sakarya from "public/sakarya.svg";
 import { getBaseLink } from "src/utils";
 
-export const cityConfigs: Record<string, any> = {
+export const cityConfigs: Record<
+  string,
+  {
+    key: string;
+    name: string;
+    link: string;
+    with: string;
+    its: string;
+    full: string;
+    logo: string;
+    texts: {
+      hero: string;
+    };
+    colors: {
+      primary: string;
+      secondary: string;
+    };
+    images: {
+      hero: string;
+      second: string;
+      footer: string;
+    };
+  }
+> = {
   bursa: {
     key: "bursa",
     name: "Bursa",
@@ -13,6 +36,27 @@ export const cityConfigs: Record<string, any> = {
     its: "Bursa'nın",
     full: "Bursa Sanayi Odası",
     logo: "https://www.btso.org.tr/image/logo.png",
+    texts: {
+      hero: "Ortak aklın gücüyle geleceğin kentine",
+    },
+    colors: {
+      primary: "",
+      secondary: "",
+    },
+    images: {
+      hero: "",
+      second: bursa.src,
+      footer: "https://i.hizliresim.com/97pq8fz.png",
+    },
+  },
+  kocaelibelediyesi: {
+    key: "kocaelibelediyesi",
+    name: "Kocaeli",
+    link: getBaseLink("/public/kocaelibelediyesi", true),
+    with: "Kocaeli Büyükşehir Belediyesi ile",
+    its: "Kocaeli Büyükşehir Belediyesi'nin",
+    full: "Kocaeli Büyükşehir Belediyesi",
+    logo: "https://i.imgur.com/ywHnijl.png",
     texts: {
       hero: "Ortak aklın gücüyle geleceğin kentine",
     },
@@ -68,27 +112,27 @@ export const cityConfigs: Record<string, any> = {
       footer: "https://i.hizliresim.com/2avyu3e.png",
     },
   },
-  istanbul: {
-    key: "istanbul",
-    name: "İstanbul",
-    link: getBaseLink("/public/istanbul", true),
-    with: "İstanbul ile",
-    its: "İstanbul'un",
-    full: "İstanbul Sanayi Odası",
-    logo: "https://i.hizliresim.com/kbfuovo.png",
-    texts: {
-      hero: "İstanbul büyürse Türkiye büyür",
-    },
-    colors: {
-      primary: "",
-      secondary: "",
-    },
-    images: {
-      hero: "",
-      second: istanbul.src,
-      footer: "https://i.hizliresim.com/gnbeshr.png",
-    },
-  },
+  // istanbul: {
+  //   key: "istanbul",
+  //   name: "İstanbul",
+  //   link: getBaseLink("/public/istanbul", true),
+  //   with: "İstanbul ile",
+  //   its: "İstanbul'un",
+  //   full: "İstanbul Sanayi Odası",
+  //   logo: "https://i.hizliresim.com/kbfuovo.png",
+  //   texts: {
+  //     hero: "İstanbul büyürse Türkiye büyür",
+  //   },
+  //   colors: {
+  //     primary: "",
+  //     secondary: "",
+  //   },
+  //   images: {
+  //     hero: "",
+  //     second: istanbul.src,
+  //     footer: "https://i.hizliresim.com/gnbeshr.png",
+  //   },
+  // },
   sakarya: {
     key: "sakarya",
     name: "Sakarya",
@@ -113,5 +157,5 @@ export const cityConfigs: Record<string, any> = {
 };
 
 export function getConfig(appName = "konya") {
-  return cityConfigs[appName] || cityConfigs.konya;
+  return cityConfigs[appName];
 }
