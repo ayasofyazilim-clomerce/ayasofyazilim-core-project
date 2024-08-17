@@ -11,11 +11,11 @@ import { ProjectStatusEnums } from "src/enums/project";
 const BrandList = [
   {
     title: "beets&roots",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630feda72991.webp",
+    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cd7cb414.webp",
   },
   {
     title: "cargaroo",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630ff20b3ac2.webp",
+    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cc17dafb.webp",
   },
   // {
   //   title: "heeros",
@@ -27,11 +27,11 @@ const BrandList = [
   },
   {
     title: "beets&roots",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630feda72991.webp",
+    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cd7cb414.webp",
   },
   {
     title: "cargaroo",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630ff20b3ac2.webp",
+    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cc17dafb.webp",
   },
   // {
   //   title: "heeros",
