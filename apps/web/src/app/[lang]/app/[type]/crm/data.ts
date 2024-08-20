@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- TODO: we need to fix this*/
 import {
-  $UniRefund_SettingService_ProductGroups_CreateProductGroupDto,
-  $UniRefund_SettingService_ProductGroups_ProductGroupDto,
-  $UniRefund_SettingService_ProductGroups_UpdateProductGroupDto,
-  $UniRefund_SettingService_ProductGroupVats_CreateProductGroupVatDto,
-  $UniRefund_SettingService_ProductGroupVats_ProductGroupVatDto,
-  $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
-  $UniRefund_SettingService_Vats_CreateVatDto,
-  $UniRefund_SettingService_Vats_UpdateVatDto,
-  $UniRefund_SettingService_Vats_VatDto,
-} from "@ayasofyazilim/saas/SettingService";
-import { getBaseLink } from "src/utils";
+  $UniRefund_CRMService_Merchants_MerchantProfileDto,
+  $UniRefund_CRMService_Merchants_CreateMerchantDto,
+  $UniRefund_CRMService_RefundPoints_CreateRefundPointDto,
+  $UniRefund_CRMService_RefundPoints_RefundPointDto,
+  $UniRefund_CRMService_Customss_CreateCustomsDto,
+  $UniRefund_CRMService_Customss_CustomsProfileDto,
+  $UniRefund_CRMService_TaxFrees_CreateTaxFreeDto,
+  $UniRefund_CRMService_TaxFrees_TaxFreeProfileDto,
+  $UniRefund_CRMService_TaxOffices_CreateTaxOfficeDto,
+  $UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto,
+} from "@ayasofyazilim/saas/CRMService";
 
 export const dataConfigOfCrm: Record<string, any> = {
   companies: {
@@ -19,49 +19,34 @@ export const dataConfigOfCrm: Record<string, any> = {
     merchants: {
       title: "Merchants",
       createFormSchema: {
-        formPositions: ["percent", "minimumTotalAmount", "countryId", "active"],
-        schema: $UniRefund_SettingService_Vats_CreateVatDto,
-        convertors: {
-          countryId: {
-            data: () => {
-              return fetch(getBaseLink("api/management/country")).then((data) =>
-                data.json(),
-              );
-            },
-            get: "name",
-            post: "id",
-            type: "async",
-          },
-        },
+        formPositions: Object.keys(
+          $UniRefund_CRMService_Merchants_CreateMerchantDto.properties
+            .entityInformationTypes.items.properties.organizations.items
+            .properties,
+        ),
+        schema:
+          $UniRefund_CRMService_Merchants_CreateMerchantDto.properties
+            .entityInformationTypes.items.properties.organizations.items,
       },
-      editFormSchema: {
-        formPositions: ["percent", "minimumTotalAmount", "countryId", "active"],
-        schema: $UniRefund_SettingService_Vats_UpdateVatDto,
-        convertors: {
-          countryId: {
-            data: () => {
-              return fetch(getBaseLink("api/management/country")).then((data) =>
-                data.json(),
-              );
-            },
-            get: "name",
-            post: "id",
-            type: "async",
-          },
-        },
-      },
+      // editFormSchema: {
+      //   formPositions: ["percent", "minimumTotalAmount", "countryId", "active"],
+      //   schema: $UniRefund_SettingService_Vats_UpdateVatDto,
+      //   convertors: {
+      //     countryId: {
+      //       data: () => {
+      //         return fetch(getBaseLink("api/management/country")).then((data) =>
+      //           data.json(),
+      //         );
+      //       },
+      //       get: "name",
+      //       post: "id",
+      //       type: "async",
+      //     },
+      //   },
+      // },
       tableSchema: {
-        excludeList: [
-          "id",
-          "creationTime",
-          "creatorId",
-          "lastModificationTime",
-          "lastModifierId",
-          "isDeleted",
-          "deleterId",
-          "deletionTime",
-        ],
-        schema: $UniRefund_SettingService_Vats_VatDto,
+        excludeList: ["id"],
+        schema: $UniRefund_CRMService_Merchants_MerchantProfileDto,
       },
     },
     refundPoints: {
@@ -76,33 +61,23 @@ export const dataConfigOfCrm: Record<string, any> = {
           "active",
           "food",
         ],
-        schema: $UniRefund_SettingService_ProductGroups_CreateProductGroupDto,
+        schema: $UniRefund_CRMService_RefundPoints_CreateRefundPointDto,
       },
-      editFormSchema: {
-        formPositions: [
-          "name",
-          "articleCode",
-          "unitCode",
-          "companyType",
-          "nonFood",
-          "active",
-          "food",
-        ],
-        schema: $UniRefund_SettingService_ProductGroups_UpdateProductGroupDto,
-      },
+      // editFormSchema: {
+      //   formPositions: [
+      //     "name",
+      //     "articleCode",
+      //     "unitCode",
+      //     "companyType",
+      //     "nonFood",
+      //     "active",
+      //     "food",
+      //   ],
+      //   schema: $UniRefund_SettingService_ProductGroups_UpdateProductGroupDto,
+      // },
       tableSchema: {
-        excludeList: [
-          "id",
-          "creationTime",
-          "creatorId",
-          "lastModificationTime",
-          "lastModifierId",
-          "isDeleted",
-          "deleterId",
-          "deletionTime",
-          "language",
-        ],
-        schema: $UniRefund_SettingService_ProductGroups_ProductGroupDto,
+        excludeList: ["id"],
+        schema: $UniRefund_CRMService_RefundPoints_RefundPointDto,
       },
     },
     customs: {
@@ -110,26 +85,16 @@ export const dataConfigOfCrm: Record<string, any> = {
       filterBy: "",
       createFormSchema: {
         formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_CreateProductGroupVatDto,
+        schema: $UniRefund_CRMService_Customss_CreateCustomsDto,
       },
-      editFormSchema: {
-        formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
-      },
+      // editFormSchema: {
+      //   formPositions: ["productGroupId", "countryId", "vatId", "active"],
+      //   schema:
+      //     $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
+      // },
       tableSchema: {
-        excludeList: [
-          "id",
-          "creationTime",
-          "creatorId",
-          "lastModificationTime",
-          "lastModifierId",
-          "isDeleted",
-          "deleterId",
-          "deletionTime",
-        ],
-        schema: $UniRefund_SettingService_ProductGroupVats_ProductGroupVatDto,
+        excludeList: ["id"],
+        schema: $UniRefund_CRMService_Customss_CustomsProfileDto,
       },
     },
     taxFree: {
@@ -137,26 +102,16 @@ export const dataConfigOfCrm: Record<string, any> = {
       filterBy: "",
       createFormSchema: {
         formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_CreateProductGroupVatDto,
+        schema: $UniRefund_CRMService_TaxFrees_CreateTaxFreeDto,
       },
-      editFormSchema: {
-        formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
-      },
+      // editFormSchema: {
+      //   formPositions: ["productGroupId", "countryId", "vatId", "active"],
+      //   schema:
+      //     $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
+      // },
       tableSchema: {
-        excludeList: [
-          "id",
-          "creationTime",
-          "creatorId",
-          "lastModificationTime",
-          "lastModifierId",
-          "isDeleted",
-          "deleterId",
-          "deletionTime",
-        ],
-        schema: $UniRefund_SettingService_ProductGroupVats_ProductGroupVatDto,
+        excludeList: ["id"],
+        schema: $UniRefund_CRMService_TaxFrees_TaxFreeProfileDto,
       },
     },
     taxOffices: {
@@ -164,26 +119,16 @@ export const dataConfigOfCrm: Record<string, any> = {
       filterBy: "",
       createFormSchema: {
         formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_CreateProductGroupVatDto,
+        schema: $UniRefund_CRMService_TaxOffices_CreateTaxOfficeDto,
       },
-      editFormSchema: {
-        formPositions: ["productGroupId", "countryId", "vatId", "active"],
-        schema:
-          $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
-      },
+      // editFormSchema: {
+      //   formPositions: ["productGroupId", "countryId", "vatId", "active"],
+      //   schema:
+      //     $UniRefund_SettingService_ProductGroupVats_UpdateProductGroupVatDto,
+      // },
       tableSchema: {
-        excludeList: [
-          "id",
-          "creationTime",
-          "creatorId",
-          "lastModificationTime",
-          "lastModifierId",
-          "isDeleted",
-          "deleterId",
-          "deletionTime",
-        ],
-        schema: $UniRefund_SettingService_ProductGroupVats_ProductGroupVatDto,
+        excludeList: ["id"],
+        schema: $UniRefund_CRMService_TaxOffices_TaxOfficeProfileDto,
       },
     },
   },
