@@ -20,7 +20,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@ayasofyazilim/saas": "^0.0.33",
+    "@ayasofyazilim/saas": "0.0.29",
     "@repo/eslint-config": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
