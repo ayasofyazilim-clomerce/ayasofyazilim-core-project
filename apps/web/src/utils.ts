@@ -174,11 +174,12 @@ export function generateNavigationItems(
 // schema: SchemaType
 export function createZodObject(
   schema: any,
-  positions: any[],
+  positions?: string[],
   convertors?: Record<string, any>,
 ): ZodObjectOrWrapped {
   const zodSchema: Record<string, ZodSchema> = {};
-  positions.forEach((element: string) => {
+  const tempPositions = positions ? positions : Object.keys(schema.properties);
+  tempPositions.forEach((element: string) => {
     if (element === "extraProperties") return;
     const props = schema?.properties?.[element];
     const isRequired = schema.required?.includes(element) || false;
