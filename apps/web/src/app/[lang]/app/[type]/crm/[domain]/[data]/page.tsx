@@ -1,7 +1,6 @@
 /* eslint-disable no-await-in-loop, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import { toast } from "@/components/ui/sonner";
-import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnsType,
   MenuAction,
@@ -163,40 +162,8 @@ export default function Page({
     action = [
       {
         cta: `New ${formData.title}`,
-        description: `Create a new ${formData.title}`,
-        componentType: "Autoform",
-        autoFormArgs: {
-          formSchema: createZodObject(
-            createFormSchema.schema,
-            createFormSchema.formPositions || [],
-            createFormSchema.convertors || {},
-          ),
-          fieldConfig: {
-            all: {
-              withoutBorder: true,
-            },
-          },
-        },
-        callback: (e) => {
-          const transformedData = parseFormValues(createFormSchema, e);
-          void controlledFetch(
-            fetchLink,
-            {
-              method: "POST",
-              body: JSON.stringify(transformedData),
-            },
-            getRoles,
-            "Added Successfully",
-          );
-        },
-        type: "Dialog",
-      },
-      {
-        cta: `Export CSV`,
-        callback: () => {
-          jsonToCSV(roles, params.data);
-        },
-        type: "Action",
+        type: "NewPage",
+        href: "/app/admin/crm/companies/merchants/new",
       },
     ];
   }
