@@ -1,6 +1,6 @@
 "use server";
 
-import { getResourceData } from "src/language-data/Projects/projects";
+import { getResourceData } from "src/language-data/ProjectService";
 import { getProjectServiceClient } from "src/lib";
 import { getBaseLink } from "src/utils";
 import { ProjectStatusEnums } from "src/enums/project";

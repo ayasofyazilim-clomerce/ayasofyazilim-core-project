@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO: we need to fix this*/
 "use client";
 import { Button } from "@repo/ayasofyazilim-ui/atoms/button";
 import {
@@ -305,36 +306,37 @@ const DashboardJson = {
         <DataTable
           columnsData={{
             type: "Custom",
-            data: [
-              {
-                id: "select",
-                enableSorting: false,
-                enableHiding: false,
-              },
-              {
-                accessorKey: "result",
-                header: "Result",
-              },
-              {
-                accessorKey: "tags",
-                header: "Tags",
-              },
-              {
-                accessorKey: "sales",
-                header: "Sales",
-              },
-              {
-                accessorKey: "vat",
-                header: "VAT",
-              },
-              {
-                accessorKey: "atv",
-                header: "ATV",
-              },
-            ],
+            data: {
+              columns: [
+                {
+                  id: "select",
+                  enableSorting: false,
+                  enableHiding: false,
+                },
+                {
+                  accessorKey: "result",
+                  header: "Result",
+                },
+                {
+                  accessorKey: "tags",
+                  header: "Tags",
+                },
+                {
+                  accessorKey: "sales",
+                  header: "Sales",
+                },
+                {
+                  accessorKey: "vat",
+                  header: "VAT",
+                },
+                {
+                  accessorKey: "atv",
+                  header: "ATV",
+                },
+              ],
+            },
           }}
           data={top5Chains}
-          filterBy="result"
         />
       ),
       className: "",
@@ -350,40 +352,41 @@ const DashboardJson = {
         <DataTable
           columnsData={{
             type: "Custom",
-            data: [
-              {
-                id: "select",
-                enableSorting: false,
-                enableHiding: false,
-              },
-              {
-                accessorKey: "result",
-                header: "Result",
-              },
-              {
-                accessorKey: "tags",
-                header: "Tags",
-              },
-              {
-                accessorKey: "%ofTotal",
-                header: "% Of Total",
-              },
-              {
-                accessorKey: "sis",
-                header: "SIS",
-              },
-              {
-                accessorKey: "vat",
-                header: "VAT",
-              },
-              {
-                accessorKey: "atv",
-                header: "ATV",
-              },
-            ],
+            data: {
+              columns: [
+                {
+                  id: "select",
+                  enableSorting: false,
+                  enableHiding: false,
+                },
+                {
+                  accessorKey: "result",
+                  header: "Result",
+                },
+                {
+                  accessorKey: "tags",
+                  header: "Tags",
+                },
+                {
+                  accessorKey: "%ofTotal",
+                  header: "% Of Total",
+                },
+                {
+                  accessorKey: "sis",
+                  header: "SIS",
+                },
+                {
+                  accessorKey: "vat",
+                  header: "VAT",
+                },
+                {
+                  accessorKey: "atv",
+                  header: "ATV",
+                },
+              ],
+            },
           }}
           data={top5Stores}
-          filterBy="result"
         />
       ),
       className: "",
@@ -409,16 +412,16 @@ export default function Charts() {
   }
 
   return (
-    <ScrollArea className="h-full flex [&>div>div]:h-full">
-      <div className="grow flex flex-col-reverse h-full">
+    <ScrollArea className="flex h-full [&>div>div]:h-full">
+      <div className="flex h-full grow flex-col-reverse">
         <SortableLayout
-          className="h-full p-4 grid-cols-2"
+          className="h-full grid-cols-2 p-4"
           editMode={sortableEditMode}
           getLatestList={getLatestList}
           items={DashboardJson.items}
           renderItem={(item: any) => {
             return (
-              <Card className="h-full shadow-none rounded-md">
+              <Card className="h-full rounded-md shadow-none">
                 <CardHeader>{item.title}</CardHeader>
                 <CardContent>
                   {item.type === "barChart" && <BarChartHero item={item} />}
@@ -434,9 +437,9 @@ export default function Charts() {
             );
           }}
         />
-        <div className="w-full h-16 bg-white border-b flex items-center px-4 sticky top-0">
+        <div className="sticky top-0 flex h-16 w-full items-center border-b bg-white px-4">
           <Button
-            className="p-0 w-8 h-8 shadow bg-white text-slate-900"
+            className="h-8 w-8 bg-white p-0 text-slate-900 shadow"
             onClick={handleEditMode}
             variant="secondary"
           >
@@ -485,7 +488,7 @@ function BarListHero({ item }: any) {
 function CategoryBarHero({ item }: any) {
   return (
     <CategoryBar
-      className="mx-auto p-4 w-full"
+      className="mx-auto w-full p-4"
       colors={["pink", "amber", "emerald"]}
       marker={{ value: 99, tooltip: "68", showAnimation: true }}
       values={item.data}

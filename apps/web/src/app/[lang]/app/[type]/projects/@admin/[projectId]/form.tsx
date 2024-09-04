@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import {
   Accordion,
@@ -137,7 +138,7 @@ export default function ProjectForm({
 
           <AccordionContent className="px-6">
             <div className="w-full">
-              <div className="grid w-full items-center gap-3 mt-4">
+              <div className="mt-4 grid w-full items-center gap-3">
                 <Label htmlFor="projectName">{languageData.ProjectName}</Label>
                 <Input
                   disabled
@@ -150,11 +151,11 @@ export default function ProjectForm({
                   }}
                   value={formValues.name || ""}
                 />
-                <p className="text-[0.8rem] text-muted-foreground">
+                <p className="text-muted-foreground text-[0.8rem]">
                   {languageData.ProjectNameInfo}
                 </p>
               </div>
-              <div className="grid w-full items-center gap-3 mt-4">
+              <div className="mt-4 grid w-full items-center gap-3">
                 <Label htmlFor="projectDefinition">
                   {languageData.ProjectDescription}
                 </Label>
@@ -168,7 +169,7 @@ export default function ProjectForm({
                   }}
                   value={formValues.definition || ""}
                 />
-                <p className="text-[0.8rem] text-muted-foreground">
+                <p className="text-muted-foreground text-[0.8rem]">
                   {languageData.ProjectDescriptionInfo}
                 </p>
               </div>
@@ -246,7 +247,7 @@ export default function ProjectForm({
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
             <div className="w-full">
-              <div className="grid w-full items-center gap-3 mt-4 ">
+              <div className="mt-4 grid w-full items-center gap-3 ">
                 <Label htmlFor="fundCollectionType">
                   {languageData.FundCollectionType}
                 </Label>
@@ -276,11 +277,11 @@ export default function ProjectForm({
                     </SelectContent>
                   </Select>
                 </div>
-                <p className="text-[0.8rem] text-muted-foreground">
+                <p className="text-muted-foreground text-[0.8rem]">
                   {languageData.FundCollectionTypeInfo}
                 </p>
               </div>
-              <div className="grid w-full items-center gap-3 mt-4 ">
+              <div className="mt-4 grid w-full items-center gap-3 ">
                 <div className="relative">
                   <NumericInput
                     direction="column"
@@ -297,45 +298,47 @@ export default function ProjectForm({
                     subLabel=""
                     value={formValues.fundableAmount || 0}
                   />
-                  <p className="text-[0.8rem] text-muted-foreground mt-2">
+                  <p className="text-muted-foreground mt-2 text-[0.8rem]">
                     {languageData.FundableAmountInfo}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="mt-8 flex flex-row flex-wrap justify-end gap-4">
-              <CustomButton
-                className="w-[120px]"
-                onClick={() => {
-                  setFormValuesValidation({
-                    ...formValuesValidation,
-                    fundCollectionType: false,
-                    fundableAmount: false,
-                  });
-                  setFormValuesValidationChanged(true);
-                  setAccordionTab("item-3");
-                }}
-                variant="destructive"
-              >
-                Reddet
-              </CustomButton>
+            {projectData.status === ProjectStatusEnums.SENT_FOR_APPROVAL && (
+              <div className="mt-8 flex flex-row flex-wrap justify-end gap-4">
+                <CustomButton
+                  className="w-[120px]"
+                  onClick={() => {
+                    setFormValuesValidation({
+                      ...formValuesValidation,
+                      fundCollectionType: false,
+                      fundableAmount: false,
+                    });
+                    setFormValuesValidationChanged(true);
+                    setAccordionTab("item-3");
+                  }}
+                  variant="destructive"
+                >
+                  Reddet
+                </CustomButton>
 
-              <CustomButton
-                className="w-[120px]"
-                customVariant="success"
-                onClick={() => {
-                  setFormValuesValidation({
-                    ...formValuesValidation,
-                    fundCollectionType: true,
-                    fundableAmount: true,
-                  });
-                  setFormValuesValidationChanged(true);
-                  setAccordionTab("item-3");
-                }}
-              >
-                Onayla
-              </CustomButton>
-            </div>
+                <CustomButton
+                  className="w-[120px]"
+                  customVariant="success"
+                  onClick={() => {
+                    setFormValuesValidation({
+                      ...formValuesValidation,
+                      fundCollectionType: true,
+                      fundableAmount: true,
+                    });
+                    setFormValuesValidationChanged(true);
+                    setAccordionTab("item-3");
+                  }}
+                >
+                  Onayla
+                </CustomButton>
+              </div>
+            )}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem className="my-2 border" value="item-3">
@@ -372,7 +375,7 @@ export default function ProjectForm({
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
             <div className="w-full">
-              <div className="grid w-full items-center gap-3 mt-4 ">
+              <div className="mt-4 grid w-full items-center gap-3 ">
                 <Label htmlFor="overFunding">
                   {languageData.AdditionalFunding}
                 </Label>
@@ -399,7 +402,7 @@ export default function ProjectForm({
                     </SelectContent>
                   </Select>
                 </div>
-                <p className="text-[0.8rem] text-muted-foreground">
+                <p className="text-muted-foreground text-[0.8rem]">
                   {languageData.AdditionalFundingInfo}
                 </p>
               </div>
@@ -412,7 +415,7 @@ export default function ProjectForm({
                 >
                   <AccordionItem value="item-1">
                     <AccordionContent>
-                      <div className="grid w-full items-center gap-3 mt-4 ">
+                      <div className="mt-4 grid w-full items-center gap-3 ">
                         <div className="relative">
                           <NumericInput
                             direction="column"
@@ -434,7 +437,7 @@ export default function ProjectForm({
                               formValues.additionalFundRate || "0",
                             )}
                           />
-                          <p className="text-[0.8rem] text-muted-foreground mt-2">
+                          <p className="text-muted-foreground mt-2 text-[0.8rem]">
                             {languageData.AdditionalFundingRateInfo}
                           </p>
                         </div>
@@ -507,7 +510,7 @@ export default function ProjectForm({
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
             <div className="w-full">
-              <div className="grid w-full items-center gap-3 mt-4 ">
+              <div className="mt-4 grid w-full items-center gap-3 ">
                 <div className="relative">
                   <Popover>
                     <PopoverTrigger asChild>
@@ -528,21 +531,16 @@ export default function ProjectForm({
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
                       <Calendar
+                        disabled
                         fromDate={new Date()}
                         initialFocus
                         mode="single"
-                        onSelect={(value) => {
-                          setFormValues({
-                            ...formValues,
-                            startDate: value?.toISOString() || "",
-                          });
-                        }}
                         selected={new Date(formValues.startDate || 0)}
                       />
                     </PopoverContent>
                   </Popover>
                 </div>
-                <p className="text-[0.8rem] text-muted-foreground">
+                <p className="text-muted-foreground text-[0.8rem]">
                   {languageData.ProjectStartDateInfo}
                 </p>
               </div>

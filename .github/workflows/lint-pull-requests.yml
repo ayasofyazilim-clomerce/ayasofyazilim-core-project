@@ -1,0 +1,55 @@
+name: Lint
+run-name: Linting the Pull request 🚀
+on:
+  pull_request_target:
+    branches: [main]
+    types:
+      - opened
+      - synchronize
+      - edited
+permissions:
+  pull-requests: write
+  contents: write
+jobs:
+  lint_project:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - run: echo "🎉 The job is linting the project"
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.7.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+      - name: format
+        run: |
+          cd apps/web
+          pnpm format
+      - name: lint
+        run: |
+          cd apps/web 
+          pnpm lint:fix
+      - name: Check types
+        run: |
+          cd apps/web
+          pnpm type-check
+      - name: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
+          push: true

@@ -21,12 +21,20 @@
   "LogIn": "Log In",
   "MyAccount": "My Account",
   "Add": "Add",
-
+  "Crm": "CRM",
   "Dashboard": "Dashboard",
   "Profile": "Profile",
+  "UserSettings": "User Settings",
   "Details": "Details",
+  "ProductGroups": "Product Groups",
   "Companies": "Companies",
-  "CountrySettings": "Country Settings",
+  "TenantSettings": "Tenant Settings",
+  "RebateTables": "Rebate Tables",
+  "RefundTables": "Refund Tables",
+  "RefundFees": "Refund Fees",
+  "Contracts": "Contracts",
+  "Template": "Template",
+  "VATSettings": "VAT Settings",
   "Settings": "Settings",
   "Projects": "Projects",
   "LanguageManagement": "Language Management",
@@ -36,5 +44,9 @@
   "Identity:claimType": "Claim Types",
   "Identity:securityLogs": "Security Logs",
   "SaasManagement": "SaaS Management",
-  "Investmensts": "Investmensts"
+  "Investmensts": "Investmensts",
+  "Management": "Management",
+  "TextTemplates": "Text Templates",
+  "AdminManagement": "Admin Management",
+  "Traveller": "Traveller"
 }

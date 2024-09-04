@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment -- TODO: we need to fix this*/
 "use client";
 import TipTapEditor from "@repo/ayasofyazilim-ui/organisms/tiptap";
 import {

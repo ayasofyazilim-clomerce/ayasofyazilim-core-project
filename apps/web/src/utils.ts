@@ -1,12 +1,26 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 import type { Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto } from "@ayasofyazilim/saas/AccountService";
+import type {
+  ColumnFilter,
+  TableAction,
+} from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { AutoFormProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import type { ZodObjectOrWrapped } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/utils";
 import type { ZodSchema } from "zod";
 import { z } from "zod";
+import type { AbpUiNavigationResource } from "./language-data/AbpUiNavigation";
 import { defaultResources } from "./resources";
 
 type LocalizationDto =
   Volo_Abp_AspNetCore_Mvc_ApplicationConfigurations_ApplicationLocalizationDto;
 export type ResourcesDto = LocalizationDto["resources"];
+
+type En = Record<string, string>;
+type Other = Record<string, string | undefined> | undefined;
+export interface LanguageDataType {
+  en: En;
+  [key: string]: Other;
+}
 
 export function isServerSide() {
   return typeof window === "undefined";
@@ -39,11 +53,11 @@ function getLocale(locale?: string): string {
   // FIXME: This is a temporary solution for eslint
   if (isServerSide()) {
     //   return localeServerSide();
-    return "tr";
+    return "en";
   }
   const pathname = window.location.pathname;
   const pathnameParts = pathname.split("/");
-  return pathnameParts[1] ?? "tr";
+  return pathnameParts[1] ?? "en";
 }
 function getAppType(appType?: string) {
   if (appType === "public") return `${appType}/`;
@@ -116,12 +130,59 @@ export interface SchemaType {
   items?: SchemaType;
 }
 
+export interface FormModifier {
+  actionList?: (controlledFetch: unknown, getRoles: unknown) => TableAction[];
+  formPositions?: string[];
+  formSubPositions?: Record<string, string[]>;
+  excludeList?: string[];
+  schema: any;
+  convertors?: Record<string, any>;
+  dependencies?: AutoFormProps["dependencies"];
+}
+
+export interface TableData {
+  createFormSchema?: FormModifier;
+  editFormSchema?: FormModifier;
+  tableSchema: FormModifier;
+  title?: string;
+  filterBy?: string;
+  detailedFilters?: ColumnFilter[];
+}
+
 function isJsonSchema(object: any): object is JsonSchema {
   if (!object) return false;
   return "type" in object;
 }
 function isSchemaType(object: any): object is SchemaType {
   return object && "required" in object;
+}
+
+export function generateNavigationItems(
+  dataConfig: Record<string, any>,
+  arrayOfKeys: string[],
+  languageData: AbpUiNavigationResource,
+  baseType: string,
+  baseRoute: string,
+  paramsLang: string,
+  icon: JSX.Element,
+) {
+  return Object.entries(dataConfig)
+    .filter((i) => arrayOfKeys.includes(i[0]))
+    .map(([key, value]) => ({
+      key,
+      title:
+        languageData[
+          value.displayName.replaceAll(" ", "") as keyof typeof languageData
+        ] || value.displayName,
+      href: getBaseLink(
+        `app/${baseType}/${baseRoute}/${key}/${value.default}`,
+        true,
+        paramsLang,
+      ),
+      type: "admin",
+      appType: "",
+      icon,
+    }));
 }
 
 // schema: SchemaType
@@ -159,8 +220,8 @@ export function createZodObject(
           typeof convertors[element].data !== "function"
         ) {
           newProps.type = "select";
-          newProps.enum = convertors[element].data.map(
-            (e: any) => e[convertors[element].get],
+          newProps.enum = convertors[element].data.map((e: any) =>
+            String(e[convertors[element].get]),
           );
         }
         zodType = createZodType(newProps, isRequired);
@@ -211,12 +272,13 @@ function createZodType(schema: JsonSchema, isRequired: boolean): ZodSchema {
       if (schema.default) zodType = zodType.default(schema.default === "true");
       break;
     case "integer":
+    case "number":
       if (schema.enum) {
         const stringEnums = schema.enum.map((e: any) => e.toString());
         zodType = z.enum(stringEnums as [string, ...string[]]);
         break;
       }
-      zodType = z.number().int();
+      zodType = z.coerce.number();
       break;
     case "object":
       zodType = z.object({});

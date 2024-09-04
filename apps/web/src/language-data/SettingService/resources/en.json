@@ -1,0 +1,14 @@
+{
+  "new": "Yeni",
+  "Vat": "VAT",
+  "Vat.New": "New VAT",
+  "Vat.Description": "You can view the VAT descriptions from here.",
+  "ProductGroup": "Product Group",
+  "ProductGroup.New": "New Product Group",
+  "ProductGroup.Description": "You can view the product groups from here.",
+  "ProductGroupVAT": "Product Group VAT",
+  "ProductGroupVAT.New": "New Product Group VAT",
+  "ProductGroupVAT.Description": "You can view the product group VAT descriptions from here.",
+  "TenantSettings": "Tenant Settings",
+  "TenantSettings.Description": "You can view the tenant settings from here."
+}

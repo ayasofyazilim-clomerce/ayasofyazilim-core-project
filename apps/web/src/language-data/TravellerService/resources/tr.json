@@ -1,0 +1,11 @@
+{
+  "Traveller": "Yolcu",
+  "TravellerDetail": "Yolcu Detayı",
+  "NewTraveller": "Yeni Yolcu",
+  "NewTravellerDescription": "Yeni yolcu ekleyin.",
+  "TravellerDescription": "Buradan yolcuları görüntüleyebilirsiniz.",
+  "PersonalInformation": "Kisisel Bilgiler",
+  "EmailInformation": "Email Bilgileri",
+  "AddressInformation": "Adres Bilgileri",
+  "TelephoneInformation": "Telefon Bilgileri"
+}

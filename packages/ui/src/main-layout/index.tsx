@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@repo/ayasofyazilim-ui/atoms/accordion";
+import { Badge } from "@repo/ayasofyazilim-ui/atoms/badge";
 import { Button } from "@repo/ayasofyazilim-ui/atoms/button";
 import { ScrollArea } from "@repo/ayasofyazilim-ui/atoms/scroll-area";
 import {
@@ -38,6 +39,7 @@ export type NavigationItem = {
   icon?: JSX.Element;
   badge?: NavigationBadgeProps;
   submenu?: NavigationItem[];
+  wip?: boolean;
 };
 
 export function MainLayout({
@@ -50,11 +52,11 @@ export function MainLayout({
   return (
     <div className="flex h-screen w-full overflow-hidden">
       <div
-        className={`h-full flex flex-col border-r ${minNavbar ? "min-w-16 max-w-16" : "min-w-72 fixed z-[99] w-full max-w-[unset] sm:z-0 sm:max-w-72 sm:relative"} transition-all`}
+        className={`flex h-full flex-col border-r ${minNavbar ? "min-w-16 max-w-16" : "fixed z-[99] w-full min-w-72 max-w-[unset] sm:relative sm:z-0 sm:max-w-72"} transition-all`}
       >
-        <div className="min-h-16 max-h-16 bg-white px-4 flex items-center border-b">
+        <div className="flex max-h-16 min-h-16 items-center border-b bg-white px-4">
           {appName !== "UNIREFUND" ? (
-            <div className="font-bold text-xl text-primary">
+            <div className="text-primary text-xl font-bold">
               {appName.toLocaleUpperCase()}
             </div>
           ) : (
@@ -75,7 +77,7 @@ export function MainLayout({
             />
           )}
           <Button
-            className={`ml-auto p-0 w-6 h-6 ${minNavbar ? "fixed left-20 border bg-white" : ""}`}
+            className={`ml-auto h-6 w-6 p-0 ${minNavbar ? "fixed left-20 border bg-white" : ""}`}
             variant="link"
             onClick={() => setMinNavbar((prev) => !prev)}
           >
@@ -84,17 +86,17 @@ export function MainLayout({
             />
           </Button>
         </div>
-        <ScrollArea className="grow bg-white pt-4 overflow-auto flex flex-col h-full [&>div>div]:h-full [&>div>div]:flex">
+        <ScrollArea className="flex h-full grow flex-col overflow-auto bg-white pt-4 [&>div>div]:flex [&>div>div]:h-full">
           <Menu minNavbar={minNavbar} navigationItems={navigationItems} />
         </ScrollArea>
       </div>
-      <div className="flex flex-col flex-1 overflow-auto">
+      <div className="flex flex-1 flex-col overflow-auto">
         <div
-          className={`min-h-16 max-h-16 bg-white w-full px-4 flex items-center justify-end border-b ${minNavbar ? "pl-14" : ""}`}
+          className={`flex max-h-16 min-h-16 w-full items-center justify-end border-b bg-white pl-4 ${minNavbar ? "pl-14" : ""}`}
         >
           {topBarComponent}
         </div>
-        <div className="bg-slate-50 p-0 overflow-hidden flex-1 pb-3">
+        <div className="flex-1 overflow-hidden bg-slate-50 p-0 pb-3">
           {children}
         </div>
       </div>
@@ -111,7 +113,7 @@ export function Menu({ minNavbar, navigationItems }: IMenuProps) {
     <Accordion
       type="single"
       collapsible
-      className={`${minNavbar ? "w-16" : "w-full"} h-full max-h-[calc(100%-4rem)] pt-4 inline-table`}
+      className={`${minNavbar ? "w-16" : "w-full"} inline-table h-full max-h-[calc(100%-4rem)] pt-4`}
     >
       {navigationItems.map((item: NavigationItem) => (
         <MenuItem
@@ -134,7 +136,7 @@ export function MenuItem({ item, isFromSubMenu, minNavbar }: IMenuItemProps) {
     <AccordionItem
       value={item.key}
       key={item.key}
-      className={`border-0 p-0 ${minNavbar ? "w-16" : "w-full"}`}
+      className={`border-0 p-0 ${minNavbar ? "w-16" : "w-full"} ${item.wip ? "opacity-50" : ""}`}
       data-has-child={item.submenu ? true : false}
     >
       <MenuItemTrigger
@@ -165,18 +167,30 @@ export function MenuItemTrigger({
   isFromSubMenu,
   minNavbar,
 }: IMenuItemTriggerProps) {
-  const pathname = usePathname().split("/")[2];
-  const isActive = pathname ? "/" + pathname === item.href : item.href === "/";
+  const pathname = usePathname();
+  const itemParentLink = item.href.substring(0, item.href.lastIndexOf("/"));
+  const lastPartOfParentLink = itemParentLink.substring(
+    itemParentLink.lastIndexOf("/") + 1,
+  );
+
+  const isActive =
+    pathname === item.href ||
+    (isFromSubMenu &&
+      (itemParentLink === pathname ||
+        (lastPartOfParentLink !== "refund" &&
+          itemParentLink ===
+            pathname.substring(0, pathname.lastIndexOf("/")))));
+
   if (item.submenu) {
     return (
       <Tooltip>
         <AccordionTrigger
           key={item.key}
           data-has-child={item.submenu ? true : false}
-          className={`${isActive ? " border-r-2 border-primary bg-red-50" : ""} flex justify-start items-center gap-2 h-10 hover:no-underline [&[data-has-child=false]>svg]:hidden py-0 px-4`}
+          className={`${isActive ? " border-primary border-r-2 bg-red-50" : ""} flex h-10 items-center justify-start gap-2 px-4 py-0 hover:no-underline [&[data-has-child=false]>svg]:hidden`}
         >
           <div
-            className={`w-full min-w-4 max-w-4 flex items-center ${minNavbar ? "justify-center  max-w-full" : ""}`}
+            className={`flex w-full min-w-4 max-w-4 items-center ${minNavbar ? "max-w-full  justify-center" : ""}`}
           >
             {minNavbar ? (
               <TooltipTrigger>{item.icon ?? item.icon}</TooltipTrigger>
@@ -187,11 +201,19 @@ export function MenuItemTrigger({
           {minNavbar ? (
             <TooltipContent>{item.title}</TooltipContent>
           ) : (
-            <div className="w-full font-medium text-xs text-left">
+            <div className="w-full text-left text-xs font-medium">
               {item.title}
             </div>
           )}
           {item.badge && !minNavbar && <NavigationBadge {...item.badge} />}
+          {item.wip && (
+            <Badge
+              variant={"outline"}
+              className=" border-0 bg-orange-200 text-orange-600"
+            >
+              WIP
+            </Badge>
+          )}
         </AccordionTrigger>
       </Tooltip>
     );
@@ -201,14 +223,16 @@ export function MenuItemTrigger({
       <div
         key={item.key}
         data-has-child={item.submenu ? true : false}
-        className={`${isActive ? " border-r-2 border-primary bg-red-50" : ""} flex justify-start hover:no-underline  h-10 items-center gap-2 [&[data-has-child=false]>svg]:hidden p-0 ${isFromSubMenu ? "pl-6 pr-4" : `${minNavbar ? "pr-0" : "pr-4"}`} `}
+        className={`${isActive ? " border-primary border-r-2 bg-red-50" : ""} flex h-10 items-center  justify-start gap-2 p-0 hover:no-underline [&[data-has-child=false]>svg]:hidden ${isFromSubMenu ? "pl-6 pr-4" : `${minNavbar ? "pr-0" : "pr-4"}`} `}
       >
         <Link
           href={item.href}
-          className={`flex gap-2 items-center justify-start w-full h-10 ${minNavbar ? "pl-0" : "pl-4"}`}
+          className={`flex h-10 w-full items-center justify-start gap-2 ${minNavbar ? "pl-0" : "pl-4"} ${item.wip ? "pointer-events-none" : ""}`}
+          aria-disabled={item.wip}
+          tabIndex={item.wip ? -1 : undefined}
         >
           <div
-            className={`w-full min-w-4 max-w-4 flex items-center ${minNavbar ? "justify-center  max-w-full" : ""}`}
+            className={`flex w-full min-w-4 max-w-4 items-center ${minNavbar ? "max-w-full  justify-center" : ""}`}
           >
             {minNavbar ? (
               <TooltipTrigger>{item.icon ?? item.icon}</TooltipTrigger>
@@ -219,11 +243,19 @@ export function MenuItemTrigger({
           {minNavbar ? (
             <TooltipContent>{item.title}</TooltipContent>
           ) : (
-            <div className="w-full font-medium text-xs text-left">
+            <div className="w-full text-left text-xs font-medium">
               {item.title}
             </div>
           )}
           {item.badge && !minNavbar && <NavigationBadge {...item.badge} />}
+          {item.wip && (
+            <Badge
+              variant={"outline"}
+              className="mr-6 border-0 bg-orange-200 text-orange-600"
+            >
+              WIP
+            </Badge>
+          )}
         </Link>
       </div>
     </Tooltip>

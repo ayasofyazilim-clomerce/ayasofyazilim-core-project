@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -103,7 +104,7 @@ export default function ProfileForm({
           values={user}
         >
           <Button
-            className=" w-[120px] text-white float-right"
+            className=" float-right w-[120px] text-white"
             disabled={isSubmitDisabled}
             isLoading={isLoading}
           >
@@ -111,16 +112,16 @@ export default function ProfileForm({
           </Button>
         </AutoForm>
       </div>
-      <div className="basis-1/4 min-w-[100px] pt-4">
-        <div className="relative m-auto w-64 h-64">
+      <div className="min-w-[100px] basis-1/4 pt-4">
+        <div className="relative m-auto h-64 w-64">
           <img
             alt=""
-            className="rounded-full border-4 border-gray-200 w-full h-full object-cover"
+            className="h-full w-full rounded-full border-4 border-gray-200 object-cover"
             src={selectedImage}
           />
-          <div className="absolute top-0 right-0 p-1.5 w-8 h-8 bg-white rounded-full border border-gray-400">
+          <div className="absolute right-0 top-0 h-8 w-8 rounded-full border border-gray-400 bg-white p-1.5">
             <Label htmlFor="picture">
-              <EditIcon className="w-full h-full cursor-pointer" />
+              <EditIcon className="h-full w-full cursor-pointer" />
             </Label>
           </div>
         </div>

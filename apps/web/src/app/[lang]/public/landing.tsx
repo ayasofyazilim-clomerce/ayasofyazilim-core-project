@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call -- TODO: we need to fix this*/
 "use client";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -47,14 +48,14 @@ const items = [
   {
     title: "Az Parayla Yatırım Yapmak (2024)",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         2024 yılında artık çalışan çalışmayan, alt, orta veya üst gelir
         gruplarına mensup her sınıftan insanlar ek gelir kaynakları yaratmanın
         yollarını aramaktadır.
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -72,13 +73,13 @@ const items = [
   {
     title: "Finans terimleri sözlüğü",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         Finans dünyası, özellikle yeni başlayanlar için karmaşık gelebilecek
         terimler ve bazı yabancı kelimeler içermektedir.
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -96,13 +97,13 @@ const items = [
   {
     title: "Küçük Yatırımcı Neye Yatırım Yapmalı?",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         Küçük yatırımcı, sınırlı yatırım sermayesine sahip olan bireyleri
         tanımlamak amacıyla kullanılan bir terimdir.
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -120,14 +121,14 @@ const items = [
   {
     title: "Temettü Nedir? Temettü Nasıl Hesaplanır?",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         Yatırım dünyasına yeni adım atan herkesin sıklıkla karşılaştığı
         terimlerden biri olan temettü, yatırım kararlarınızı verirken dikkate
         almanız gereken oldukça önemli bir kavramdır.
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -145,14 +146,14 @@ const items = [
   {
     title: "Pasif Gelir Nedir? Nasıl Elde Edilir?",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         Pasif gelir ne demek? Pasif gelir, zamanınızı daha özgür bir şekilde
         yönetmenizi ve finansal bağımsızlığınızı artırmanızı sağlayan, sürekli
         bir çaba gerektirmeyen gelir türüdür.
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -170,7 +171,7 @@ const items = [
   {
     title: "Kitle Fonlaması Nedir?",
     description: (
-      <span className="text-sm w-full">
+      <span className="w-full text-sm">
         Günümüzde, yenilikçi fikirlerin ve projelerin hayata geçirilmesi için
         gereken finansal desteğe ulaşmak her zaman kolay olmayabiliyor.
         Geleneksel finansman yöntemleri bazen yeterli esnekliği ve erişimi
@@ -179,7 +180,7 @@ const items = [
       </span>
     ),
     header: (
-      <div className="w-full h-full flex rounded-md overflow-hidden">
+      <div className="flex h-full w-full overflow-hidden rounded-md">
         <img
           alt=""
           className="h-full w-auto"
@@ -214,16 +215,16 @@ export default function Page({
       <Hero config={config} variant="stripe" />
       <Brands brands={BrandList} />
       <div
-        className="w-full h-[200px]"
+        className="h-[200px] w-full"
         style={{
           backgroundImage: `url(${config.images.second})`,
         }}
       />
-      <div className="container h-full my-20">
-        <div className="text-3xl text-center font-bold mb-8">
+      <div className="container my-20 h-full">
+        <div className="mb-8 text-center text-3xl font-bold">
           Yatırım Toplayan Projeler
         </div>
-        <div className="flex flex-row flex-wrap gap-3 justify-center">
+        <div className="flex flex-row flex-wrap justify-center gap-3">
           {fundableProjects?.map((project: any) => (
             <ProjectCard
               ProjectStatusEnums={ProjectStatusEnums}
@@ -237,11 +238,11 @@ export default function Page({
           ))}
         </div>
       </div>
-      <div className="container h-full my-20">
-        <div className="text-3xl text-center font-bold mb-8">
+      <div className="container my-20 h-full">
+        <div className="mb-8 text-center text-3xl font-bold">
           Yakında Yatırma Açılacak Projeler
         </div>
-        <div className="flex flex-row flex-wrap gap-3 justify-center mb-5">
+        <div className="mb-5 flex flex-row flex-wrap justify-center gap-3">
           {projectsWillStartSoon?.map((project: any) => (
             <ProjectCard
               ProjectStatusEnums={ProjectStatusEnums}
@@ -255,10 +256,10 @@ export default function Page({
           ))}
         </div>
       </div>
-      <div className="bg-slate-50 w-full overflow-hidden">
-        <div className="container grid md:grid-cols-2 justify-center gap-6">
-          <div className="flex flex-col gap-6 justify-center h-full">
-            <h1 className="text-2xl md:text-5xl text-center font-bold">
+      <div className="w-full overflow-hidden bg-slate-50">
+        <div className="container grid justify-center gap-6 md:grid-cols-2">
+          <div className="flex h-full flex-col justify-center gap-6">
+            <h1 className="text-center text-2xl font-bold md:text-5xl">
               <img alt="" className="m-auto" src={config.logo} />
               aracılığıyla girişim şirketlerinde hisse sahibi olabilirsiniz.
             </h1>
@@ -266,7 +267,7 @@ export default function Page({
               Şirketlere yatırım yapmak hiç bu kadar kolay olmamıştı. Hemen
               başlayın, şirketlere destek olun, etki yaratın.
             </p>
-            <div className="flex gap-2 justify-around">
+            <div className="flex justify-around gap-2">
               <Button variant="outline">Bilgi al</Button>
               <Button>Yatırım yap</Button>
             </div>
@@ -280,23 +281,23 @@ export default function Page({
           </div>
         </div>
       </div>
-      <h3 className="text-2xl md:text-5xl font-bold text-center w-full max-w-4xl mx-auto my-20 md:flex flex-col md:flex-row flex-wrap  items-center gap-0 hidden ">
+      <h3 className="mx-auto my-20 hidden w-full max-w-4xl flex-col flex-wrap items-center gap-0 text-center text-2xl font-bold  md:flex md:flex-row md:text-5xl ">
         <img alt="" className="mr-4" src={config.logo} /> ile
         <FlipWords
-          className="text-black min-w-[230px] text-center md:text-left"
+          className="min-w-[230px] text-center text-black md:text-left"
           words={["yatırımcı", "girişimci"]}
         />{" "}
         olabilirsiniz.
       </h3>
 
-      <div className="bg-slate-50 mt-20 grid justify-center relative pb-60">
-        <h3 className="text-2xl md:text-5xl font-bold text-center mt-[-20px] uppercase absolute w-full z-10">
+      <div className="relative mt-20 grid justify-center bg-slate-50 pb-60">
+        <h3 className="absolute z-10 mt-[-20px] w-full text-center text-2xl font-bold uppercase md:text-5xl">
           {config.full} Blog
         </h3>
-        <p className="w-full text-center mt-16 text-xl z-10">
+        <p className="z-10 mt-16 w-full text-center text-xl">
           Gündeme ve fonlanan projelere dair bilgiler için Blog’u takip edin.
         </p>
-        <BentoGrid className="container py-16 md:auto-rows-[20rem] px-0 z-10">
+        <BentoGrid className="container z-10 px-0 py-16 md:auto-rows-[20rem]">
           {items.map((item, i) => (
             <BentoGridItem
               className={cn("[&>p:text-lg]", item.className)}
@@ -308,7 +309,7 @@ export default function Page({
             />
           ))}
         </BentoGrid>
-        <div className="flex absolute top-60 z-0 w-full opacity-10 grayscale hidden">
+        <div className="absolute top-60 z-0 flex hidden w-full opacity-10 grayscale">
           <img alt="" className="w-full" src={config.images.footer} />
         </div>
       </div>

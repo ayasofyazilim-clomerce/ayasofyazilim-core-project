@@ -18,8 +18,7 @@ export async function loginAsAdmin(page: Page) {
     .click();
   await page.url();
   await page.waitForURL("**/public");
-  //   await page.getByRole("button", { name: "admin admin@abp.io" }).click();
-  //   expect the previos button to be visible
+
   await expect(page.getByRole("button").first()).toBeVisible();
 
   await page.waitForURL("**/");

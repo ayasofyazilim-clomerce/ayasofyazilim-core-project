@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access -- TODO: we need to fix this*/
 "use server";
 
 import type {
@@ -7,6 +8,7 @@ import type {
 } from "@ayasofyazilim/saas/BackerService";
 import { revalidatePath } from "next/cache";
 import { getBackerServiceClient } from "src/lib";
+
 function populateCustomFormDataPost(formdata: any) {
   const customFormData: PostApiBackerServiceBackersWithComponentsData["requestBody"] =
     {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import { toast } from "@/components/ui/sonner";
 import CustomButton from "@repo/ayasofyazilim-ui/molecules/button";
@@ -38,7 +39,7 @@ export default function StatusForm({
 
   return (
     <CustomButton
-      className="w-full bg-transparent text-primary mt-3 border-primary border hover:bg-primary hover:text-white"
+      className="text-primary border-primary hover:bg-primary mt-3 w-full border bg-transparent hover:text-white"
       disabled={isLoading || disabled}
       onClick={onSendToApprovalClick}
       variant="default"

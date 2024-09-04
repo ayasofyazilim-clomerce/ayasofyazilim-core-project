@@ -17,7 +17,7 @@ export default function Page() {
   });
   const cards = cities;
   return (
-    <div className="flex h-screen w-screen justify-center items-center">
+    <div className="flex h-screen w-screen items-center justify-center">
       <CardList cards={cards} />
     </div>
   );

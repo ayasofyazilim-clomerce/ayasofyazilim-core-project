@@ -1,4 +1,5 @@
-import { test, expect, Page } from "@playwright/test";
+import type { Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import { expectStatusMessage } from "tests/utils";
 
 async function fillCommonInformation(page: Page) {
@@ -30,7 +31,7 @@ async function fillCommonInformation(page: Page) {
 
 test.describe("Upwithcrowd Backer test", () => {
   test.setTimeout(120000);
-  const name = "Test Backer #" + Date.now();
+  const name = `Test Backer #${Date.now()}`;
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/public");
@@ -59,8 +60,7 @@ test.describe("Upwithcrowd Backer test", () => {
   });
 
   test("delete backer company", async ({ page }) => {
-    console.log(name);
-    await page.getByRole("link", { name: name }).click();
+    await page.getByRole("link", { name }).click();
     await page.getByRole("button", { name: "Profili Sil" }).click();
     await page.getByRole("button", { name: "Evet" }).click();
     await expectStatusMessage(page, "Profil silindi.");
@@ -75,7 +75,7 @@ test.describe("Upwithcrowd Backer test", () => {
   });
 
   test("delete backer individual", async ({ page }) => {
-    await page.getByRole("link", { name: name }).click();
+    await page.getByRole("link", { name }).click();
     await page.getByRole("button", { name: "Profili Sil" }).click();
     await page.getByRole("button", { name: "Evet" }).click();
     await expectStatusMessage(page, "Profil silindi.");

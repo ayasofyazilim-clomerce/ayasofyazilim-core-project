@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use server";
 
 import TipTapEditor from "@repo/ayasofyazilim-ui/organisms/tiptap";
@@ -6,7 +7,7 @@ import { PackageSearch } from "lucide-react";
 import { auth } from "auth";
 import { getPublicProjectByIdServer } from "src/app/[lang]/app/[type]/projects/action";
 import { ProjectStatusEnums } from "src/enums/project";
-import { getResourceData } from "src/language-data/Projects/projects";
+import { getResourceData } from "src/language-data/ProjectService";
 
 export default async function Page({
   params,
@@ -23,7 +24,7 @@ export default async function Page({
     return (
       <div className="h-full">
         <div className="flex h-full">
-          <div className="flex flex-col items-center m-auto">
+          <div className="m-auto flex flex-col items-center">
             <PackageSearch color="#222" size={120} />
             <h3 className="mt-2">Proje bulunamadı.</h3>
           </div>

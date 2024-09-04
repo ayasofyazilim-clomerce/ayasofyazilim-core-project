@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use server";
 
 import ProjectCard from "@repo/ui/upwithcrowd/project/project-card";
 import { redirect } from "next/navigation";
 import { ProjectStatusEnums } from "src/enums/project";
-import { getResourceData } from "src/language-data/Projects/projects";
+import { getResourceData } from "src/language-data/ProjectService";
 import { getBaseLink } from "src/utils";
 import {
   getProjectSectionsServer,
@@ -47,7 +48,7 @@ export default async function Page({ params }: any) {
     params.type,
   );
   return (
-    <div className="flex flex-row gap-3 relative w-full">
+    <div className="relative flex w-full flex-row gap-3">
       <div className="basis-full">
         <ProjectForm
           languageData={languageData}
@@ -56,7 +57,7 @@ export default async function Page({ params }: any) {
           projectId={projectId}
         />
       </div>
-      <div className="basis-2/5 min-w-72 max-w-96">
+      <div className="min-w-72 max-w-96 basis-2/5">
         <ProjectCard
           ProjectStatusEnums={ProjectStatusEnums}
           languageData={languageData}

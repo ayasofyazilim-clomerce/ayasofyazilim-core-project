@@ -30,14 +30,14 @@ async function getBackerProfiles() {
   backersIndividual.forEach((backer) => {
     _backerProfiles.push({
       ...backer,
-      icon: <User className="w-5 h-5" />,
+      icon: <User className="h-5 w-5" />,
     });
   });
 
   backersCompanies.forEach((backer) => {
     _backerProfiles.push({
       ...backer,
-      icon: <Building2Icon className="w-5 h-5" />,
+      icon: <Building2Icon className="h-5 w-5" />,
     });
   });
   return _backerProfiles;
@@ -53,7 +53,7 @@ export default async function Page() {
         title="Yatırımcı Profillerim"
       />
 
-      <div className="flex justify-end flex-row mb-2">
+      <div className="mb-2 flex flex-row justify-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">Yeni Profil</Button>

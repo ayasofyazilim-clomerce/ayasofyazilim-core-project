@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- TODO: we need to fix this*/
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -126,7 +127,6 @@ interface GenericModalProps<T> {
     accessorKey: keyof T;
     cell?: (_row: any) => JSX.Element;
   }[];
-  filterBy: string;
   title: string;
   checkboxColumnKey: keyof T;
 }
@@ -138,7 +138,6 @@ export function GenericModal<T extends { id: string }>({
   addedItems,
   fetchItems,
   columns,
-  filterBy,
   title,
   checkboxColumnKey,
 }: GenericModalProps<T>) {
@@ -209,9 +208,8 @@ export function GenericModal<T extends { id: string }>({
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <DataTable
-          columnsData={{ type: "Custom", data: columnsData }}
+          columnsData={{ type: "Custom", data: { columns: columnsData } }}
           data={items}
-          filterBy={filterBy}
           isLoading={loading}
         />
         <DialogFooter>
@@ -243,7 +241,6 @@ export const UserModal: React.FC<
       },
     ]}
     fetchItems={fetchUsers}
-    filterBy="userName"
     title="Select users"
   />
 );
@@ -264,7 +261,6 @@ export const RoleModal: React.FC<
       },
     ]}
     fetchItems={fetchRoles}
-    filterBy="name"
     title="Select roles"
   />
 );

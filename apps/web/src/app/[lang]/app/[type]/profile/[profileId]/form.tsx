@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -6,9 +7,9 @@ import ConfirmDialog from "@repo/ayasofyazilim-ui/molecules/confirmation-modal";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import { PhoneNumberUtil } from "google-libphonenumber";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { isPhoneValid, splitPhone } from "src/utils-phone";
 import {
   deleteBacker,
   postBacker,
@@ -67,20 +68,12 @@ export function BackerForm({
     },
   };
 
-  const isPhoneValid = (phone: string) => {
-    try {
-      const phoneUtil = PhoneNumberUtil.getInstance();
-      return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
-    } catch (error) {
-      return false;
-    }
-  };
-
   async function submitFormData(formData: any) {
     const isValid = isPhoneValid(formData.generalInformation.phoneNumber);
     if (!isValid) {
       return;
     }
+    const phoneData = splitPhone(formData.generalInformation.phoneNumber);
     //PUT servisi henüz hazır değil
     const submitData = {
       name:
@@ -93,13 +86,7 @@ export function BackerForm({
 
       telephone: [
         {
-          areaCode: formData.generalInformation.phoneNumber
-            .split("+")[1]
-            .substring(0, 3),
-          localNumber: formData.generalInformation.phoneNumber
-            .split("+")[1]
-            .substring(3),
-          ITUCountryCode: "1",
+          ...phoneData,
         },
       ],
       address: formData.address,
@@ -137,7 +124,7 @@ export function BackerForm({
   }
   return (
     <>
-      <div className="flex justify-end flex-row mb-2">
+      <div className="mb-2 flex flex-row justify-end">
         {profileId !== "new-organization" && profileId !== "new-individual" && (
           <Button
             onClick={() => {

@@ -1,13 +1,19 @@
+/* eslint-disable no-await-in-loop, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
+import { toast } from "@/components/ui/sonner";
+import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
+import type {
+  ColumnsType,
+  TableAction,
+} from "@repo/ayasofyazilim-ui/molecules/tables";
+import type { AutoFormProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import { useEffect, useState } from "react";
-import type {
-  tableAction,
-  columnsType,
-} from "@repo/ayasofyazilim-ui/molecules/tables";
-import { toast } from "@/components/ui/sonner";
+import { z } from "zod";
+import { getResourceDataClient } from "src/language-data/IdentityService";
+import { useLocale } from "src/providers/locale";
+import type { FormModifier, TableData } from "src/utils";
 import { createZodObject, getBaseLink } from "src/utils";
-import type { FormModifier, TableData } from "../../data";
 import { dataConfig } from "../../data";
 
 async function controlledFetch(
@@ -28,7 +34,7 @@ async function controlledFetch(
       showToast && toast.success(successMessage);
     }
   } catch (error) {
-    toast.error("Something went wrong 3 ");
+    toast.error(`Fetch error: ${String(error)}`);
   }
 }
 
@@ -70,15 +76,18 @@ function convertAsyncField(value: any, ConvertorValue: ConvertorValue) {
 export default function Page({
   params,
 }: {
-  params: { data: string; domain: string };
+  params: { data: string; domain: string; lang: string };
 }): JSX.Element {
+  const { resources } = useLocale();
+  const languageData = getResourceDataClient(resources, params.lang);
   const fetchLink = getBaseLink(`/api/admin/${params.data}`);
   const [roles, setRoles] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [formData, setFormData] = useState<TableData>(
     dataConfig[params.domain][params.data],
   );
-
+  const detailedFilters =
+    dataConfig[params.domain][params.data]?.detailedFilters || [];
   async function processConvertors() {
     const tempData = { ...formData };
     const schemas = ["createFormSchema", "editFormSchema"] as const;
@@ -104,8 +113,14 @@ export default function Page({
     setFormData(tempData);
   }
 
-  function getRoles(page: number) {
-    const _fetchLink = `${fetchLink}?page=${page}`;
+  function getRoles(_page: number, _filter?: string) {
+    let page = _page;
+    const filter = _filter || "";
+    if (typeof page !== "number") {
+      page = 0;
+    }
+
+    const _fetchLink = `${fetchLink}?page=${page}&filter=${filter}`;
     setIsLoading(true);
     function onData(data: any) {
       let returnData = data;
@@ -144,35 +159,54 @@ export default function Page({
       false,
     );
   }
-
   const createFormSchema = formData.createFormSchema;
-  let action: tableAction | undefined;
+  let action: TableAction[] | undefined;
   if (createFormSchema) {
-    action = {
-      cta: `New ${params.data}`,
-      description: `Create a new ${params.data}`,
-      autoFormArgs: {
-        formSchema: createZodObject(
-          createFormSchema.schema,
-          createFormSchema.formPositions || [],
-          createFormSchema.convertors || {},
-        ),
-        dependencies: createFormSchema.dependencies,
-        fieldConfig: { withoutBorder: true },
-      },
-      callback: (e) => {
-        const transformedData = parseFormValues(createFormSchema, e);
-        void controlledFetch(
-          fetchLink,
-          {
-            method: "POST",
-            body: JSON.stringify(transformedData),
+    action = [
+      {
+        cta: languageData[
+          `${formData.title?.replaceAll(" ", "")}.New` as keyof typeof languageData
+        ],
+        componentType: "Autoform",
+        description:
+          languageData[
+            `${formData.title?.replaceAll(" ", "")}.New` as keyof typeof languageData
+          ],
+        autoFormArgs: {
+          formSchema: createZodObject(
+            createFormSchema.schema,
+            createFormSchema.formPositions || [],
+            createFormSchema.convertors || {},
+          ),
+          dependencies: createFormSchema.dependencies,
+          fieldConfig: {
+            all: {
+              withoutBorder: true,
+            },
           },
-          getRoles,
-          "Added Successfully",
-        );
+        },
+        callback: (e) => {
+          const transformedData = parseFormValues(createFormSchema, e);
+          void controlledFetch(
+            fetchLink,
+            {
+              method: "POST",
+              body: JSON.stringify(transformedData),
+            },
+            getRoles,
+            "Added Successfully",
+          );
+        },
+        type: "Dialog",
       },
-    };
+      {
+        cta: `Export CSV`,
+        callback: () => {
+          jsonToCSV(roles, params.data);
+        },
+        type: "Action",
+      },
+    ];
   }
 
   useEffect(() => {
@@ -218,7 +252,7 @@ export default function Page({
     );
   };
 
-  const onDelete = (e: any, row: any) => {
+  const onDelete = (row: any) => {
     void controlledFetch(
       fetchLink,
       {
@@ -239,39 +273,72 @@ export default function Page({
     return newSchema;
   }
   const editFormSchema = formData.editFormSchema;
-  let editFormSchemaZod, autoformEditArgs;
+  let editFormSchemaZod,
+    autoformEditArgs: AutoFormProps = {
+      formSchema: z.object({}),
+    };
   if (editFormSchema) {
     editFormSchemaZod = convertZod(editFormSchema);
     autoformEditArgs = {
       formSchema: editFormSchemaZod,
       dependencies: formData.editFormSchema?.dependencies,
-      convertor: formData.tableSchema.convertors,
-      fieldConfig: { withoutBorder: true },
+      // convertor: formData.tableSchema.convertors,
+      fieldConfig: {
+        all: {
+          withoutBorder: true,
+        },
+      },
     };
   }
-
-  const columnsData: columnsType = {
+  let actionList: TableAction[] = [];
+  if (formData.tableSchema.actionList) {
+    actionList = formData.tableSchema.actionList(controlledFetch, getRoles);
+  }
+  const columnsData: ColumnsType = {
     type: "Auto",
     data: {
-      callback: getRoles,
-      autoFormArgs: autoformEditArgs,
       tableType: formData.tableSchema.schema,
       excludeList: formData.tableSchema.excludeList || [],
-      onEdit: (data, row) => {
-        onEdit(data, row, editFormSchema);
-      },
-      onDelete,
+      actionList,
     },
   };
 
+  columnsData.data.actionList?.push({
+    cta: `Delete  `,
+    type: "Action",
+    callback: (data) => {
+      onDelete(data);
+    },
+  });
+  columnsData.data.actionList?.push({
+    cta: `Edit  `,
+    description: `Edit `,
+    type: "Dialog",
+    componentType: "Autoform",
+    autoFormArgs: autoformEditArgs,
+    callback: (data, row) => {
+      onEdit(data, row, editFormSchema);
+    },
+  });
+
+  if (params.data === "scopes") {
+    columnsData.data.actionList?.push({
+      type: "Dialog",
+      cta: "Change History",
+      loadingContent: <>Loading...</>,
+      description: "Change History",
+      componentType: "CustomComponent",
+      content: <>No changes.</>,
+    });
+  }
   return (
     <Dashboard
       action={action}
       cards={[]}
       columnsData={columnsData}
       data={roles?.items}
+      detailedFilter={detailedFilters}
       fetchRequest={getRoles}
-      filterBy={formData.filterBy}
       isLoading={isLoading}
       rowCount={roles?.totalCount || 0}
       withCards={false}

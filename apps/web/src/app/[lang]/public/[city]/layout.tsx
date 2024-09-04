@@ -10,7 +10,7 @@ import Link from "next/link";
 import { auth } from "auth";
 import { signOutServer } from "auth-action";
 import { getBaseLink } from "src/utils";
-import { getResourceData } from "src/language-data/AbpUiNavigation/navbar";
+import { getResourceData } from "src/language-data/AbpUiNavigation";
 import { getConfig } from "../config";
 
 interface LayoutProps {
@@ -22,6 +22,8 @@ export default async function Layout({ children, params }: LayoutProps) {
   const { languageData, resources } = await getResourceData(params.lang);
   const appName = params.city;
   const config = getConfig(appName);
+
+  const project = process.env.APPLICATION_NAME;
 
   const session = await auth();
   const user = session?.user;
@@ -94,23 +96,26 @@ export default async function Layout({ children, params }: LayoutProps) {
     registerURL: getBaseLink(`register`, true, params.lang),
     user,
     imageURL: "https://github.com/shadcn.png",
-    menuLinks: [
-      {
-        href: getBaseLink(`app/admin`, true, params.lang),
-        title: languageData.AdminCenter,
-        icon: <ShieldAlert className="mr-2 h-4 w-4" />,
-      },
-      {
-        href: getBaseLink(`app/entrepreneur`, true, params.lang),
-        title: languageData.EntrepreneurCenter,
-        icon: <Projector className="mr-2 h-4 w-4" />,
-      },
-      {
-        href: getBaseLink(`app/investor`, true, params.lang),
-        title: languageData.InvestorCenter,
-        icon: <Worm className="mr-2 h-4 w-4" />,
-      },
-    ],
+    menuLinks:
+      project === "UPWITHCROWD"
+        ? [
+            {
+              href: getBaseLink(`app/admin`, true, params.lang),
+              title: languageData.AdminCenter,
+              icon: <ShieldAlert className="mr-2 h-4 w-4" />,
+            },
+            {
+              href: getBaseLink(`app/entrepreneur`, true, params.lang),
+              title: languageData.EntrepreneurCenter,
+              icon: <Projector className="mr-2 h-4 w-4" />,
+            },
+            {
+              href: getBaseLink(`app/investor`, true, params.lang),
+              title: languageData.InvestorCenter,
+              icon: <Worm className="mr-2 h-4 w-4" />,
+            },
+          ]
+        : [],
     isLoggedIn: Boolean(user),
     signOutFunction: signOutServer,
     resources,
@@ -153,24 +158,24 @@ export default async function Layout({ children, params }: LayoutProps) {
     >
       <>
         {children}
-        <div className="pt-20 w-full text-white bg-slate-900  bg-dot-slate-300/[0.2] relative flex items-center justify-center flex flex-col gap-20 overflow-hidden flex-wrap">
+        <div className="bg-dot-slate-300/[0.2] relative flex flex  w-full flex-col flex-wrap items-center justify-center gap-20 overflow-hidden bg-slate-900 pt-20 text-white">
           <img
             alt=""
-            className="w-full absolute pointer-events-none z-0 opacity-20"
+            className="pointer-events-none absolute z-0 w-full opacity-20"
             src={config.images.footer}
           />
           <div
-            className="w-full hidden h-full absolute inset-0 pointer-events-none opacity-10"
+            className="pointer-events-none absolute inset-0 hidden h-full w-full opacity-10"
             style={{
               backgroundImage: `url(${config.images.second})`,
             }}
           />
-          <div className="container flex flex-col h-full justify-center gap-20">
+          <div className="container flex h-full flex-col justify-center gap-20">
             <div className="mx-auto">
               <img alt="" className="mx-auto" src={config.logo} />
             </div>
-            <div className="grid grid-cols-1 justify-center md:grid-cols-2 lg:grid-cols-5 gap-6 col-span-2">
-              <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
+            <div className="col-span-2 grid grid-cols-1 justify-center gap-6 md:grid-cols-2 lg:grid-cols-5">
+              <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
                 <h3 className="text-md font-bold">Kurumsal</h3>
                 <div className="grid text-sm">
                   <Link className="text-slate-200 hover:text-white" href="#">
@@ -190,7 +195,7 @@ export default async function Layout({ children, params }: LayoutProps) {
                   </Link>
                 </div>
               </div>
-              <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
+              <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
                 <h3 className="text-md font-bold">Paydaşlarımız</h3>
                 <div className="grid text-sm">
                   <Link className="text-slate-200 hover:text-white" href="#">
@@ -207,7 +212,7 @@ export default async function Layout({ children, params }: LayoutProps) {
                   </Link>
                 </div>
               </div>
-              <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
+              <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
                 <h3 className="text-md font-bold">Yatırımcı</h3>
                 <div className="grid text-sm">
                   <Link className="text-slate-200 hover:text-white" href="#">
@@ -224,7 +229,7 @@ export default async function Layout({ children, params }: LayoutProps) {
                   </Link>
                 </div>
               </div>
-              <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
+              <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
                 <h3 className="text-md font-bold">Girişimci</h3>
                 <div className="grid text-sm">
                   <Link className="text-slate-200 hover:text-white" href="#">
@@ -238,7 +243,7 @@ export default async function Layout({ children, params }: LayoutProps) {
                   </Link>
                 </div>
               </div>
-              <div className="items-center text-center lg:text-left lg:items-start flex flex-col gap-2">
+              <div className="flex flex-col items-center gap-2 text-center lg:items-start lg:text-left">
                 <h3 className="text-md font-bold">Dokümantasyon</h3>
                 <div className="grid text-sm">
                   <Link className="text-slate-200 hover:text-white" href="#">
@@ -263,10 +268,10 @@ export default async function Layout({ children, params }: LayoutProps) {
               </div>
             </div>
           </div>
-          <div className="md:h-10 py-4 bg-slate-800/50 text-sm w-full items-center flex z-5">
-            <div className="container flex justify-between items-center flex-col gap-4 md:flex-row">
+          <div className="z-5 flex w-full items-center bg-slate-800/50 py-4 text-sm md:h-10">
+            <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
               <h1>{config.full} 2024 Tüm hakları saklıdır.</h1>
-              <div className="flex items-center gap-4 flex-col md:flex-row">
+              <div className="flex flex-col items-center gap-4 md:flex-row">
                 <Link className="text-slate-200 hover:text-white" href="#">
                   Genel Risk Bildirimi
                 </Link>

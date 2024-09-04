@@ -7,7 +7,7 @@ import {
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import Link from "next/link";
-import { getResourceData } from "src/language-data/Projects/projects";
+import { getResourceData } from "src/language-data/ProjectService";
 import { getBaseLink } from "src/utils";
 import { getUsersProjectsServer } from "../action";
 import { Project } from "../project";
@@ -36,13 +36,13 @@ export default async function Page({
   );
 
   return (
-    <div className="flex flex-col gap-2 h-full">
+    <div className="flex h-full flex-col gap-2">
       <PageHeader
         description="Buradan projelerinizi görüntüleyebilirsiniz."
         title="Projelerim"
       />
 
-      <div className=" flex flex-row flex-wrap justify-end items-center">
+      <div className=" flex flex-row flex-wrap items-center justify-end">
         <Link href={getBaseLink("app/entrepreneur/projects/new", true)}>
           <CustomButton variant="outline">
             {languageData.CreateProject}

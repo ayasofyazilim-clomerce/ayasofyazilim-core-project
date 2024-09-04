@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import {
   Accordion,
@@ -163,7 +164,7 @@ export default function ProjectForm({
           </AccordionStepperHeader>
 
           <AccordionContent className="px-6">
-            <div className="grid w-full items-center gap-3 mt-4">
+            <div className="mt-4 grid w-full items-center gap-3">
               <Label htmlFor="projectName">{languageData.ProjectName}</Label>
               <Input
                 disabled={isInputEditDisabled}
@@ -176,11 +177,11 @@ export default function ProjectForm({
                 }}
                 value={formValues.name || ""}
               />
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.ProjectNameInfo}
               </p>
             </div>
-            <div className="grid w-full items-center gap-3 mt-4">
+            <div className="mt-4 grid w-full items-center gap-3">
               <Label htmlFor="projectDefinition">
                 {languageData.ProjectDescription}
               </Label>
@@ -194,7 +195,7 @@ export default function ProjectForm({
                 }}
                 value={formValues.definition || ""}
               />
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.ProjectDescriptionInfo}
               </p>
             </div>
@@ -214,7 +215,7 @@ export default function ProjectForm({
         </AccordionItem>
         <AccordionItem
           className={
-            isChecked.budget ? "border my-2" : "my-2 border border-red-300"
+            isChecked.budget ? "my-2 border" : "my-2 border border-red-300"
           }
           disabled={isAccordionTabDisabled.budget}
           value="budget"
@@ -223,7 +224,7 @@ export default function ProjectForm({
             Bütçe
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="mt-4 grid w-full items-center gap-3 ">
               <Label htmlFor="fundCollectionType">
                 {languageData.FundCollectionType}
               </Label>
@@ -239,24 +240,24 @@ export default function ProjectForm({
                   value={formValues.fundCollectionType || ""}
                 >
                   <SelectTabsContent value="SHRE">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <Blocks />
                       {languageData.FundCollectionTypeSHRE}
                     </div>
                   </SelectTabsContent>
                   <SelectTabsContent value="DBIT">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <HandCoins />
                       {languageData.FundCollectionTypeDBIT}
                     </div>
                   </SelectTabsContent>
                 </SelectTabs>
               </div>
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.FundCollectionTypeInfo}
               </p>
             </div>
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="mt-4 grid w-full items-center gap-3 ">
               <div className="relative">
                 <NumericInput
                   direction="column"
@@ -273,7 +274,7 @@ export default function ProjectForm({
                   subLabel=""
                   value={formValues.fundableAmount || 0}
                 />
-                <p className="text-[0.8rem] text-muted-foreground mt-2">
+                <p className="text-muted-foreground mt-2 text-[0.8rem]">
                   {languageData.FundableAmountInfo}
                 </p>
               </div>
@@ -295,7 +296,7 @@ export default function ProjectForm({
         <AccordionItem
           className={
             isChecked.additionalFunding
-              ? "border my-2"
+              ? "my-2 border"
               : "my-2 border border-red-300"
           }
           disabled={isAccordionTabDisabled.additionalFunding}
@@ -305,7 +306,7 @@ export default function ProjectForm({
             Ek Fonlama
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="mt-4 grid w-full items-center gap-3 ">
               <Label htmlFor="overFunding">
                 {languageData.AdditionalFunding}
               </Label>
@@ -318,25 +319,25 @@ export default function ProjectForm({
                   value={formValues.overFunding || ""}
                 >
                   <SelectTabsContent value="Y">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <Blocks />
                       {languageData.AdditionalFundingYes}
                     </div>
                   </SelectTabsContent>
                   <SelectTabsContent value="N">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <HandCoins />
                       {languageData.AdditionalFundingNo}
                     </div>
                   </SelectTabsContent>
                 </SelectTabs>
               </div>
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.AdditionalFundingInfo}
               </p>
             </div>
             {formValues.overFunding === "Y" && (
-              <div className="grid w-full items-center gap-3 mt-4 ">
+              <div className="mt-4 grid w-full items-center gap-3 ">
                 <NumericInput
                   direction="column"
                   disabled={isInputEditDisabled}
@@ -355,7 +356,7 @@ export default function ProjectForm({
                   subLabel=""
                   value={parseInt(formValues.additionalFundRate || "0")}
                 />
-                <p className="text-[0.8rem] text-muted-foreground mt-2">
+                <p className="text-muted-foreground mt-2 text-[0.8rem]">
                   {languageData.AdditionalFundingRateInfo}
                 </p>
               </div>
@@ -377,7 +378,7 @@ export default function ProjectForm({
         </AccordionItem>
         <AccordionItem
           className={
-            isChecked.date ? "border my-2" : "my-2 border border-red-300"
+            isChecked.date ? "my-2 border" : "my-2 border border-red-300"
           }
           disabled={isAccordionTabDisabled.date}
           value="date"
@@ -386,7 +387,7 @@ export default function ProjectForm({
             Başlangıç Tarihi
           </AccordionStepperHeader>
           <AccordionContent className="px-6">
-            <div className="grid w-full items-center gap-3 mt-4 ">
+            <div className="mt-4 grid w-full items-center gap-3 ">
               <div className="relative">
                 <Popover>
                   <PopoverTrigger asChild>
@@ -414,6 +415,7 @@ export default function ProjectForm({
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0">
                     <Calendar
+                      disabled={isInputEditDisabled}
                       fromDate={new Date()}
                       initialFocus
                       mode="single"
@@ -428,7 +430,7 @@ export default function ProjectForm({
                   </PopoverContent>
                 </Popover>
               </div>
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.ProjectStartDateInfo}
               </p>
             </div>

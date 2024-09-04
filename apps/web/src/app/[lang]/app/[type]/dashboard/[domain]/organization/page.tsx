@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -16,7 +17,7 @@ import {
   $Volo_Abp_Identity_OrganizationUnitUpdateDto,
 } from "@ayasofyazilim/saas/IdentityService";
 import Button from "@repo/ayasofyazilim-ui/molecules/button";
-import type { tableAction } from "@repo/ayasofyazilim-ui/molecules/dialog";
+import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/dialog";
 import AutoformDialog from "@repo/ayasofyazilim-ui/molecules/dialog";
 import { TreeView } from "@repo/ayasofyazilim-ui/molecules/tree-view";
 import { SectionNavbarBase } from "@repo/ayasofyazilim-ui/templates/section-layout";
@@ -87,7 +88,7 @@ const App: React.FC = () => {
   >([]);
   const [selectedUnitId, setSelectedUnitId] = useState<string | undefined>();
   const [open, setOpen] = useState(false);
-  const [action, setAction] = useState<tableAction | undefined>(undefined);
+  const [action, setAction] = useState<TableAction | undefined>(undefined);
   const [unitUsers, setUnitUsers] = useState<User[]>([]);
   const [unitRoles, setUnitRoles] = useState<Role[]>([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -181,13 +182,17 @@ const App: React.FC = () => {
 
   const handleEditUnitClick = useCallback(() => {
     setAction({
+      type: "Dialog",
+      componentType: "Autoform",
       autoFormArgs: {
         formSchema: createZodObject(
           editFormSchema.schema,
           editFormSchema.formPositions || [],
         ),
       },
-      callback: editUnit,
+      callback: (e, _triggerData) => {
+        editUnit(e, _triggerData as { id: string });
+      },
       cta: "Edit Unit",
       description: "Edit the name of the organization unit",
     });
@@ -238,16 +243,30 @@ const App: React.FC = () => {
         ? organizationUnits.find((i) => i.id === _selectedUnitId)
         : null;
       setAction({
+        type: "Dialog",
+        componentType: "Autoform",
         autoFormArgs: {
           formSchema: createZodObject(
             createFormSchema.schema,
             createFormSchema.formPositions || [],
           ),
-          fieldConfig: { withoutBorder: true },
+          fieldConfig: {
+            all: {
+              withoutBorder: true,
+            },
+          },
         },
         callback: (e, _triggerData) => {
-          const formData = { ...e, ParentId: selectedUnit?.id };
-          void addNewUnit(formData, _triggerData);
+          let tableData: { id: string };
+          if (
+            typeof _triggerData === "object" &&
+            _triggerData !== null &&
+            "id" in _triggerData
+          ) {
+            tableData = _triggerData as { id: string };
+            const formData = { ...e, ParentId: selectedUnit?.id };
+            void addNewUnit(formData, tableData);
+          }
           return true;
         },
         cta: "New organization unit",
@@ -295,11 +314,15 @@ const App: React.FC = () => {
       id: selectedUnitId,
     });
     setAction({
+      type: "Dialog",
+      componentType: "Autoform",
       autoFormArgs: {
         formSchema: z.object({
           targetUnit: DynamicEnum.default(placeholder),
         }),
-        fieldConfig: { withoutBorder: true },
+        fieldConfig: {
+          all: { withoutBorder: true },
+        },
       },
       callback: (e, _triggerData) => {
         const _selectedUnit = unitOptions.find(
@@ -313,7 +336,7 @@ const App: React.FC = () => {
           return false;
         }
         const formData = { targetUnitId: _selectedUnit.id };
-        void handleMoveUsers(formData, _triggerData);
+        void handleMoveUsers(formData, _triggerData as { id: string });
         return true;
       },
       cta: "Move all Users",
@@ -626,13 +649,13 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-row w-full min-h-[50vh]">
-        <Card className="m-2 shadow-lg pb-4 w-1/2">
+      <div className="flex min-h-[50vh] w-full flex-row">
+        <Card className="m-2 w-1/2 pb-4 shadow-lg">
           <CardHeader>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <h2 className="text-xl">Organization Tree</h2>
               <Button
-                className="bg-primary text-white py-2 px-4 rounded"
+                className="bg-primary rounded px-4 py-2 text-white"
                 onClick={() => {
                   setSelectedUnitId(undefined);
                   setTriggerData({});
@@ -656,7 +679,7 @@ const App: React.FC = () => {
             )}
           </CardContent>
         </Card>
-        <Card className="m-2 shadow-lg pb-4 w-1/2">
+        <Card className="m-2 w-1/2 pb-4 shadow-lg">
           <CardContent>
             <SectionNavbarBase
               activeSectionId={activeTab}
@@ -673,11 +696,11 @@ const App: React.FC = () => {
             />
             {selectedUnitId ? (
               <div>
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex justify-end w-full">
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex w-full justify-end">
                     {activeTab === "Users" ? (
                       <Button
-                        className="bg-primary text-white py-2 px-4 rounded"
+                        className="bg-primary rounded px-4 py-2 text-white"
                         onClick={() => {
                           setIsUserModalOpen(true);
                         }}
@@ -686,7 +709,7 @@ const App: React.FC = () => {
                       </Button>
                     ) : (
                       <Button
-                        className="bg-primary text-white py-2 px-4 rounded"
+                        className="bg-primary rounded px-4 py-2 text-white"
                         onClick={() => {
                           setIsRoleModalOpen(true);
                         }}
@@ -723,7 +746,7 @@ const App: React.FC = () => {
                                 }}
                                 variant="link"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Trash2 className="h-4 w-4" />
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -744,7 +767,7 @@ const App: React.FC = () => {
                                 }}
                                 variant="link"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Trash2 className="h-4 w-4" />
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -756,7 +779,7 @@ const App: React.FC = () => {
                         )}
                   </TableBody>
                 </Table>
-                <p className="text-sm mt-10">
+                <p className="mt-10 text-sm">
                   {activeTab === "Users" ? unitUsers.length : unitRoles.length}{" "}
                   total
                 </p>
@@ -767,14 +790,16 @@ const App: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-      {open ? (
-        <AutoformDialog
-          action={action}
-          onOpenChange={setOpen}
-          open={open}
-          triggerData={triggerData}
-        />
-      ) : null}
+      {open
+        ? action !== undefined && (
+            <AutoformDialog
+              action={action}
+              onOpenChange={setOpen}
+              open={open}
+              triggerData={triggerData}
+            />
+          )
+        : null}
       <ConfirmDialog
         description={confirmDialogContent.description}
         isOpen={isConfirmDialogOpen}

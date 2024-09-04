@@ -11,7 +11,7 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@repo/ayasofyazilim-ui/atoms/menubar";
-import { Menu } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -175,9 +175,7 @@ function HirevisionNavbar({
   languageData: any;
 }): JSX.Element {
   const scrollThreshold = 50;
-  const [isFixed, setIsFixed] = useState(
-    (window?.scrollY || 0) >= scrollThreshold
-  );
+  const [isFixed, setIsFixed] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -185,6 +183,7 @@ function HirevisionNavbar({
     function onScroll() {
       setIsFixed((window?.scrollY || 0) >= scrollThreshold);
     }
+    onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -205,7 +204,7 @@ function HirevisionNavbar({
         className="p-0 md:hidden"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
-        <Menu />
+        <MenuIcon className="h-6 w-6" />
       </Button>
       {isMenuOpen && (
         <div className="absolute h-[100vh] top-16 left-0 right-0 w-full z-50 md:hidden">

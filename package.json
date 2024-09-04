@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "ayasofyazilim-core-project",
   "scripts": {
     "build": "turbo build",
     "build:web": "turbo build --filter web",
@@ -18,16 +19,18 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "precommit": "turbo lint && turbo type-check",
-    "precommit:web": "npm run format:web && turbo lint --filter web && turbo type-check --filter web"
+    "precommit:web": "npm run format:web && turbo lint --filter web && turbo type-check --filter web",
+    "precommit:lintstaged": "cd apps/web && npx lint-staged",
+    "unused": "npx knip"
   },
   "devDependencies": {
+    "turbo": "^2.0.14",
     "@playwright/test": "^1.44.1",
     "@repo/typescript-config": "workspace:*",
     "eslint": "8.57.0",
     "husky": "^8.0.0",
     "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "0.5.11",
-    "turbo": "latest"
+    "prettier-plugin-tailwindcss": "0.5.11"
   },
   "packageManager": "pnpm@9.1.2",
   "engines": {

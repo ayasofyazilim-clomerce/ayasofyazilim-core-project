@@ -3,7 +3,7 @@
 import ProjectCard from "@repo/ui/upwithcrowd/project/project-card";
 import { PackageSearch } from "lucide-react";
 import { ProjectStatusEnums } from "src/enums/project";
-import { getResourceData } from "src/language-data/Projects/projects";
+import { getResourceData } from "src/language-data/ProjectService";
 import { getProjectServiceClient } from "src/lib";
 import { getBaseLink } from "src/utils";
 
@@ -46,10 +46,10 @@ export default async function Page({
     <div className="mt-20">
       {fundableProjects ? (
         <div>
-          <h2 className="text-2xl font-bold mb-8 mt-10 text-center">
+          <h2 className="mb-8 mt-10 text-center text-2xl font-bold">
             {languageData.InvestmentOpportunities}
           </h2>
-          <div className="flex flex-wrap flex-row flex-wrap gap-3 justify-center">
+          <div className="flex flex-row flex-wrap flex-wrap justify-center gap-3">
             {fundableProjects.map((project) => (
               <ProjectCard
                 ProjectStatusEnums={ProjectStatusEnums}
@@ -67,10 +67,10 @@ export default async function Page({
 
       {projectsWillStartSoon ? (
         <div>
-          <h2 className="text-2xl font-bold mb-8 mt-10 text-center">
+          <h2 className="mb-8 mt-10 text-center text-2xl font-bold">
             {languageData.ProjectsToOpenForInvestmentSoon}
           </h2>
-          <div className="flex flex-wrap flex-row flex-wrap gap-3 justify-center mb-5">
+          <div className="mb-5 flex flex-row flex-wrap flex-wrap justify-center gap-3">
             {projectsWillStartSoon.map((project) => (
               <ProjectCard
                 ProjectStatusEnums={ProjectStatusEnums}
@@ -88,7 +88,7 @@ export default async function Page({
 
       {!projectsWillStartSoon && !fundableProjects && (
         <div className="flex h-full">
-          <div className="flex flex-col items-center m-auto">
+          <div className="m-auto flex flex-col items-center">
             <PackageSearch color="#222" size={120} />
             <h3 className="mt-2">Yayında bir proje yok!</h3>
           </div>

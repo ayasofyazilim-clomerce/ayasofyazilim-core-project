@@ -151,30 +151,35 @@ export default function Page() {
       amount: 316,
       status: "success",
       email: "ken99@yahoo.com",
+      isActive: true,
     },
     {
       id: "3u1reuv4",
       amount: 242,
       status: "success",
       email: "Abe45@gmail.com",
+      isActive: true,
     },
     {
       id: "derv1ws0",
       amount: 837,
       status: "processing",
       email: "Monserrat44@gmail.com",
+      isActive: true,
     },
     {
       id: "5kma53ae",
       amount: 874,
       status: "success",
       email: "Silas22@gmail.com",
+      isActive: true,
     },
     {
       id: "bhqecj4p",
       amount: 721,
       status: "failed",
       email: "carmella@hotmail.com",
+      isActive: true,
     },
   ];
 
@@ -184,10 +189,9 @@ export default function Page() {
         cards={cards}
         columnsData={{
           type: "Custom",
-          data: columns,
+          data: { columns },
         }}
         data={data}
-        filterBy="test"
         withCards
         withTable
       />

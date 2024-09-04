@@ -21,12 +21,20 @@
   "LogIn": "Giriş Yap",
   "MyAccount": "Hesabım",
   "Add": "Ekle",
-
+  "Crm": "CRM",
   "Dashboard": "Kontrol Paneli",
   "Profile": "Profil",
+  "UserSettings": "Kullanıcı Ayarları",
   "Details": "Detaylar",
+  "ProductGroups": "Ürün Grupları",
   "Companies": "Şirketler",
-  "CountrySettings": "Ülke Ayarları",
+  "TenantSettings": "Tenant Ayarları",
+  "Template": "Tasarım",
+  "Contracts": "Sözleşmeler",
+  "RebateTables": "İndirim Tabloları",
+  "RefundTables": "İade Tabloları",
+  "RefundFees": "İade Ücretleri",
+  "VATSettings": "VAT Ayarları",
   "Settings": "Ayarlar",
   "Projects": "Projeler",
   "LanguageManagement": "Dil Yönetimi",
@@ -36,5 +44,9 @@
   "Identity:claimType": "Talep Türleri",
   "Identity:securityLogs": "Güvenlik Kayıtları",
   "SaasManagement": "SaaS Yönetimi",
-  "Investmensts": "Yatırımlar"
+  "Investmensts": "Yatırımlar",
+  "Management": "Yönetim",
+  "TextTemplates": "Yazı Şablonları",
+  "AdminManagement": "Admin Yönetimi",
+  "Traveller": "Yolcu"
 }

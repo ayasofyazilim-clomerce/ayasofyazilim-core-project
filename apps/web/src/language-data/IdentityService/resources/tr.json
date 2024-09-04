@@ -1,0 +1,75 @@
+{
+  "Role": "Rol",
+  "Roles": "Roller",
+  "Role.New": "Yeni Rol",
+  "Role.Edit": "Rolü Değiştir",
+  "Role.Description": "Rol listesini görüntüleyebilirsiniz.",
+
+  "User": "Kullanıcı",
+  "Users": "Kullanıcılar",
+  "User.New": "Yeni Kullanıcı",
+  "User.Edit": "Kullanıcıyı Değiştir",
+  "User.Description": "Kullanıcı listesini görüntüleyebilirsiniz.",
+
+  "ClaimType": "Talep Türü",
+  "ClaimTypes": "Talep Türleri",
+  "ClaimType.New": "Yeni Talep Türü",
+  "ClaimType.Edit": "Talep Türünu Değiştir",
+  "ClaimType.Description": "Talep Türleri listesini görüntüleyebilirsiniz.",
+
+  "SecurityLog": "Güvenlik Kaydı",
+  "SecurityLogs": "Güvenlik Kayıtları",
+  "SecurityLog.New": "Yeni Güvenlik Kaydı",
+  "SecurityLog.Edit": "Güvenlik Kaydını Değiştir",
+  "SecurityLog.Description": "Güvenlik Kaydı listesini görüntüleyebilirsiniz.",
+
+  "Organization": "Organizasyon",
+  "Organizations": "Organizasyonlar",
+  "Organization.New": "Yeni Organizasyon",
+  "Organization.Edit": "Organizasyonu Değiştir",
+  "Organization.Description": "Organizasyon listesini görüntüleyebilirsiniz.",
+
+  "Application": "Uygulama",
+  "Applications": "Uygulamalar",
+  "Application.New": "Yeni Uygulama",
+  "Application.Edit": "Uygulamayı Değiştir",
+  "Application.Description": "Uygulama listesini görüntüleyebilirsiniz.",
+
+  "Scope": "Alan",
+  "Scopes": "Alanlar",
+  "Scope.New": "Yeni Alan",
+  "Scope.Edit": "Alanı Değiştir",
+  "Scope.Description": "Alan listesini görüntüleyebilirsiniz.",
+
+  "Language": "Dil",
+  "Languages": "Diller",
+  "Language.New": "Yeni Dil",
+  "Language.Edit": "Dili Değiştir",
+  "Language.Description": "Dil listesini görüntüleyebilirsiniz.",
+
+  "LanguageText": "Dil Metni",
+  "LanguageTexts": "Dil Metinleri",
+  "LanguageText.New": "Yeni Dil Metni",
+  "LanguageText.Edit": "Dil Metnini Değiştir",
+  "LanguageText.Description": "Dil Metinleri listesini görüntüleyebilirsiniz.",
+
+  "Edition": "Dil",
+  "Editions": "Diller",
+  "Edition.New": "Yeni Dil",
+  "Edition.Edit": "Dili Değiştir",
+  "Edition.Description": "Dil listesini görüntüleyebilirsiniz.",
+
+  "Tenant": "Tenant",
+  "Tenants": "Tenantlar",
+  "Tenant.New": "Yeni Tenant",
+  "Tenant.Edit": "Tenant Düzenle",
+  "Tenant.Description": "Tenant listesini görüntüleyebilirsiniz.",
+
+  "AuditLog": "Audit Log",
+  "AuditLogs": "Audit Logs",
+  "AuditLog.Description": "Audit Log listesini görüntüleyebilirsiniz.",
+
+  "TextTemplate": "Yazı Şablonu",
+  "TextTemplates": "Yazı Şablonları",
+  "TextTemplate.Description": "Yazı şablonlarını buradan inceleyebilirsiniz."
+}

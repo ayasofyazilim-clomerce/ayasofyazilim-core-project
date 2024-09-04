@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 
 import {
@@ -94,7 +95,7 @@ export default function NewProjectForm({
             <h4 className="text-2xl font-bold text-black">
               {languageData.CreateProject}
             </h4>
-            <div className="grid w-full items-center gap-3 mt-2">
+            <div className="mt-2 grid w-full items-center gap-3">
               <Label htmlFor="projectName">{languageData.ProjectName}</Label>
               <Input
                 id="projectName"
@@ -106,11 +107,11 @@ export default function NewProjectForm({
                 }}
                 value={formValues.name || ""}
               />
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.ProjectNameInfo}
               </p>
             </div>
-            <div className="grid w-full items-center gap-3 mt-4">
+            <div className="mt-4 grid w-full items-center gap-3">
               <Label htmlFor="projectDefinition">
                 {languageData.ProjectDescription}
               </Label>
@@ -123,7 +124,7 @@ export default function NewProjectForm({
                 }}
                 value={formValues.definition || ""}
               />
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.ProjectDescriptionInfo}
               </p>
             </div>
@@ -143,7 +144,7 @@ export default function NewProjectForm({
               {languageData.ProjectDetails}
             </h4>
 
-            <div className="grid w-full items-center gap-3 mt-2 ">
+            <div className="mt-2 grid w-full items-center gap-3 ">
               <Label htmlFor="fundCollectionType">
                 {languageData.FundCollectionType}
               </Label>
@@ -155,24 +156,24 @@ export default function NewProjectForm({
                   value={formValues.fundCollectionType || ""}
                 >
                   <SelectTabsContent value="SHRE">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <Blocks />
                       {languageData.FundCollectionTypeSHRE}
                     </div>
                   </SelectTabsContent>
                   <SelectTabsContent value="DBIT">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <HandCoins />
                       {languageData.FundCollectionTypeDBIT}
                     </div>
                   </SelectTabsContent>
                 </SelectTabs>
               </div>
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.FundCollectionTypeInfo}
               </p>
             </div>
-            <div className="grid w-full items-center gap-3 mt-2 ">
+            <div className="mt-2 grid w-full items-center gap-3 ">
               <div className="relative">
                 <NumericInput
                   direction="column"
@@ -187,7 +188,7 @@ export default function NewProjectForm({
                   slider
                   subLabel=""
                 />
-                <p className="text-[0.8rem] text-muted-foreground mt-2">
+                <p className="text-muted-foreground mt-2 text-[0.8rem]">
                   {languageData.FundableAmountInfo}
                 </p>
               </div>
@@ -207,7 +208,7 @@ export default function NewProjectForm({
               {languageData.AdditionalFunding}
             </h4>
 
-            <div className="grid w-full items-center gap-3 mt-2 ">
+            <div className="mt-2 grid w-full items-center gap-3 ">
               <Label htmlFor="overFunding">
                 {languageData.AdditionalFunding}
               </Label>
@@ -219,20 +220,20 @@ export default function NewProjectForm({
                   value={formValues.overFunding || ""}
                 >
                   <SelectTabsContent value="Y">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <Blocks />
                       {languageData.AdditionalFundingYes}
                     </div>
                   </SelectTabsContent>
                   <SelectTabsContent value="N">
-                    <div className="flex flex-row gap-1 items-center">
+                    <div className="flex flex-row items-center gap-1">
                       <HandCoins />
                       {languageData.AdditionalFundingNo}
                     </div>
                   </SelectTabsContent>
                 </SelectTabs>
               </div>
-              <p className="text-[0.8rem] text-muted-foreground">
+              <p className="text-muted-foreground text-[0.8rem]">
                 {languageData.AdditionalFundingInfo}
               </p>
             </div>
@@ -245,7 +246,7 @@ export default function NewProjectForm({
               >
                 <AccordionItem value="item-1">
                   <AccordionContent>
-                    <div className="grid w-full items-center gap-3 mt-2 ">
+                    <div className="mt-2 grid w-full items-center gap-3 ">
                       <div className="relative">
                         <NumericInput
                           direction="column"
@@ -263,7 +264,7 @@ export default function NewProjectForm({
                           slider
                           subLabel=""
                         />
-                        <p className="text-[0.8rem] text-muted-foreground mt-2">
+                        <p className="text-muted-foreground mt-2 text-[0.8rem]">
                           {languageData.AdditionalFundingRateInfo}
                         </p>
                       </div>
@@ -305,67 +306,67 @@ export default function NewProjectForm({
               <h3 className="mt-2">
                 {languageData["Messages:ProjectCreationError"]}
               </h3>
-              <p className="text-sm text-muted-foreground">{error}</p>
+              <p className="text-muted-foreground text-sm">{error}</p>
             </div>
           ) : null}
           {!projectId && !error && (
             <>
               <div className="flex flex-col gap-4 bg-white p-4">
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.ProjectName}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {formValues.name}
                   </span>
                 </div>
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.ProjectDescription}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {formValues.definition}
                   </span>
                 </div>
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.FundCollectionType}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {formValues.fundCollectionType === "SHRE"
                       ? languageData.FundCollectionTypeSHRE
                       : languageData.FundCollectionTypeDBIT}
                   </span>
                 </div>
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.FundableAmount}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {numberFormatter.format(formValues.fundableAmount || 0)}₺
                   </span>
                 </div>
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.AdditionalFunding}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {formValues.overFunding === "Y"
                       ? languageData.AdditionalFundingYes
                       : languageData.AdditionalFundingNo}
                   </span>
                 </div>
-                <div className="flex items-end justify-between gap-4 w-full items-center">
-                  <h3 className="text-sm font-semibold text-muted-foreground">
+                <div className="flex w-full items-end items-center justify-between gap-4">
+                  <h3 className="text-muted-foreground text-sm font-semibold">
                     {languageData.AdditionalFundingRate}:
                   </h3>
-                  <span className="text-md font-semibold max-w-sm">
+                  <span className="text-md max-w-sm font-semibold">
                     {formValues.additionalFundRate}%
                   </span>
                 </div>
               </div>
               <CustomButton
-                className="w-full mt-4"
+                className="mt-4 w-full"
                 isLoading={loading}
                 onClick={createNewProject}
               >

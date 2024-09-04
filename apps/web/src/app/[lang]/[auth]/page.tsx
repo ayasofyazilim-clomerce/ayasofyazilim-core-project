@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import type { ResetPasswordFormDataType } from "@repo/ayasofyazilim-ui/molecules/forms/reset-password-form";
 import type { authTypes } from "@repo/ayasofyazilim-ui/pages/auth";
@@ -123,6 +124,7 @@ export default function Page(): JSX.Element {
         await new Promise((resolve, reject) => {
           void (async () => {
             try {
+              // TODO: Implement this
               const response = await fetch("./api/post", {
                 method: "POST",
                 body: JSON.stringify({
@@ -163,13 +165,13 @@ export default function Page(): JSX.Element {
     <Auth
       authProps={props}
       authType={authTypeParam}
-      cultureName={cultureName || "tr"}
+      cultureName={cultureName || "en"}
       onLangChange={changeLocale}
       resources={resources}
     >
-      <div className="bg-slate-100 flex flex-auto justify-center items-center">
+      <div className="flex flex-auto items-center justify-center bg-slate-100">
         {appName === "UPWITHCROWD" ? (
-          <div className="font-bold text-2xl md:text-5xl text-[#f15656]">
+          <div className="text-2xl font-bold text-[#f15656] md:text-5xl">
             UPWITHCROWD
           </div>
         ) : (
