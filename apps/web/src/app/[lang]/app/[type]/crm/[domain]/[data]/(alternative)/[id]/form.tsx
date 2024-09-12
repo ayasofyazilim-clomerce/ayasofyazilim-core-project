@@ -1,4 +1,5 @@
 "use client";
+import { Card } from "@/components/ui/card";
 import { toast } from "@/components/ui/sonner";
 import type {
   UniRefund_CRMService_AddressTypes_UpdateAddressTypeDto,
@@ -10,20 +11,19 @@ import type {
 } from "@ayasofyazilim/saas/CRMService";
 import { $UniRefund_CRMService_Organizations_UpdateOrganizationDto } from "@ayasofyazilim/saas/CRMService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
+import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import { PageHeader } from "@repo/ayasofyazilim-ui/molecules/page-header";
+import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import {
   SectionLayout,
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
-import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
-import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
-import { Card } from "@/components/ui/card";
 import { getResourceDataClient } from "src/language-data/CRMService";
 import { useLocale } from "src/providers/locale";
 import type { TableData } from "src/utils";
@@ -204,6 +204,94 @@ export default function Form({
     "fullAddress",
     "typeCode",
   ]);
+
+  const individualSchema = {
+    type: "object",
+    required: ["name", "surname", "jobTitle", "email", "telephone", "active"],
+    properties: {
+      id: {
+        type: "string",
+        format: "uuid",
+      },
+      name: {
+        maxLength: 255,
+        minLength: 0,
+        type: "string",
+      },
+      surname: {
+        maxLength: 255,
+        minLength: 0,
+        type: "string",
+      },
+      jobTitle: {
+        maxLength: 255,
+        minLength: 0,
+        type: "string",
+      },
+      email: {
+        maxLength: 255,
+        minLength: 0,
+        type: "string",
+      },
+      telephone: {
+        maxLength: 255,
+        minLength: 0,
+        type: "string",
+      },
+      active: {
+        type: "boolean",
+      },
+    },
+  };
+
+  const individualData = [
+    {
+      id: "1",
+      name: "Alice",
+      surname: "Brown",
+      jobTitle: "Store Manager",
+      email: "alice.brown@techfreestore.com",
+      telephone: "+905374924745",
+      active: false,
+    },
+    {
+      id: "2",
+      name: "Bob",
+      surname: "Green",
+      jobTitle: "Sales Associate",
+      email: "bob.green@techfreestore.com",
+      telephone: "+905499573638",
+      active: true,
+    },
+    {
+      id: "3",
+      name: "Charlie",
+      surname: "Black",
+      jobTitle: "Inventory Specialist",
+      email: "charlie.black@techfreestore.com",
+      telephone: "+905335739738",
+      active: true,
+    },
+    {
+      id: "4",
+      name: "Diana",
+      surname: "White",
+      jobTitle: "Customer Service Representative",
+      email: "diana.white@techfreestore.com",
+      telephone: "+905316638492",
+      active: false,
+    },
+    {
+      id: "5",
+      name: "Eve",
+      surname: "Red",
+      jobTitle: "Cashier",
+      email: "eve.red@techfreestore.com",
+      telephone: "+905394484774",
+      active: true,
+    },
+  ];
+
   async function handleSubmit(values: unknown, sectionName: string) {
     if (typeof values !== "object") return;
 
@@ -278,13 +366,30 @@ export default function Form({
     void getSubCompaniesInformation();
   }, []);
 
-  const action: TableAction[] = [
+  const actionSubCompany: TableAction[] = [
     {
       cta: languageData[
         `${"SubCompany".replaceAll(" ", "")}.New` as keyof typeof languageData
       ],
       type: "NewPage",
       href: `/app/admin/crm/companies/${params.data}/${params.id}/subcompany/new/`,
+    },
+    {
+      cta: `Export CSV`,
+      callback: () => {
+        jsonToCSV(data, params.data);
+      },
+      type: "Action",
+    },
+  ];
+
+  const actionIndividuals: TableAction[] = [
+    {
+      cta: languageData[
+        `${"Individuals".replaceAll(" ", "")}.New` as keyof typeof languageData
+      ],
+      type: "NewPage",
+      href: ``,
     },
     {
       cta: `Export CSV`,
@@ -318,6 +423,7 @@ export default function Form({
           { name: languageData.Address, id: "address" },
           { name: languageData.Email, id: "email" },
           { name: languageData["Sub.Company"], id: "SubCompany" },
+          { name: languageData.Individuals, id: "individuals" },
         ]}
         vertical
       >
@@ -419,8 +525,9 @@ export default function Form({
         </SectionLayoutContent>
         <SectionLayoutContent sectionId="SubCompany">
           <Card className="px-4">
-            <DataTable
-              action={action}
+            <Dashboard
+              action={actionSubCompany}
+              cards={[]}
               columnsData={{
                 type: "Auto",
                 data: {
@@ -437,6 +544,27 @@ export default function Form({
               }}
               data={data || []}
               isLoading={loading}
+              withCards={false}
+              withTable
+            />
+          </Card>
+        </SectionLayoutContent>
+        <SectionLayoutContent sectionId="individuals">
+          <Card className="px-4">
+            <Dashboard
+              action={actionIndividuals}
+              cards={[]}
+              columnsData={{
+                type: "Auto",
+                data: {
+                  tableType: individualSchema,
+                  excludeList: ["id"],
+                },
+              }}
+              data={individualData}
+              isLoading={loading}
+              withCards={false}
+              withTable
             />
           </Card>
         </SectionLayoutContent>

@@ -30,5 +30,7 @@
   "Sub.Company": "Sub Companies",
   "SubCompany": " Sub Companies",
   "SubCompany.New": " New Sub Company",
-  "SubCompany.Description": "Add new Sub Company"
+  "SubCompany.Description": "Add new Sub Company",
+  "Individuals": "Individuals",
+  "Individuals.New": "New Individual"
 }
