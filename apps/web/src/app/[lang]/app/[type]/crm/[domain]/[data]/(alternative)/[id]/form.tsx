@@ -30,6 +30,7 @@ import type { TableData } from "src/utils";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import { dataConfigOfCrm } from "../../../../data";
+import { getMerchantsByIdSubMerchants } from "../../../../actions/merchant";
 import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
 
 const organization = $UniRefund_CRMService_Organizations_UpdateOrganizationDto;
@@ -341,17 +342,17 @@ export default function Form({
     }
   }
 
-  async function getSubCompaniesInformation(totalCount = 1000) {
+  async function getSubCompaniesInformationForMerchantx() {
     try {
-      const response = await fetch(
-        getBaseLink(`/api/crm/subcompanies?maxResultCount=${totalCount}`),
-      );
-      if (!response.ok) {
-        toast.error(response.statusText);
+      const response = await getMerchantsByIdSubMerchants({
+        id: params.id,
+      });
+      if (response.type === "error") {
+        toast.error(response.status);
         return;
       }
       const _data =
-        (await response.json()) as Volo_Abp_Application_Dtos_PagedResultDto_18;
+        response.data as Volo_Abp_Application_Dtos_PagedResultDto_18;
       if (_data.items) {
         setData(_data.items);
       }
@@ -363,7 +364,7 @@ export default function Form({
   }
 
   useEffect(() => {
-    void getSubCompaniesInformation();
+    void getSubCompaniesInformationForMerchantx();
   }, []);
 
   const actionSubCompany: TableAction[] = [
