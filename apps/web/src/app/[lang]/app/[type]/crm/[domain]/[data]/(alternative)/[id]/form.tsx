@@ -540,6 +540,22 @@ export default function Form({
                     "parentCompanyId",
                     "id",
                   ],
+                  actionList: [
+                    {
+                      cta: languageData.Delete,
+                      type: "Action",
+                      callback: () => {
+                        ("");
+                      },
+                    },
+                    {
+                      cta: languageData.Edit,
+                      type: "Action",
+                      callback: () => {
+                        ("");
+                      },
+                    },
+                  ],
                 },
               }}
               data={data || []}
@@ -559,6 +575,22 @@ export default function Form({
                 data: {
                   tableType: individualSchema,
                   excludeList: ["id"],
+                  actionList: [
+                    {
+                      cta: languageData.Delete,
+                      type: "Action",
+                      callback: () => {
+                        ("");
+                      },
+                    },
+                    {
+                      cta: languageData.Edit,
+                      type: "Action",
+                      callback: () => {
+                        ("");
+                      },
+                    },
+                  ],
                 },
               }}
               data={individualData}
