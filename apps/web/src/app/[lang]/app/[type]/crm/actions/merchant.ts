@@ -10,6 +10,7 @@ import type {
 import { revalidatePath } from "next/cache";
 import type { ServerResponse } from "src/lib";
 import { getCRMServiceClient, structuredError } from "src/lib";
+import type { Individual } from "../[domain]/[data]/(alternative)/[id]/data";
 import { individualData } from "../[domain]/[data]/(alternative)/[id]/data";
 
 export async function getCrmServiceMerchants(
@@ -109,7 +110,9 @@ export async function deleteSubMerchantsByIdWithComponents(
   }
 }
 
-export function deleteIndivitualsMerchantsByIdWithComponents() {
+export function deleteIndivitualsMerchantsByIdWithComponents(): ServerResponse<
+  Individual[]
+> {
   // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
   "use server";
   try {
@@ -124,8 +127,8 @@ export function deleteIndivitualsMerchantsByIdWithComponents() {
       type: "success",
       data: response,
       status: 200,
+      message: "Indivitual deleted successfully.",
     };
-    // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
   } catch (error) {
     return structuredError(error);
   }

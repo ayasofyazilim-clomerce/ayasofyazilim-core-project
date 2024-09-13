@@ -105,7 +105,7 @@ export async function getCRMServiceClient() {
 }
 
 export type ServerResponse<T = undefined> = BaseServerResponse &
-  (undefined extends T ? ErrorTypes : SuccessServerResponse<T>);
+  (ErrorTypes | SuccessServerResponse<T>);
 
 export type ErrorTypes = ErrorServerResponse | ApiErrorServerResponse;
 

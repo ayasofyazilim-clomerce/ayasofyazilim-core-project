@@ -161,7 +161,7 @@ export const individualSchema = {
     },
   },
 };
-export const individualData = [
+export const individualData: Individual[] = [
   {
     id: "1",
     name: "Alice",
@@ -208,3 +208,13 @@ export const individualData = [
     active: true,
   },
 ];
+
+export interface Individual {
+  id: string;
+  name: string;
+  surname: string;
+  jobTitle: string;
+  email: string;
+  telephone: string;
+  active: boolean;
+}

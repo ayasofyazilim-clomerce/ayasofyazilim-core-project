@@ -209,9 +209,9 @@ export default function Form({
         toast.error(response.status);
         return;
       }
-      toast.success("Sub Company deleted successfully.");
+      toast.success("Indivitual deleted successfully.");
     } catch (error) {
-      toast.error("An error occurred while deleting Sub Company.");
+      toast.error("An error occurred while deleting Indivitual.");
     } finally {
       setLoading(false);
     }
