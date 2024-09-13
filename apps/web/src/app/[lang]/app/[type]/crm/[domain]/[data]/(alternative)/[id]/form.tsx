@@ -9,156 +9,41 @@ import type {
   UniRefund_CRMService_TelephoneTypes_UpdateTelephoneTypeDto,
   Volo_Abp_Application_Dtos_PagedResultDto_18,
 } from "@ayasofyazilim/saas/CRMService";
-import { $UniRefund_CRMService_Organizations_UpdateOrganizationDto } from "@ayasofyazilim/saas/CRMService";
 import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import { PageHeader } from "@repo/ayasofyazilim-ui/molecules/page-header";
 import type { TableAction } from "@repo/ayasofyazilim-ui/molecules/tables";
+import DataTable from "@repo/ayasofyazilim-ui/molecules/tables";
 import AutoForm, {
   AutoFormSubmit,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
-import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import {
   SectionLayout,
   SectionLayoutContent,
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { getResourceDataClient } from "src/language-data/CRMService";
 import { useLocale } from "src/providers/locale";
 import type { TableData } from "src/utils";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
-import { dataConfigOfCrm } from "../../../../data";
 import {
   deleteSubMerchantsByIdWithComponents,
   getMerchantsByIdSubMerchants,
 } from "../../../../actions/merchant";
+import { dataConfigOfCrm } from "../../../../data";
 import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
+import {
+  address,
+  email,
+  individualData,
+  individualSchema,
+  organization,
+  telephone,
+} from "./data";
 
-const organization = $UniRefund_CRMService_Organizations_UpdateOrganizationDto;
-const telephone = {
-  required: ["areaCode", "ituCountryCode", "localNumber", "typeCode"],
-  type: "object",
-  properties: {
-    extraProperties: {
-      type: "object",
-      additionalProperties: {},
-      nullable: true,
-      readOnly: true,
-    },
-    areaCode: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    localNumber: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    ituCountryCode: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    primaryFlag: {
-      type: "boolean",
-    },
-    typeCode: {
-      enum: ["Home", "Office", "Mobile", "Fax"],
-      type: "integer",
-      format: "int32",
-    },
-  },
-  additionalProperties: false,
-};
-const address = {
-  required: [
-    "addressLine",
-    "city",
-    "country",
-    "fullAddress",
-    "postalCode",
-    "terriority",
-    "typeCode",
-  ],
-  type: "object",
-  properties: {
-    extraProperties: {
-      type: "object",
-      additionalProperties: {},
-      nullable: true,
-      readOnly: true,
-    },
-    addressLine: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    city: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    terriority: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    postalCode: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    country: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    fullAddress: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    primaryFlag: {
-      type: "boolean",
-    },
-    typeCode: {
-      enum: ["Home", "Office"],
-      type: "integer",
-      format: "int32",
-    },
-  },
-  additionalProperties: false,
-};
-const email = {
-  required: ["emailAddress", "typeCode"],
-  type: "object",
-  properties: {
-    extraProperties: {
-      type: "object",
-      additionalProperties: {},
-      nullable: true,
-      readOnly: true,
-    },
-    emailAddress: {
-      maxLength: 255,
-      minLength: 0,
-      type: "string",
-    },
-    primaryFlag: {
-      type: "boolean",
-    },
-    typeCode: {
-      enum: ["Work", "Personal"],
-      type: "integer",
-      format: "int32",
-    },
-  },
-  additionalProperties: false,
-};
 export default function Form({
   crmDetailData,
   params,
@@ -196,7 +81,6 @@ export default function Form({
     "localNumber",
     "typeCode",
   ]);
-
   const phoneNumber =
     (telephoneInfo?.ituCountryCode || "+90") +
     (telephoneInfo?.areaCode || "") +
@@ -210,93 +94,6 @@ export default function Form({
     "fullAddress",
     "typeCode",
   ]);
-
-  const individualSchema = {
-    type: "object",
-    required: ["name", "surname", "jobTitle", "email", "telephone", "active"],
-    properties: {
-      id: {
-        type: "string",
-        format: "uuid",
-      },
-      name: {
-        maxLength: 255,
-        minLength: 0,
-        type: "string",
-      },
-      surname: {
-        maxLength: 255,
-        minLength: 0,
-        type: "string",
-      },
-      jobTitle: {
-        maxLength: 255,
-        minLength: 0,
-        type: "string",
-      },
-      email: {
-        maxLength: 255,
-        minLength: 0,
-        type: "string",
-      },
-      telephone: {
-        maxLength: 255,
-        minLength: 0,
-        type: "string",
-      },
-      active: {
-        type: "boolean",
-      },
-    },
-  };
-
-  const individualData = [
-    {
-      id: "1",
-      name: "Alice",
-      surname: "Brown",
-      jobTitle: "Store Manager",
-      email: "alice.brown@techfreestore.com",
-      telephone: "+905374924745",
-      active: false,
-    },
-    {
-      id: "2",
-      name: "Bob",
-      surname: "Green",
-      jobTitle: "Sales Associate",
-      email: "bob.green@techfreestore.com",
-      telephone: "+905499573638",
-      active: true,
-    },
-    {
-      id: "3",
-      name: "Charlie",
-      surname: "Black",
-      jobTitle: "Inventory Specialist",
-      email: "charlie.black@techfreestore.com",
-      telephone: "+905335739738",
-      active: true,
-    },
-    {
-      id: "4",
-      name: "Diana",
-      surname: "White",
-      jobTitle: "Customer Service Representative",
-      email: "diana.white@techfreestore.com",
-      telephone: "+905316638492",
-      active: false,
-    },
-    {
-      id: "5",
-      name: "Eve",
-      surname: "Red",
-      jobTitle: "Cashier",
-      email: "eve.red@techfreestore.com",
-      telephone: "+905394484774",
-      active: true,
-    },
-  ];
 
   async function handleSubmit(values: unknown, sectionName: string) {
     if (typeof values !== "object") return;
@@ -548,9 +345,8 @@ export default function Form({
         </SectionLayoutContent>
         <SectionLayoutContent sectionId="SubCompany">
           <Card className="px-4">
-            <Dashboard
+            <DataTable
               action={actionSubCompany}
-              cards={[]}
               columnsData={{
                 type: "Auto",
                 data: {
@@ -587,16 +383,13 @@ export default function Form({
               }}
               data={data || []}
               isLoading={loading}
-              withCards={false}
-              withTable
             />
           </Card>
         </SectionLayoutContent>
         <SectionLayoutContent sectionId="individuals">
           <Card className="px-4">
-            <Dashboard
+            <DataTable
               action={actionIndividuals}
-              cards={[]}
               columnsData={{
                 type: "Auto",
                 data: {
@@ -622,8 +415,6 @@ export default function Form({
               }}
               data={individualData}
               isLoading={loading}
-              withCards={false}
-              withTable
             />
           </Card>
         </SectionLayoutContent>
