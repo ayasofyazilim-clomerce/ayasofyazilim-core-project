@@ -1,11 +1,11 @@
 "use server";
 import type {
-  Volo_Abp_Application_Dtos_PagedResultDto_16,
+  DeleteApiCrmServiceMerchantsByIdWithComponentsData,
   GetApiCrmServiceMerchantsByIdDetailData,
   GetApiCrmServiceMerchantsByIdSubMerchantsData,
   GetApiCrmServiceMerchantsData,
   UniRefund_CRMService_Merchants_MerchantDetailDto,
-  DeleteApiCrmServiceMerchantsByIdWithComponentsData,
+  Volo_Abp_Application_Dtos_PagedResultDto_16,
 } from "@ayasofyazilim/saas/CRMService";
 import { revalidatePath } from "next/cache";
 import type { ServerResponse } from "src/lib";
@@ -67,6 +67,25 @@ export async function getMerchantsByIdSubMerchants(
   }
 }
 
+// export async function getMerchantsByIdIndivituals() {
+//   // body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
+//   "use server";
+//   try {
+//     const client = await getCRMServiceClient();
+//     // const response =
+//     //   await client.merchant.getApiCrmServiceMerchantsByIdIndivituals(body);
+//     // revalidatePath("/");
+//     return {
+//       type: "success",
+//       data: individualData,
+//       status: 200,
+//     };
+//     // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+//   } catch (error) {
+//     return structuredError(error);
+//   }
+// }
+
 export async function deleteSubMerchantsByIdWithComponents(
   body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
 ) {
@@ -87,3 +106,24 @@ export async function deleteSubMerchantsByIdWithComponents(
     return structuredError(error);
   }
 }
+
+// export async function deleteIndivitualsMerchantsByIdWithComponents() {
+//   // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
+//   "use server";
+//   try {
+//     const client = await getCRMServiceClient();
+//     // const response =
+//     //   await client.merchant.(
+//     //     body,
+//     //   );
+//     // revalidatePath("/");
+//     return {
+//       type: "success",
+//       data: individualData,
+//       status: 200,
+//     };
+//     // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+//   } catch (error) {
+//     return structuredError(error);
+//   }
+// }
