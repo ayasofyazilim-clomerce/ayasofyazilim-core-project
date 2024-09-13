@@ -24,13 +24,17 @@ import {
 } from "@repo/ayasofyazilim-ui/templates/section-layout-v2";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getResourceDataClient } from "src/language-data/CRMService";
 import { useLocale } from "src/providers/locale";
 import type { TableData } from "src/utils";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import { dataConfigOfCrm } from "../../../../data";
-import { getMerchantsByIdSubMerchants } from "../../../../actions/merchant";
+import {
+  deleteSubMerchantsByIdWithComponents,
+  getMerchantsByIdSubMerchants,
+} from "../../../../actions/merchant";
 import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
 
 const organization = $UniRefund_CRMService_Organizations_UpdateOrganizationDto;
@@ -170,6 +174,7 @@ export default function Form({
   const [formData] = useState<TableData>(
     dataConfigOfCrm[params.domain].pages[params.data],
   );
+  const router = useRouter();
   const [data, setData] =
     useState<Volo_Abp_Application_Dtos_PagedResultDto_18["items"]>();
   const [loading, setLoading] = useState(true);
@@ -343,6 +348,7 @@ export default function Form({
   }
 
   async function getSubCompaniesInformationForMerchantx() {
+    setLoading(true);
     try {
       const response = await getMerchantsByIdSubMerchants({
         id: params.id,
@@ -358,6 +364,22 @@ export default function Form({
       }
     } catch (error) {
       toast.error("An error occurred while fetching Sub Companies.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteSubMerchantsById(id: string) {
+    setLoading(true);
+    try {
+      const response = await deleteSubMerchantsByIdWithComponents({ id });
+      if (response.type === "error") {
+        toast.error(response.status);
+        return;
+      }
+      toast.success("Sub Company deleted successfully.");
+    } catch (error) {
+      toast.error("An error occurred while deleting Sub Company.");
     } finally {
       setLoading(false);
     }
@@ -545,15 +567,19 @@ export default function Form({
                     {
                       cta: languageData.Delete,
                       type: "Action",
-                      callback: () => {
-                        ("");
+                      callback: (row: { id: string }) => {
+                        void deleteSubMerchantsById(row.id);
                       },
                     },
                     {
                       cta: languageData.Edit,
                       type: "Action",
-                      callback: () => {
-                        ("");
+                      callback: (row: { id: string }) => {
+                        router.push(
+                          getBaseLink(
+                            `app/admin/crm/companies/${params.data}/${row.id}`,
+                          ),
+                        );
                       },
                     },
                   ],
