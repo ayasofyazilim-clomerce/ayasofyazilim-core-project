@@ -10,6 +10,7 @@ import type {
 import { revalidatePath } from "next/cache";
 import type { ServerResponse } from "src/lib";
 import { getCRMServiceClient, structuredError } from "src/lib";
+import { individualData } from "../[domain]/[data]/(alternative)/[id]/data";
 
 export async function getCrmServiceMerchants(
   body: GetApiCrmServiceMerchantsData,
@@ -67,24 +68,25 @@ export async function getMerchantsByIdSubMerchants(
   }
 }
 
-// export async function getMerchantsByIdIndivituals() {
-//   // body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
-//   "use server";
-//   try {
-//     const client = await getCRMServiceClient();
-//     // const response =
-//     //   await client.merchant.getApiCrmServiceMerchantsByIdIndivituals(body);
-//     // revalidatePath("/");
-//     return {
-//       type: "success",
-//       data: individualData,
-//       status: 200,
-//     };
-//     // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
-//   } catch (error) {
-//     return structuredError(error);
-//   }
-// }
+export function getMerchantsByIdIndivituals() {
+  // body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
+  "use server";
+  try {
+    const response = individualData;
+    // const client = await getCRMServiceClient();
+    //   const response =
+    //   await client.merchant.getApiCrmServiceMerchantsByIdSubMerchants(body);
+    revalidatePath("/");
+    return {
+      type: "success",
+      data: response,
+      status: 200,
+    };
+    // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+  } catch (error) {
+    return structuredError(error);
+  }
+}
 
 export async function deleteSubMerchantsByIdWithComponents(
   body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
@@ -107,23 +109,24 @@ export async function deleteSubMerchantsByIdWithComponents(
   }
 }
 
-// export async function deleteIndivitualsMerchantsByIdWithComponents() {
-//   // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
-//   "use server";
-//   try {
-//     const client = await getCRMServiceClient();
-//     // const response =
-//     //   await client.merchant.(
-//     //     body,
-//     //   );
-//     // revalidatePath("/");
-//     return {
-//       type: "success",
-//       data: individualData,
-//       status: 200,
-//     };
-//     // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
-//   } catch (error) {
-//     return structuredError(error);
-//   }
-// }
+export function deleteIndivitualsMerchantsByIdWithComponents() {
+  // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
+  "use server";
+  try {
+    const response = individualData;
+    // const client = await getCRMServiceClient();
+    // const response =
+    //   await client.merchant.deleteApiCrmServiceMerchantsByIdWithComponents(
+    //     body,
+    //   );
+    revalidatePath("/");
+    return {
+      type: "success",
+      data: response,
+      status: 200,
+    };
+    // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+  } catch (error) {
+    return structuredError(error);
+  }
+}

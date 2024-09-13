@@ -30,7 +30,9 @@ import type { TableData } from "src/utils";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import {
+  deleteIndivitualsMerchantsByIdWithComponents,
   deleteSubMerchantsByIdWithComponents,
+  getMerchantsByIdIndivituals,
   getMerchantsByIdSubMerchants,
 } from "../../../../actions/merchant";
 import { dataConfigOfCrm } from "../../../../data";
@@ -38,7 +40,6 @@ import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
 import {
   address,
   email,
-  individualData,
   individualSchema,
   organization,
   telephone,
@@ -62,6 +63,7 @@ export default function Form({
   const router = useRouter();
   const [data, setData] =
     useState<Volo_Abp_Application_Dtos_PagedResultDto_18["items"]>();
+  const [IdIndivitualsData, setIdIndivitualsData] = useState<unknown>();
   const [loading, setLoading] = useState(true);
   const { resources } = useLocale();
   const languageData = getResourceDataClient(resources, params.lang);
@@ -166,6 +168,23 @@ export default function Form({
     }
   }
 
+  function getIndivitualsInformationForMerchantx() {
+    setLoading(true);
+    try {
+      const response = getMerchantsByIdIndivituals();
+      if (response.type === "error") {
+        toast.error(response.status);
+        return;
+      }
+      const IdIndivitualsdata = response.data;
+      setIdIndivitualsData(IdIndivitualsdata);
+    } catch (error) {
+      toast.error("An error occurred while fetching Sub Companies.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function deleteSubMerchantsById(id: string) {
     setLoading(true);
     try {
@@ -182,8 +201,28 @@ export default function Form({
     }
   }
 
+  function deleteIndivitualsOfMerchantsById() {
+    setLoading(true);
+    try {
+      const response = deleteIndivitualsMerchantsByIdWithComponents();
+      if (response.type === "error") {
+        toast.error(response.status);
+        return;
+      }
+      toast.success("Sub Company deleted successfully.");
+    } catch (error) {
+      toast.error("An error occurred while deleting Sub Company.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     void getSubCompaniesInformationForMerchantx();
+  }, []);
+
+  useEffect(() => {
+    getIndivitualsInformationForMerchantx();
   }, []);
 
   const actionSubCompany: TableAction[] = [
@@ -400,7 +439,7 @@ export default function Form({
                       cta: languageData.Delete,
                       type: "Action",
                       callback: () => {
-                        ("");
+                        deleteIndivitualsOfMerchantsById();
                       },
                     },
                     {
@@ -413,7 +452,7 @@ export default function Form({
                   ],
                 },
               }}
-              data={individualData}
+              data={IdIndivitualsData as unknown[]}
               isLoading={loading}
             />
           </Card>
