@@ -168,10 +168,10 @@ export default function Form({
     }
   }
 
-  function getIndivitualsInformationForMerchantx() {
+  async function getIndivitualsInformationForMerchantx() {
     setLoading(true);
     try {
-      const response = getMerchantsByIdIndivituals();
+      const response = await getMerchantsByIdIndivituals();
       if (response.type === "error") {
         toast.error(response.status);
         return;
@@ -201,10 +201,10 @@ export default function Form({
     }
   }
 
-  function deleteIndivitualsOfMerchantsById() {
+  async function deleteIndivitualsOfMerchantsById() {
     setLoading(true);
     try {
-      const response = deleteIndivitualsMerchantsByIdWithComponents();
+      const response = await deleteIndivitualsMerchantsByIdWithComponents();
       if (response.type === "error") {
         toast.error(response.status);
         return;
@@ -222,7 +222,7 @@ export default function Form({
   }, []);
 
   useEffect(() => {
-    getIndivitualsInformationForMerchantx();
+    void getIndivitualsInformationForMerchantx();
   }, []);
 
   const actionSubCompany: TableAction[] = [
@@ -439,7 +439,7 @@ export default function Form({
                       cta: languageData.Delete,
                       type: "Action",
                       callback: () => {
-                        deleteIndivitualsOfMerchantsById();
+                        void deleteIndivitualsOfMerchantsById();
                       },
                     },
                     {

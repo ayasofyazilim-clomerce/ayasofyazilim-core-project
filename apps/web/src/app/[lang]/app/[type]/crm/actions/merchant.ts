@@ -69,24 +69,32 @@ export async function getMerchantsByIdSubMerchants(
   }
 }
 
-export function getMerchantsByIdIndivituals() {
+export async function getMerchantsByIdIndivituals(): Promise<
+  ServerResponse<Individual[]>
+> {
   // body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
   "use server";
-  try {
-    const response = individualData;
-    // const client = await getCRMServiceClient();
-    //   const response =
-    //   await client.merchant.getApiCrmServiceMerchantsByIdSubMerchants(body);
-    revalidatePath("/");
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-    };
-    // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
-  } catch (error) {
-    return structuredError(error);
-  }
+  return Promise.resolve({
+    type: "success",
+    data: individualData,
+    status: 200,
+    message: "Indivitual deleted successfully.",
+  });
+  // try {
+  //   const response = individualData;
+  //   // const client = await getCRMServiceClient();
+  //   //   const response =
+  //   //   await client.merchant.getApiCrmServiceMerchantsByIdSubMerchants(body);
+  //   revalidatePath("/");
+  //   return {
+  //     type: "success",
+  //     data: response,
+  //     status: 200,
+  //   };
+  //   // as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+  // } catch (error) {
+  //   return structuredError(error);
+  // }
 }
 
 export async function deleteSubMerchantsByIdWithComponents(
@@ -110,26 +118,32 @@ export async function deleteSubMerchantsByIdWithComponents(
   }
 }
 
-export function deleteIndivitualsMerchantsByIdWithComponents(): ServerResponse<
-  Individual[]
+export async function deleteIndivitualsMerchantsByIdWithComponents(): Promise<
+  ServerResponse<Individual[]>
 > {
   // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
   "use server";
-  try {
-    const response = individualData;
-    // const client = await getCRMServiceClient();
-    // const response =
-    //   await client.merchant.deleteApiCrmServiceMerchantsByIdWithComponents(
-    //     body,
-    //   );
-    revalidatePath("/");
-    return {
-      type: "success",
-      data: response,
-      status: 200,
-      message: "Indivitual deleted successfully.",
-    };
-  } catch (error) {
-    return structuredError(error);
-  }
+  return Promise.resolve({
+    type: "success",
+    data: individualData,
+    status: 200,
+    message: "Indivitual deleted successfully.",
+  });
+  // try {
+  //   const response = individualData;
+  //   // const client = await getCRMServiceClient();
+  //   // const response =
+  //   //   await client.merchant.deleteApiCrmServiceMerchantsByIdWithComponents(
+  //   //     body,
+  //   //   );
+  //   revalidatePath("/");
+  //   return {
+  //     type: "success",
+  //     data: response,
+  //     status: 200,
+  //     message: "Indivitual deleted successfully.",
+  //   };
+  // } catch (error) {
+  //   return structuredError(error);
+  // }
 }
