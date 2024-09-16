@@ -50,7 +50,7 @@ export async function getCrmServiceMerchantsDetailById(
   }
 }
 
-export async function getMerchantsByIdSubMerchants(
+export async function getSubCompanyByMerchantId(
   body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
 ) {
   "use server";
@@ -63,13 +63,14 @@ export async function getMerchantsByIdSubMerchants(
       type: "success",
       data: response,
       status: 200,
-    } as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+      message: "An error occurred while fetching Sub Companies.",
+    };
   } catch (error) {
     return structuredError(error);
   }
 }
 
-export async function getMerchantsByIdIndivituals(): Promise<
+export async function getIndivitualByMerchantId(): Promise<
   ServerResponse<Individual[]>
 > {
   // body: GetApiCrmServiceMerchantsByIdSubMerchantsData,
@@ -78,7 +79,7 @@ export async function getMerchantsByIdIndivituals(): Promise<
     type: "success",
     data: individualData,
     status: 200,
-    message: "Indivitual deleted successfully.",
+    message: "An error occurred while fetching Indivituals.",
   });
   // try {
   //   const response = individualData;
@@ -97,7 +98,7 @@ export async function getMerchantsByIdIndivituals(): Promise<
   // }
 }
 
-export async function deleteSubMerchantsByIdWithComponents(
+export async function deleteSubMerchantByMerchantId(
   body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,
 ) {
   "use server";
@@ -112,13 +113,14 @@ export async function deleteSubMerchantsByIdWithComponents(
       type: "success",
       data: response,
       status: 200,
-    } as ServerResponse<Volo_Abp_Application_Dtos_PagedResultDto_16>;
+      message: "Sub Company deleted successfully.",
+    };
   } catch (error) {
     return structuredError(error);
   }
 }
 
-export async function deleteIndivitualsMerchantsByIdWithComponents(): Promise<
+export async function deleteIndivitualByMerchantId(): Promise<
   ServerResponse<Individual[]>
 > {
   // body: DeleteApiCrmServiceMerchantsByIdWithComponentsData,

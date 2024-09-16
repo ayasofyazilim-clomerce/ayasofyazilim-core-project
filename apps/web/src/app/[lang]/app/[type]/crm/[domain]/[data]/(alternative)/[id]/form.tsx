@@ -30,10 +30,10 @@ import type { TableData } from "src/utils";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import {
-  deleteIndivitualsMerchantsByIdWithComponents,
-  deleteSubMerchantsByIdWithComponents,
-  getMerchantsByIdIndivituals,
-  getMerchantsByIdSubMerchants,
+  deleteIndivitualByMerchantId,
+  deleteSubMerchantByMerchantId,
+  getIndivitualByMerchantId,
+  getSubCompanyByMerchantId,
 } from "../../../../actions/merchant";
 import { dataConfigOfCrm } from "../../../../data";
 import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
@@ -146,10 +146,10 @@ export default function Form({
     }
   }
 
-  async function getSubCompaniesInformationForMerchantx() {
+  async function getSubCompaniesOfMerchant() {
     setLoading(true);
     try {
-      const response = await getMerchantsByIdSubMerchants({
+      const response = await getSubCompanyByMerchantId({
         id: params.id,
       });
       if (response.type === "error") {
@@ -168,10 +168,10 @@ export default function Form({
     }
   }
 
-  async function getIndivitualsInformationForMerchantx() {
+  async function getIndivitualsOfMerchant() {
     setLoading(true);
     try {
-      const response = await getMerchantsByIdIndivituals();
+      const response = await getIndivitualByMerchantId();
       if (response.type === "error") {
         toast.error(response.status);
         return;
@@ -179,16 +179,16 @@ export default function Form({
       const IdIndivitualsdata = response.data;
       setIdIndivitualsData(IdIndivitualsdata);
     } catch (error) {
-      toast.error("An error occurred while fetching Sub Companies.");
+      toast.error("An error occurred while fetching Indivitual.");
     } finally {
       setLoading(false);
     }
   }
 
-  async function deleteSubMerchantsById(id: string) {
+  async function deleteSubMerchant(id: string) {
     setLoading(true);
     try {
-      const response = await deleteSubMerchantsByIdWithComponents({ id });
+      const response = await deleteSubMerchantByMerchantId({ id });
       if (response.type === "error") {
         toast.error(response.status);
         return;
@@ -201,10 +201,10 @@ export default function Form({
     }
   }
 
-  async function deleteIndivitualsOfMerchantsById() {
+  async function deleteIndivitualMerchant() {
     setLoading(true);
     try {
-      const response = await deleteIndivitualsMerchantsByIdWithComponents();
+      const response = await deleteIndivitualByMerchantId();
       if (response.type === "error") {
         toast.error(response.status);
         return;
@@ -218,11 +218,11 @@ export default function Form({
   }
 
   useEffect(() => {
-    void getSubCompaniesInformationForMerchantx();
+    void getSubCompaniesOfMerchant();
   }, []);
 
   useEffect(() => {
-    void getIndivitualsInformationForMerchantx();
+    void getIndivitualsOfMerchant();
   }, []);
 
   const actionSubCompany: TableAction[] = [
@@ -248,7 +248,7 @@ export default function Form({
         `${"Individuals".replaceAll(" ", "")}.New` as keyof typeof languageData
       ],
       type: "NewPage",
-      href: ``,
+      href: `/app/admin/crm/companies/${params.data}/${params.id}/indivitual/new/`,
     },
     {
       cta: `Export CSV`,
@@ -403,7 +403,7 @@ export default function Form({
                       cta: languageData.Delete,
                       type: "Action",
                       callback: (row: { id: string }) => {
-                        void deleteSubMerchantsById(row.id);
+                        void deleteSubMerchant(row.id);
                       },
                     },
                     {
@@ -439,7 +439,7 @@ export default function Form({
                       cta: languageData.Delete,
                       type: "Action",
                       callback: () => {
-                        void deleteIndivitualsOfMerchantsById();
+                        void deleteIndivitualMerchant();
                       },
                     },
                     {
