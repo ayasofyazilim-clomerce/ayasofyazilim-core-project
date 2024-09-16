@@ -32,7 +32,7 @@ const clients: Clients = {
         merchant.deleteApiCrmServiceMerchantsByIdWithComponents({ id }),
     };
   },
-  refundPoints: async () => {
+  "refund-points": async () => {
     const client = await getCRMServiceClient();
     const refundPoint = client.refundPoint;
     return {
@@ -74,7 +74,7 @@ const clients: Clients = {
         customs.deleteApiCrmServiceCustomsByIdWithComponents({ id }),
     };
   },
-  taxFree: async () => {
+  "tax-free": async () => {
     const client = await getCRMServiceClient();
     const taxFree = client.taxFree;
     return {
@@ -95,7 +95,7 @@ const clients: Clients = {
         taxFree.deleteApiCrmServiceTaxFreesByIdWithComponents({ id }),
     };
   },
-  taxOffices: async () => {
+  "tax-offices": async () => {
     const client = await getCRMServiceClient();
     const taxOffices = client.taxOffice;
     return {
