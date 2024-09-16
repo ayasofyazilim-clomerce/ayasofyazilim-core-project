@@ -48,7 +48,6 @@ export default function Page({
 }: {
   params: {
     data: string;
-    domain: string;
     lang: string;
     id: string;
   };

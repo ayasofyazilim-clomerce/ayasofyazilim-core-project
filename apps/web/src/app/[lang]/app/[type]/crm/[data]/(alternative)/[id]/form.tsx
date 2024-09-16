@@ -31,12 +31,11 @@ import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import { dataConfigOfCrm } from "../../../data";
 import {
-  deleteIndivitualByMerchantId,
-  deleteSubMerchantByMerchantId,
-  getIndivitualByMerchantId,
   getSubCompanyByMerchantId,
+  getIndivitualByMerchantId,
+  deleteSubMerchantByMerchantId,
+  deleteIndivitualByMerchantId,
 } from "../../../actions/merchant";
-import { updateCRMDetailServer, updateMerchantCRMDetailServer } from "./action";
 import {
   address,
   email,
@@ -44,6 +43,7 @@ import {
   organization,
   telephone,
 } from "./data";
+import { updateMerchantCRMDetailServer, updateCRMDetailServer } from "./action";
 
 export default function Form({
   crmDetailData,
@@ -53,12 +53,11 @@ export default function Form({
   params: {
     id: string;
     data: string;
-    domain: string;
     lang: string;
   };
 }) {
   const [formData] = useState<TableData>(
-    dataConfigOfCrm[params.domain].pages[params.data],
+    dataConfigOfCrm.companies.pages[params.data],
   );
   const router = useRouter();
   const [data, setData] =
@@ -231,7 +230,7 @@ export default function Form({
         `${"SubCompany".replaceAll(" ", "")}.New` as keyof typeof languageData
       ],
       type: "NewPage",
-      href: `/app/admin/crm/companies/${params.data}/${params.id}/subcompany/new/`,
+      href: `/app/admin/crm/${params.data}/${params.id}/subcompany/new/`,
     },
     {
       cta: `Export CSV`,
@@ -248,7 +247,7 @@ export default function Form({
         `${"Individuals".replaceAll(" ", "")}.New` as keyof typeof languageData
       ],
       type: "NewPage",
-      href: `/app/admin/crm/companies/${params.data}/${params.id}/indivitual/new/`,
+      href: `/app/admin/crm/${params.data}/${params.id}/indivitual/new/`,
     },
     {
       cta: `Export CSV`,
@@ -268,7 +267,7 @@ export default function Form({
             `${formData.title?.replaceAll(" ", "")}.Edit` as keyof typeof languageData
           ]
         }
-        href={getBaseLink(`/app/admin/crm/${params.domain}/${params.data}`)}
+        href={getBaseLink(`/app/admin/crm/${params.data}`)}
         title={
           languageData[
             `${formData.title?.replaceAll(" ", "")}.Edit` as keyof typeof languageData
@@ -390,7 +389,7 @@ export default function Form({
                 type: "Auto",
                 data: {
                   tableType:
-                    dataConfigOfCrm[params.domain].pages.merchants.tableSchema
+                    dataConfigOfCrm.companies.pages[params.data].tableSchema
                       .schema,
                   excludeList: [
                     "organizationId",
@@ -411,9 +410,7 @@ export default function Form({
                       type: "Action",
                       callback: (row: { id: string }) => {
                         router.push(
-                          getBaseLink(
-                            `app/admin/crm/companies/${params.data}/${row.id}`,
-                          ),
+                          getBaseLink(`app/admin/crm/${params.data}/${row.id}`),
                         );
                       },
                     },

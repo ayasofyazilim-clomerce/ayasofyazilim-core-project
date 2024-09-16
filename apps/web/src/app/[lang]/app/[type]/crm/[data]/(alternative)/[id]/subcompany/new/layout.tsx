@@ -10,7 +10,6 @@ interface LayoutProps {
   children: JSX.Element;
   params: {
     lang: string;
-    domain: string;
     data: string;
     id: string;
   };

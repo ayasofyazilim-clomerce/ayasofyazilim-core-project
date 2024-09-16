@@ -66,7 +66,6 @@ export default function Page({
 }: {
   params: {
     data: string;
-    domain: string;
     lang: string;
     id: string;
   };
@@ -113,11 +112,7 @@ export default function Page({
       });
       if (response.ok) {
         toast.success(`Sub Company added successfully`);
-        router.push(
-          getBaseLink(
-            `/app/admin/crm/${params.domain}/${params.data}/${params.id}`,
-          ),
-        );
+        router.push(getBaseLink(`/app/admin/crm/${params.data}/${params.id}`));
       } else {
         const errorData = (await response.json()) as {
           message: string;

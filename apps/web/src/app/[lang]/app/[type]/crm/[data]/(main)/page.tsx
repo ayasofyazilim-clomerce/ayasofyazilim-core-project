@@ -54,7 +54,7 @@ function convertEnumField(
 export default function Page({
   params,
 }: {
-  params: { data: string; domain: string; lang: string };
+  params: { data: string; lang: string };
 }): JSX.Element {
   const fetchLink = getBaseLink(`/api/crm/${params.data}`);
   const [roles, setRoles] = useState<any>();

@@ -28,7 +28,6 @@ export default async function Page({
   params: {
     id: string;
     data: string;
-    domain: string;
     lang: string;
   };
 }) {

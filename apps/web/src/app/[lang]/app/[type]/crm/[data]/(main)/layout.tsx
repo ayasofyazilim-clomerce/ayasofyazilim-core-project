@@ -18,7 +18,6 @@ interface LayoutProps {
   children: JSX.Element;
   params: {
     lang: string;
-    domain: string;
     type: string;
   };
 }
@@ -66,19 +65,19 @@ export default function Layout({ children, params }: LayoutProps) {
         description: languageData["Merchants.Description"],
       };
     }
-    if (activePage === "refundPoints") {
+    if (activePage === "refund-points") {
       return {
         title: languageData.RefundPoints,
         description: languageData["RefundPoints.Description"],
       };
     }
-    if (activePage === "taxFree") {
+    if (activePage === "tax-free") {
       return {
         title: languageData.TaxFree,
         description: languageData["TaxFree.Description"],
       };
     }
-    if (activePage === "taxOffices") {
+    if (activePage === "tax-offices") {
       return {
         title: languageData.TaxOffices,
         description: languageData["TaxOffices.Description"],
