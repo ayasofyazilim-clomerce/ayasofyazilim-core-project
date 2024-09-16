@@ -40,6 +40,8 @@ export interface CRMServiceServiceResource {
   "Sub.Company": string;
   "SubCompany.New": string;
   "SubCompany.Description": string;
+  Individuals: string;
+  "Individuals.New": string;
 }
 function getLanguageData(
   resources: ResourceResult,
@@ -60,6 +62,14 @@ function getLanguageData(
       resource?.Telephone || data[lang]?.Telephone || data.en.Telephone,
     Address: resource?.Address || data[lang]?.Address || data.en.Address,
     Save: resource?.Save || data[lang]?.Save || data.en.Save,
+
+    Individuals:
+      resource?.Individuals || data[lang]?.Individuals || data.en.Individuals,
+    "Individuals.New":
+      resource?.["Individuals.New"] ||
+      data[lang]?.["Individuals.New"] ||
+      data.en["Individuals.New"],
+
     "Sub.Company":
       resource?.["Sub.Company"] ||
       data[lang]?.["Sub.Company"] ||

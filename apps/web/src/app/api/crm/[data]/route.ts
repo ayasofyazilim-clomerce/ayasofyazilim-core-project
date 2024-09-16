@@ -116,19 +116,6 @@ const clients: Clients = {
         taxOffices.deleteApiCrmServiceTaxOfficesByIdWithComponents({ id }),
     };
   },
-  subcompanies: async () => {
-    const client = await getCRMServiceClient();
-    const subCompany = client.organization;
-    return {
-      get: async (page: number, filter, _maxResultCount: unknown) => {
-        const maxResultCount = Number(_maxResultCount) || 10;
-        return subCompany.getApiCrmServiceOrganizations({
-          maxResultCount: maxResultCount || 10,
-          skipCount: page * 10,
-        });
-      },
-    };
-  },
 };
 
 export async function GET(
