@@ -25,7 +25,7 @@ import type {
   Volo_Abp_Application_Dtos_PagedResultDto_19,
 } from "@ayasofyazilim/saas/ContractService";
 import { revalidatePath } from "next/cache";
-import type { ServerResponse } from "src/lib";
+import type { PagedResult, ServerResponse } from "src/lib";
 import { getContractServiceClient, structuredError } from "src/lib";
 
 /*** RefundTable ***/
