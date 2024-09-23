@@ -9,6 +9,7 @@ import { SaasServiceClient } from "@ayasofyazilim/saas/SaasService";
 import { SettingServiceClient } from "@ayasofyazilim/saas/SettingService";
 import { ContractServiceClient } from "@ayasofyazilim/saas/ContractService";
 import { TravellerServiceClient } from "@ayasofyazilim/saas/TravellerService";
+import { TagServiceClient } from "@ayasofyazilim/saas/TagService";
 import { auth } from "auth";
 import { isApiError } from "./app/api/util";
 
@@ -116,6 +117,16 @@ export async function getTravellersServiceClient() {
   });
 }
 
+export async function getTagServiceClient() {
+  const session = await auth();
+  const token = session?.access_token;
+  return new TagServiceClient({
+    TOKEN: token,
+    BASE: process.env.BASE_URL,
+    HEADERS,
+  });
+}
+
 export type ServerResponse<T = undefined> = BaseServerResponse &
   (ErrorTypes | SuccessServerResponse<T>);
 
@@ -159,6 +170,6 @@ export function structuredError(error: unknown): ErrorTypes {
 }
 
 export interface PagedResult<T> {
-  items: T[] | null;
+  items?: T[] | null;
   totalCount: number;
 }
