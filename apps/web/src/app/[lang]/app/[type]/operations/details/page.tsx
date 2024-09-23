@@ -16,7 +16,11 @@ export default function Page(): JSX.Element {
   useEffect(() => {
     async function getTagsFromAPI() {
       const tagsList = await getTags();
-      if (tagsList.type === "success") setTags(tagsList.data.items || []);
+      if (tagsList.type === "success") {
+        setTags(tagsList.data.items || []);
+        toast.success(tagsList.message);
+        return;
+      }
       toast.error(tagsList.message);
     }
     void getTagsFromAPI();
