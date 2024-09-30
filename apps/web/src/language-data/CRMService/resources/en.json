@@ -29,10 +29,32 @@
   "Telephone": "Telephone",
   "Address": "Address",
   "Save": "Save",
-  "Sub.Company": "Stores",
-  "SubCompany": "Stores",
-  "SubCompany.New": " New Store",
-  "SubCompany.Description": "Add new Store",
+
+  "Sub.Merchant": "Stores",
+  "SubMerchant": "Stores",
+  "SubMerchant.New": " New Store",
+  "SubMerchant.Description": "Add new Store",
+
+  "Sub.RefundPoint": "Sub Refund Points",
+  "SubRefundPoint": "Sub Refund Points",
+  "SubRefundPoint.New": "New Sub Refund Point",
+  "SubRefundPoint.Description": "Add new Sub Refund Point",
+
+  "Sub.Custom": "Sub Customs",
+  "SubCustom": "Sub Customs",
+  "SubCustom.New": "New Sub Custom",
+  "SubCustom.Description": "Add new Sub Custom",
+
+  "Sub.TaxFree": "Sub Tax Free",
+  "SubTaxFree": "Sub Tax Free",
+  "SubTaxFree.New": "New Sub Tax Free",
+  "SubTaxFree.Description": "Add new Sub Tax Free",
+
+  "Sub.TaxOffice": "Sub Tax Offices",
+  "SubTaxOffice": "Sub Tax Offices",
+  "SubTaxOffice.New": "New Sub Tax Office",
+  "SubTaxOffice.Description": "Add new Sub Tax Office",
+
   "Individuals": "Individuals",
   "Individuals.New": "New Individual",
   "Individuals.Description": "Add new Individual"

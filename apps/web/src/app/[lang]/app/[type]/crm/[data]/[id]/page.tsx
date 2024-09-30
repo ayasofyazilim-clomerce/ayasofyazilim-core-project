@@ -37,6 +37,22 @@ export default async function Page({
 }) {
   const { languageData } = await getResourceData(params.lang);
   const crmDetailData = await getCrmDetailData(params.data, params.id);
+  function getAddSubName() {
+    if (params.data === "merchants") {
+      return languageData.Merchants;
+    } else if (params.data === "refund-points") {
+      return languageData.RefundPoints;
+    } else if (params.data === "customs") {
+      return languageData.Customs;
+    } else if (params.data === "tax-free") {
+      return languageData.TaxFree;
+    } else if (params.data === "tax-offices") {
+      return languageData.TaxOffices;
+    }
+    return "";
+  }
+
+  const addSubEName = getAddSubName();
   if (!crmDetailData) {
     return <>Not found</>;
   }
@@ -45,12 +61,7 @@ export default async function Page({
     <>
       <Form crmDetailData={crmDetailData} params={params} />
       <div className="hidden" id="page-title">
-        {`${
-          languageData[
-            (params.data[0].toLocaleUpperCase() +
-              params.data.slice(1)) as keyof typeof languageData
-          ]
-        } - ${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name}`}
+        {`${addSubEName} (${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name})`}
       </div>
     </>
   );

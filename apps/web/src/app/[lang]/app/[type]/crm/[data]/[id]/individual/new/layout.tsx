@@ -35,7 +35,7 @@ export default async function Layout({ children, params }: LayoutProps) {
         </Card>
       </div>
       <div className="hidden" id="page-title">
-        {`${languageData["Individuals.New"]} - ${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name}`}
+        {`${languageData["Individuals.New"]} (${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name})`}
       </div>
       <div className="hidden" id="page-description">
         {languageData["Individuals.New"]}

@@ -38,13 +38,30 @@ export interface CRMServiceServiceResource {
   Telephone: string;
   Address: string;
   Save: string;
-  "Sub.Company": string;
-  "SubCompany.New": string;
-  "SubCompany.Description": string;
   Individuals: string;
   "Individuals.New": string;
   "Individuals.Description": string;
   Cancel: string;
+  "Sub.Merchant": string;
+  SubMerchant: string;
+  "SubMerchant.New": string;
+  "SubMerchant.Description": string;
+  SubRefundPoint: string;
+  "Sub.RefundPoint": string;
+  "SubRefundPoint.New": string;
+  "SubRefundPoint.Description": string;
+  "Sub.Custom": string;
+  SubCustom: string;
+  "SubCustom.New": string;
+  "SubCustom.Description": string;
+  "Sub.TaxFree": string;
+  SubTaxFree: string;
+  "SubTaxFree.New": string;
+  "SubTaxFree.Description": string;
+  "Sub.TaxOffice": string;
+  SubTaxOffice: string;
+  "SubTaxOffice.New": string;
+  "SubTaxOffice.Description": string;
 }
 function getLanguageData(
   resources: ResourceResult,
@@ -53,6 +70,85 @@ function getLanguageData(
   const resource = resources.CrmService?.texts;
   const uiResource = resources.AbpUi?.texts;
   return {
+    "Sub.Merchant":
+      resource?.["Sub.Merchant"] ||
+      data[lang]?.["Sub.Merchant"] ||
+      data.en["Sub.Merchant"],
+    SubMerchant:
+      resource?.SubMerchant || data[lang]?.SubMerchant || data.en.SubMerchant,
+    "SubMerchant.New":
+      resource?.["SubMerchant.New"] ||
+      data[lang]?.["SubMerchant.New"] ||
+      data.en["SubMerchant.New"],
+    "SubMerchant.Description":
+      resource?.["SubMerchant.Description"] ||
+      data[lang]?.["SubMerchant.Description"] ||
+      data.en["SubMerchant.Description"],
+
+    "Sub.RefundPoint":
+      resource?.["Sub.RefundPoint"] ||
+      data[lang]?.["Sub.RefundPoint"] ||
+      data.en["Sub.RefundPoint"],
+    SubRefundPoint:
+      resource?.SubRefundPoint ||
+      data[lang]?.SubRefundPoint ||
+      data.en.SubRefundPoint,
+    "SubRefundPoint.New":
+      resource?.["SubRefundPoint.New"] ||
+      data[lang]?.["SubRefundPoint.New"] ||
+      data.en["SubRefundPoint.New"],
+    "SubRefundPoint.Description":
+      resource?.["SubRefundPoint.Description"] ||
+      data[lang]?.["SubRefundPoint.Description"] ||
+      data.en["SubRefundPoint.Description"],
+
+    "Sub.Custom":
+      resource?.["Sub.Custom"] ||
+      data[lang]?.["Sub.Custom"] ||
+      data.en["Sub.Custom"],
+    SubCustom:
+      resource?.SubCustom || data[lang]?.SubCustom || data.en.SubCustom,
+    "SubCustom.New":
+      resource?.["SubCustom.New"] ||
+      data[lang]?.["SubCustom.New"] ||
+      data.en["SubCustom.New"],
+    "SubCustom.Description":
+      resource?.["SubCustom.Description"] ||
+      data[lang]?.["SubCustom.Description"] ||
+      data.en["SubCustom.Description"],
+
+    "Sub.TaxFree":
+      resource?.["Sub.TaxFree"] ||
+      data[lang]?.["Sub.TaxFree"] ||
+      data.en["Sub.TaxFree"],
+    SubTaxFree:
+      resource?.SubTaxFree || data[lang]?.SubTaxFree || data.en.SubTaxFree,
+    "SubTaxFree.New":
+      resource?.["SubTaxFree.New"] ||
+      data[lang]?.["SubTaxFree.New"] ||
+      data.en["SubTaxFree.New"],
+    "SubTaxFree.Description":
+      resource?.["SubTaxFree.Description"] ||
+      data[lang]?.["SubTaxFree.Description"] ||
+      data.en["SubTaxFree.Description"],
+
+    "Sub.TaxOffice":
+      resource?.["Sub.TaxOffice"] ||
+      data[lang]?.["Sub.TaxOffice"] ||
+      data.en["Sub.TaxOffice"],
+    SubTaxOffice:
+      resource?.SubTaxOffice ||
+      data[lang]?.SubTaxOffice ||
+      data.en.SubTaxOffice,
+    "SubTaxOffice.New":
+      resource?.["SubTaxOffice.New"] ||
+      data[lang]?.["SubTaxOffice.New"] ||
+      data.en["SubTaxOffice.New"],
+    "SubTaxOffice.Description":
+      resource?.["SubTaxOffice.Description"] ||
+      data[lang]?.["SubTaxOffice.Description"] ||
+      data.en["SubTaxOffice.Description"],
+
     new: resource?.new || data[lang]?.new || data.en.new,
     Edit: uiResource?.Edit || data[lang]?.Edit || data.en.Edit,
     Delete: uiResource?.Delete || data[lang]?.Delete || data.en.Delete,
@@ -81,19 +177,6 @@ function getLanguageData(
       resource?.["Individuals.Description"] ||
       data[lang]?.["Individuals.Description"] ||
       data.en["Individuals.Description"],
-
-    "Sub.Company":
-      resource?.["Sub.Company"] ||
-      data[lang]?.["Sub.Company"] ||
-      data.en["Sub.Company"],
-    "SubCompany.New":
-      resource?.["SubCompany.New"] ||
-      data[lang]?.["SubCompany.New"] ||
-      data.en["SubCompany.New"],
-    "SubCompany.Description":
-      resource?.["SubCompany.Description"] ||
-      data[lang]?.["SubCompany.Description"] ||
-      data.en["SubCompany.Description"],
 
     Merchants:
       resource?.Merchants || data[lang]?.Merchants || data.en.Merchants,

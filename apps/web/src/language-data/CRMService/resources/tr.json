@@ -28,10 +28,32 @@
   "Telephone": "Telefon",
   "Address": "Adres",
   "Save": "kaydet ",
-  "Sub.Company": "Mağazalar",
-  "SubCompany": "Mağazalar",
-  "SubCompany.New": "Yeni Mağaza",
-  "SubCompany.Description": "Yeni Mağaza Ekle",
+
+  "Sub.Merchant": "Alt Mağazalar",
+  "SubMerchant": "Alt Mağazalar",
+  "SubMerchant.New": "Yeni Alt Mağaza",
+  "SubMerchant.Description": "Yeni Alt Mağaza Ekle",
+
+  "Sub.RefundPoint": "Alt İade Noktaları",
+  "SubRefundPoint": "Alt İade Noktaları",
+  "SubRefundPoint.New": "Yeni Alt İade Noktası",
+  "SubRefundPoint.Description": "Yeni Alt İade Noktası Ekle",
+
+  "Sub.Custom": "Alt Gümrük",
+  "SubCustom": "Alt Gümrük",
+  "SubCustom.New": "Yeni Alt Gümrük",
+  "SubCustom.Description": "Yeni Alt Gümrük Ekle",
+
+  "Sub.TaxFree": "Alt Tax Free",
+  "SubTaxFree": "Alt Tax Free",
+  "SubTaxFree.New": "Yeni Alt Tax Free",
+  "SubTaxFree.Description": "Yeni Alt Tax Free Ekle",
+
+  "Sub.TaxOffice": "Alt Vergi Ofisi",
+  "SubTaxOffice": "Alt Vergi Ofisi",
+  "SubTaxOffice.New": "Yeni Alt Vergi Ofisi",
+  "SubTaxOffice.Description": "Yeni Alt Vergi Ofisi Ekle",
+
   "Individuals": "Bireyler",
   "Individuals.New": "Yeni Birey",
   "Individuals.Description": "Yeni Birey Ekle"

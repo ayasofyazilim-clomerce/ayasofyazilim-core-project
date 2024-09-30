@@ -29,6 +29,10 @@ import { useLocale } from "src/providers/locale";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
 import {
+  updateCRMDetailServer,
+  updateMerchantCRMDetailServer,
+} from "../../actions/action";
+import {
   deleteSubMerchantByMerchantId,
   getAllIndividuals,
   getSubCompanyByMerchantId,
@@ -41,10 +45,6 @@ import {
   organization,
   telephone,
 } from "../../data";
-import {
-  updateCRMDetailServer,
-  updateMerchantCRMDetailServer,
-} from "../../actions/action";
 
 export default function Form({
   crmDetailData,
@@ -81,7 +81,19 @@ export default function Form({
   const addressInfo =
     organizationInfo?.contactInformations?.[0]?.addresses?.[0];
 
-  const organizationSchema = createZodObject(organization, ["name"]);
+  const organizationMerchantSchema = createZodObject(organization, [
+    "name",
+    "taxpayerId",
+    "branchId",
+    "customerNumber",
+    "legalStatusCode",
+  ]);
+
+  const organizationCustomSchema = createZodObject(organization, [
+    "name",
+    "taxpayerId",
+    "branchId",
+  ]);
   const emailSchema = createZodObject(email, ["emailAddress", "typeCode"]);
   const telephoneSchema = createZodObject(telephone, [
     "localNumber",
@@ -101,6 +113,49 @@ export default function Form({
     "typeCode",
   ]);
 
+  function getOrganizationSchema() {
+    if (
+      params.data === "merchants" ||
+      params.data === "tax-free" ||
+      params.data === "tax-offices"
+    ) {
+      return organizationMerchantSchema;
+    } else if (params.data === "customs" || params.data === "refund-points") {
+      return organizationCustomSchema;
+    }
+    return organizationMerchantSchema;
+  }
+
+  function getSubEntityName() {
+    if (params.data === "merchants") {
+      return languageData["Sub.Merchant"];
+    } else if (params.data === "refund-points") {
+      return languageData["Sub.RefundPoint"];
+    } else if (params.data === "customs") {
+      return languageData["Sub.Custom"];
+    } else if (params.data === "tax-free") {
+      return languageData["Sub.TaxFree"];
+    } else if (params.data === "tax-offices") {
+      return languageData["Sub.TaxOffice"];
+    }
+    return "";
+  }
+  function getAddSubName() {
+    if (params.data === "merchants") {
+      return "SubMerchant";
+    } else if (params.data === "refund-points") {
+      return "SubRefundPoint";
+    } else if (params.data === "customs") {
+      return "SubCustom";
+    } else if (params.data === "tax-free") {
+      return "SubTaxFree";
+    } else if (params.data === "tax-offices") {
+      return "SubTaxOffice";
+    }
+    return "";
+  }
+  const subEntityName = getSubEntityName();
+  const addSubEName = getAddSubName();
   async function handleSubmit(values: unknown, sectionName: string) {
     if (typeof values !== "object") return;
 
@@ -208,7 +263,7 @@ export default function Form({
   const actionSubCompany: TableAction[] = [
     {
       cta: languageData[
-        `${"SubCompany".replaceAll(" ", "")}.New` as keyof typeof languageData
+        `${addSubEName.replaceAll(" ", "")}.New` as keyof typeof languageData
       ],
       type: "NewPage",
       href: `/app/admin/crm/${params.data}/${params.id}/subcompany/new/`,
@@ -247,7 +302,7 @@ export default function Form({
           { name: languageData.Telephone, id: "telephone" },
           { name: languageData.Address, id: "address" },
           { name: languageData.Email, id: "email" },
-          { name: languageData["Sub.Company"], id: "SubCompany" },
+          { name: subEntityName, id: "SubCompany" },
           { name: languageData.Individuals, id: "individuals" },
         ]}
         vertical
@@ -255,12 +310,16 @@ export default function Form({
         <SectionLayoutContent sectionId="organization">
           <AutoForm
             formClassName="pb-40 "
-            formSchema={organizationSchema}
+            formSchema={getOrganizationSchema()}
             onSubmit={(values) => {
               void handleSubmit(values, "organization");
             }}
             values={{
               name: organizationInfo?.name,
+              taxpayerId: organizationInfo?.taxpayerId,
+              branchId: organizationInfo?.branchId,
+              legalStatusCode: organizationInfo?.legalStatusCode,
+              customerNumber: organizationInfo?.customerNumber,
             }}
           >
             <AutoFormSubmit className="float-right">

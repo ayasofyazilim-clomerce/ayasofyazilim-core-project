@@ -16,6 +16,22 @@ interface LayoutProps {
 export default async function Layout({ children, params }: LayoutProps) {
   const { languageData } = await getResourceData(params.lang);
 
+  function getAddSubName() {
+    if (params.data === "merchants") {
+      return languageData["SubMerchant.New"];
+    } else if (params.data === "refund-points") {
+      return languageData["SubRefundPoint.New"];
+    } else if (params.data === "customs") {
+      return languageData["SubCustom.New"];
+    } else if (params.data === "tax-free") {
+      return languageData["SubTaxFree.New"];
+    } else if (params.data === "tax-offices") {
+      return languageData["SubTaxOffice.New"];
+    }
+    return "";
+  }
+
+  const addSubEName = getAddSubName();
   const pageBack = getBaseLink(
     `/crm/${params.data}/${params.id}`,
     true,
@@ -36,10 +52,10 @@ export default async function Layout({ children, params }: LayoutProps) {
         </Card>
       </div>
       <div className="hidden" id="page-title">
-        {`${languageData["SubCompany.New"]} - ${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name}`}
+        {`${addSubEName} (${crmDetailData.entityInformations?.[0]?.organizations?.[0]?.name})`}
       </div>
       <div className="hidden" id="page-description">
-        {languageData["SubCompany.New"]}
+        {addSubEName}
       </div>
       <div className="hidden" id="page-back-link">
         {pageBack}
