@@ -112,6 +112,27 @@ export const cityConfigs: Record<
       footer: "https://i.hizliresim.com/2avyu3e.png",
     },
   },
+  ankara: {
+    key: "ankara",
+    name: "Ankara",
+    link: getBaseLink("/public/ankara", true),
+    with: "Ankara ile",
+    its: "Ankara'nın",
+    full: "Ankara Sanayi Odası",
+    logo: "https://i.imgur.com/zEiIWIf.png",
+    texts: {
+      hero: "Ankara sanayisi ile dünya arasındaki köprü",
+    },
+    colors: {
+      primary: "",
+      secondary: "",
+    },
+    images: {
+      hero: "",
+      second: konya.src,
+      footer: "https://i.hizliresim.com/2avyu3e.png",
+    },
+  },
   // istanbul: {
   //   key: "istanbul",
   //   name: "İstanbul",
