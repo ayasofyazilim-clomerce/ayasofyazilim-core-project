@@ -1,5 +1,6 @@
 # Server Side Api Requests
 
+
 - Aynı paremetrelerle yapılan tüm istekler aksini belirtilmedikçe önbelleğe alınıyor.
 - Kullanıcı token'ının kullanıldığı isteklerde, token değiştikçe güncel sonuçlar gelmeye devam ediyor. Token değişmedikçe veriyi önbellekten alıyor.
 
