@@ -43,7 +43,7 @@ const getCountriesData = async () => {
   });
 
   if (result.type === "success") {
-    return result.data?.items;
+    return result.data.items;
   }
   throw new Error(result.message || "Failed to fetch countries");
 };

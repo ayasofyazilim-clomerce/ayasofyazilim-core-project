@@ -62,7 +62,7 @@ export default function Form({
     void getCities({ maxResultCount: 500, sorting: "name" }).then(
       (response) => {
         if (response.type === "success") {
-          setCities(response.data?.items || []);
+          setCities(response.data.items || []);
         } else if (response.type === "api-error") {
           toast.error(response.message);
         } else {
