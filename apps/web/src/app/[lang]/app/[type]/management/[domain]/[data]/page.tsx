@@ -164,7 +164,7 @@ export default function Page({
       false,
     );
   }
-  const translationForm = createFieldConfigWithResource({
+  const translatedForm = createFieldConfigWithResource({
     schema: formData.createFormSchema?.schema as SchemaType,
     resources: languageData,
   });
@@ -188,12 +188,11 @@ export default function Page({
             createFormSchema.convertors || {},
           ),
           dependencies: createFormSchema.dependencies,
-          fieldConfig: translationForm,
-          // mergeFieldConfigs(translationForm, {
-          //   all: {
-          //     withoutBorder: true,
-          //   },
-          // }),
+          fieldConfig: mergeFieldConfigs(translatedForm, {
+            all: {
+              withoutBorder: true,
+            },
+          }),
           submit: {
             cta: languageData["Management.Save"],
           },
@@ -296,7 +295,7 @@ export default function Page({
       formSchema: editFormSchemaZod,
       dependencies: formData.editFormSchema?.dependencies,
       // convertor: formData.tableSchema.convertors,
-      fieldConfig: mergeFieldConfigs(translationForm, {
+      fieldConfig: mergeFieldConfigs(translatedForm, {
         all: {
           withoutBorder: true,
         },
