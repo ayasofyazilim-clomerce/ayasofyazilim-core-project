@@ -1,18 +1,19 @@
 "use server";
 import type {
   GetApiTagServiceTagByIdDetailResponse,
+  GetApiTagServiceTagData,
   GetApiTagServiceTagResponse,
   UniRefund_TagService_Tags_CreateTagRequestDto,
 } from "@ayasofyazilim/saas/TagService";
 import type { ServerResponse } from "src/lib";
 import { getTagServiceClient, structuredError } from "src/lib";
 
-export async function getTags(): Promise<
-  ServerResponse<GetApiTagServiceTagResponse>
-> {
+export async function getTags(
+  data: GetApiTagServiceTagData = {},
+): Promise<ServerResponse<GetApiTagServiceTagResponse>> {
   try {
     const client = await getTagServiceClient();
-    const response = await client.tag.getApiTagServiceTag();
+    const response = await client.tag.getApiTagServiceTag(data);
     return {
       data: response,
       message: "Tags fetched succesfully",
