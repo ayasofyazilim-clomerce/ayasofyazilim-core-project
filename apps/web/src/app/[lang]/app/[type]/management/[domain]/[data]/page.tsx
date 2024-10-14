@@ -6,11 +6,16 @@ import type {
   ColumnsType,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
-import type { AutoFormProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
+import {
+  createFieldConfigWithResource,
+  mergeFieldConfigs,
+  type AutoFormProps,
+} from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import type { TableData, FormModifier } from "@repo/ui/utils/table/table-utils";
+import type { SchemaType } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 import { useLocale } from "src/providers/locale";
 import { createZodObject, getBaseLink } from "src/utils";
@@ -159,6 +164,10 @@ export default function Page({
       false,
     );
   }
+  const translationForm = createFieldConfigWithResource({
+    schema: formData.createFormSchema?.schema as SchemaType,
+    resources: languageData,
+  });
   const createFormSchema = formData.createFormSchema;
   let action: TableAction[] | undefined;
   if (createFormSchema) {
@@ -179,10 +188,14 @@ export default function Page({
             createFormSchema.convertors || {},
           ),
           dependencies: createFormSchema.dependencies,
-          fieldConfig: {
-            all: {
-              withoutBorder: true,
-            },
+          fieldConfig: translationForm,
+          // mergeFieldConfigs(translationForm, {
+          //   all: {
+          //     withoutBorder: true,
+          //   },
+          // }),
+          submit: {
+            cta: languageData["Management.Save"],
           },
         },
         callback: (e) => {
@@ -283,11 +296,11 @@ export default function Page({
       formSchema: editFormSchemaZod,
       dependencies: formData.editFormSchema?.dependencies,
       // convertor: formData.tableSchema.convertors,
-      fieldConfig: {
+      fieldConfig: mergeFieldConfigs(translationForm, {
         all: {
           withoutBorder: true,
         },
-      },
+      }),
     };
   }
   let actionList: TableAction[] = [];
@@ -319,7 +332,12 @@ export default function Page({
     description: languageData.Edit,
     type: "Dialog",
     componentType: "Autoform",
-    autoFormArgs: autoformEditArgs,
+    autoFormArgs: {
+      ...autoformEditArgs,
+      submit: {
+        cta: languageData["Management.Edit.Save"],
+      },
+    },
     callback: (data, row) => {
       onEdit(data, row, editFormSchema);
     },
