@@ -60,7 +60,7 @@ function SubCompany({
   action.unshift(
     TableAction_CREATE_ROW_ON_NEW_PAGE(
       languageData,
-      formData,
+      { ...formData, translationKey: formData.subEntityName },
       `/app/admin/parties/${partyName}/new?parentId=${partyId}`,
     ),
   );

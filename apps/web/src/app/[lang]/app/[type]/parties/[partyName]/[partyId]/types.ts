@@ -8,8 +8,10 @@ import type {
   PutApiCrmServiceCustomsByIdEmailsByEmailIdData,
   PutApiCrmServiceCustomsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceCustomsByIdTelephonesByTelephoneIdData,
+  PutApiCrmServiceMerchantsByIdData,
   PutApiCrmServiceMerchantsByIdEmailsByEmailIdData,
   PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData,
+  PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData,
   PutApiCrmServiceMerchantsByIdOrganizationsByOrganizationIdData,
   PutApiCrmServiceMerchantsByIdTelephonesByTelephoneIdData,
   PutApiCrmServiceRefundPointsByIdAddressesByAddressIdData,
@@ -118,6 +120,14 @@ export type PutEmail =
 export interface PutName {
   action: "name";
   data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdNameByNameIdData;
+}
+export interface PutPersonalSummaries {
+  action: "personal-summaries";
+  data: PutApiCrmServiceMerchantsByIdIndividualByIndividualIdPersonalSummaryByPersonalSummaryIdData;
+}
+export interface PutMerchantBase {
+  action: "merchant-base";
+  data: PutApiCrmServiceMerchantsByIdData;
 }
 
 export type GetPartiesDetailResult =

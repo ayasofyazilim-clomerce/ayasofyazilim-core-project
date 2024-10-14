@@ -5,14 +5,16 @@ import { getResourceData } from "src/language-data/CRMService";
 import { getCities } from "../../../action";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
-import { getPartyDetail } from "../action";
+import { getPartyDetail, getPartyTableData } from "../action";
 import Address from "./address/form";
 import Email from "./email/form";
+import Individual from "./individuals-table/form";
+import MerchantForm from "./merchant/form";
 import NameForm from "./name/form";
 import OrganizationForm from "./organization/form";
-import Telephone from "./telephone/form";
+import PersonalSummariesForm from "./personal-summaries/form";
 import SubCompany from "./subcompanies-table/form";
-import Individual from "./individuals-table/form";
+import Telephone from "./telephone/form";
 
 export default async function Page({
   params,
@@ -25,6 +27,7 @@ export default async function Page({
 }) {
   const { languageData } = await getResourceData(params.lang);
   const formData = dataConfigOfParties[params.partyName];
+  const taxOffices = await getPartyTableData("tax-offices", 0, 100);
 
   if (params.partyName === "individuals") {
     return <></>;
@@ -37,7 +40,8 @@ export default async function Page({
     partyDetail.type !== "success" ||
     !partyDetail.data ||
     cities.type !== "success" ||
-    !("entityInformations" in partyDetail.data)
+    !("entityInformations" in partyDetail.data) ||
+    taxOffices.type !== "success"
   ) {
     return <>Not found</>;
   }
@@ -68,11 +72,26 @@ export default async function Page({
       id: "organization",
     });
   } else {
+    sections.unshift({
+      name: languageData.PersonalSummaries,
+      id: "personal-summaries",
+    });
     sections.unshift({ name: languageData.Name, id: "name" });
+  }
+  if (params.partyName === "merchants") {
+    sections.unshift({
+      name: languageData.Merchants,
+      id: "merchant-base",
+    });
   }
 
   const citiesEnum =
     cities.data.items?.map((item) => ({
+      name: item.name || "",
+      id: item.id || "",
+    })) || [];
+  const taxOfficesEnum =
+    taxOffices.data.items?.map((item) => ({
       name: item.name || "",
       id: item.id || "",
     })) || [];
@@ -81,6 +100,17 @@ export default async function Page({
     <>
       <div className="h-full overflow-hidden">
         <SectionLayout sections={sections} vertical>
+          {params.partyName === "merchants" &&
+            "taxOfficeId" in partyDetailData && (
+              <MerchantForm
+                languageData={languageData}
+                merchantData={partyDetailData}
+                partyId={params.partyId}
+                partyName={params.partyName}
+                taxOfficesEnum={taxOfficesEnum}
+              />
+            )}
+
           {organizationData ? (
             <OrganizationForm
               languageData={languageData}
@@ -92,13 +122,22 @@ export default async function Page({
           ) : null}
 
           {params.partyName === "merchants" && individualData ? (
-            <NameForm
-              individualData={individualData.name}
-              languageData={languageData}
-              partyId={params.partyId}
-              partyName={params.partyName}
-            />
+            <>
+              <NameForm
+                individualData={individualData.name}
+                languageData={languageData}
+                partyId={params.partyId}
+                partyName={params.partyName}
+              />
+              <PersonalSummariesForm
+                individualData={individualData.personalSummaries?.[0]}
+                languageData={languageData}
+                partyId={params.partyId}
+                partyName={params.partyName}
+              />
+            </>
           ) : null}
+
           <Telephone
             languageData={languageData}
             organizationData={organizationData || individualData}
