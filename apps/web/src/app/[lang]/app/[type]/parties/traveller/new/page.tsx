@@ -17,20 +17,22 @@ export default async function Page({
   });
 
   const cities = await getCities({ maxResultCount: 500, sorting: "name" });
-  if (cities.type !== "success" || countries.type !== "success") {
-    return <>Not found</>;
-  }
+
   const countriesEnum =
-    countries.data.items?.map((item) => ({
-      name: item.name || "",
-      code2: item.code2 || "",
-    })) || [];
+    countries.type === "success"
+      ? countries.data.items?.map((item) => ({
+          name: item.name || "",
+          code2: item.code2 || "",
+        })) || []
+      : [];
 
   const citiesEnum =
-    cities.data.items?.map((item) => ({
-      name: item.name || "",
-      id: item.id || "",
-    })) || [];
+    cities.type === "success"
+      ? cities.data.items?.map((item) => ({
+          name: item.name || "",
+          id: item.id || "",
+        })) || []
+      : [];
 
   return (
     <Form

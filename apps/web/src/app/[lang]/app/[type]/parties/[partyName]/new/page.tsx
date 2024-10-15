@@ -18,20 +18,21 @@ export default async function Page({
   const taxOffices = await getPartyTableData("tax-offices", 0, 100);
   const cities = await getCities({ maxResultCount: 500, sorting: "name" });
 
-  if (taxOffices.type !== "success" || cities.type !== "success") {
-    return <>Not found</>;
-  }
-
   const citiesEnum =
-    cities.data.items?.map((item) => ({
-      name: item.name || "",
-      id: item.id || "",
-    })) || [];
+    cities.type === "success"
+      ? cities.data.items?.map((item) => ({
+          name: item.name || "",
+          id: item.id || "",
+        })) || []
+      : [];
+
   const taxOfficesEnum =
-    taxOffices.data.items?.map((item) => ({
-      name: item.name || "",
-      id: item.id || "",
-    })) || [];
+    taxOffices.type === "success"
+      ? taxOffices.data.items?.map((item) => ({
+          name: item.name || "",
+          id: item.id || "",
+        })) || []
+      : [];
 
   return (
     <Form
