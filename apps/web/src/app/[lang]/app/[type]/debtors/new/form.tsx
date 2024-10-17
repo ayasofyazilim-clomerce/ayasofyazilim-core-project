@@ -14,8 +14,8 @@ import { getResourceDataClient } from "src/language-data/DebtorsService";
 import { useLocale } from "src/providers/locale";
 import { getBaseLink } from "src/utils";
 import { isPhoneValid, splitPhone } from "src/utils-phone";
-import { getCities } from "../../action";
 import { dataDebtors } from "../data";
+import { getCities } from "../../../actions/LocationService/actions";
 
 export interface CreateOrganizationDto {
   organization: Record<string, string>;

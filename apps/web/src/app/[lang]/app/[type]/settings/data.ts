@@ -15,7 +15,7 @@ import {
   $UniRefund_SettingService_Vats_VatDetailDto,
 } from "@ayasofyazilim/saas/SettingService";
 import { getBaseLink } from "src/utils";
-import { getCountries } from "../action";
+import { getCountries } from "../../actions/LocationService/actions";
 
 const settingsCovnertor = {
   unitCode: {

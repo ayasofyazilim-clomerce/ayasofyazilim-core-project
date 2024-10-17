@@ -2,8 +2,8 @@
 
 import { getTaxOfficesApi } from "src/app/[lang]/app/actions/CrmService/actions";
 import { getResourceData } from "src/language-data/CRMService";
-import { getCities } from "../../../action";
 import type { PartyNameType } from "../../types";
+import { getCities } from "../../../../actions/LocationService/actions";
 import Form from "./form";
 
 export default async function Page({

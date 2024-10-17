@@ -17,12 +17,18 @@
   "Delete.Fail": "An error occurred while deleting data.",
 
   "Fetch.Fail": "An error occurred while getting datas.",
+  "Fetch.Fail.Country": "An error occurred while fetching countries.",
+  "Fetch.Fail.City": "An error occurred while fetching cities.",
 
   "Name": "Name",
+  "UserName": "User Name",
   "PersonalSummaries": "Personal Summaries",
   "Telephone": "Telephone",
   "Address": "Address",
   "Email": "Email",
+  "FullName": "Full Name",
+  "FirstName": "First Name",
+  "LastName": "Last Name",
 
   "FileUploader.CannotUploadMoreThanOne": "Cannot upload more than 1 file at a time",
   "FileUploader.CannotUploadMoreThan{0}": "Cannot upload more than {0} files",
@@ -35,5 +41,50 @@
   "FileUploader.DropTheFilesHere": "Drop the files here",
   "FileUploader.DragAndDropFilesHere": "Drag'n drop files here, or click to select files",
   "FileUploader.YouCanUpload{0}files{1}each": "You can upload {0} files (up to {1} each)",
-  "FileUploader.RemoveFile": "Remove file"
+  "FileUploader.RemoveFile": "Remove file",
+  "Country.Select": "Select Country",
+  "City.Select": "Select City",
+  "PhoneNumber": "Phone Number",
+
+  "Form.name": "Full Name",
+  "Form.email": "Email",
+  "Form.telephone": "Telephone",
+  "Form.personalSummaries": "Summary",
+  "Form.address": "Address",
+  "Form.personalIdentificationCommonDatas": "Personal information",
+  "Form.personalPreferencesTypes": "Preferences",
+
+  "Form.name.firstName": "First Name",
+  "Form.name.lastName": "Last Name",
+
+  "Form.email.emailAddress": "Email Address",
+  "Form.email.typeCode": "Email Type",
+  "Form.email.typeCode.work": "Work",
+  "Form.email.typeCode.personal": "Personal",
+
+  "Form.telephone.localNumber": "Phone Number",
+  "Form.telephone.typeCode": "Phone Type",
+  "Form.telephone.typeCode.home": "Home",
+  "Form.telephone.typeCode.mobile": "Mobile",
+  "Form.telephone.typeCode.work": "Work",
+  "Form.telephone.typeCode.fax": "Fax",
+
+  "Form.address.country": "Country",
+  "Form.address.terriority": "Territory",
+  "Form.address.city": "City",
+  "Form.address.postalCode": "Postal Code",
+  "Form.address.addressLine": "Street Address",
+  "Form.address.fullAddress": "Full Address",
+  "Form.address.typeCode": "Address Type",
+  "Form.address.typeCode.home": "Home",
+  "Form.address.typeCode.office": "Office",
+
+  "Form.personalSummaries.date": "Date",
+  "Form.personalSummaries.birthDate": "Date of Birth",
+  "Form.personalSummaries.ethnicity": "Ethnicity",
+  "Form.personalSummaries.maritalStatusCode": "Marital Status",
+  "Form.personalSummaries.religiousAffiliationName": "Religion",
+  "Form.personalSummaries.genderTypeCode": "Gender",
+  "Form.personalSummaries.genderTypeCode.male": "Male",
+  "Form.personalSummaries.genderTypeCode.female": "Female"
 }
