@@ -11,7 +11,7 @@ import { getCities } from "../../../action";
 import { dataConfigOfParties } from "../../table-data";
 import type { PartyNameType } from "../../types";
 import Address from "./address/form";
-import Contracts from "./contracts/page";
+import Contracts from "./contracts/form";
 import Email from "./email/form";
 import Individual from "./individuals-table/form";
 import MerchantForm from "./merchant/form";

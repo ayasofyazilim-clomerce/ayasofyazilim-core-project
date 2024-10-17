@@ -12,17 +12,16 @@ import type { CRMServiceServiceResource } from "src/language-data/CRMService";
 import { getBaseLink } from "src/utils";
 import { getContractHeadersByMerchantId } from "./action";
 
-export default function Page({
+export default function Contracts({
   languageData,
   partyName,
   partyId,
 }: {
   languageData: CRMServiceServiceResource;
-  partyName: "merchants" | "refund-points";
+  partyName: "merchants";
   partyId: string;
 }) {
   const router = useRouter();
-
   const [contractsData, setContractsData] =
     useState<PagedResultDto_ContractHeaderDetailForMerchantDto>();
   const [loading, setLoading] = useState(true);
