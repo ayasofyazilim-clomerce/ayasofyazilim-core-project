@@ -6,10 +6,12 @@ import type {
   FilterColumnResult,
   TableAction,
 } from "@repo/ayasofyazilim-ui/molecules/tables";
+import { AutoFormProps } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { FormModifier } from "@repo/ui/utils/table/table-utils";
 import {
   AUTO_COLUMNS_DATA,
+  convertZod,
   DELETE_ROW_ACTION,
   EDIT_ROW_ON_NEW_PAGE,
   TableAction_CREATE_ROW_ON_NEW_PAGE,
@@ -17,6 +19,23 @@ import {
 } from "@repo/ui/utils/table/table-utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+type CustomDialogItem = {
+  type: "row" | "table";
+  title: string;
+  content: JSX.Element;
+};
+
+type AutoFormDialogItem = Pick<
+  AutoFormProps,
+  "values" | "dependencies" | "fieldConfig"
+> & {
+  type: "row" | "table";
+  title: string;
+  formPositions?: string[];
+  onCallback: (row: any, values: unknown) => void;
+  schema: FormModifier;
+};
 
 export default function TableComponent({
   fetchRequest,
@@ -29,6 +48,8 @@ export default function TableComponent({
   editOnNewPage,
   editOnNewPageUrl,
   detailedFilter,
+  customDialog,
+  autoFormDialog,
   languageData,
 }: {
   tableSchema: FormModifier;
@@ -38,6 +59,8 @@ export default function TableComponent({
   createOnNewPageUrl?: string;
   createOnNewPageTitle?: string;
   editOnNewPageUrl?: string;
+  customDialog?: CustomDialogItem[];
+  autoFormDialog?: AutoFormDialogItem[];
   detailedFilter?: ColumnFilter[];
   fetchRequest: (
     page: number,
@@ -76,6 +99,7 @@ export default function TableComponent({
         toast.error(languageData["Fetch.Fail"]);
       });
   }
+
   function deleteRow(row: { id: string }) {
     if (!deleteRequest) return;
     setIsLoading(true);
@@ -127,6 +151,50 @@ export default function TableComponent({
           (isWindowExists ? `${window.location.href}/new` : ""),
       ),
     );
+  }
+
+  if (customDialog) {
+    customDialog.forEach((dialog) => {
+      const _action: TableAction = {
+        type: "Dialog",
+        cta: dialog.title,
+        loadingContent: <>{languageData.Loading}</>,
+        description: dialog.title,
+        componentType: "CustomComponent",
+        content: dialog.content,
+      };
+      if (dialog.type === "row") {
+        columnsData.data.actionList?.push(_action);
+        return;
+      }
+      action?.push(_action);
+    });
+  }
+  if (autoFormDialog) {
+    autoFormDialog.forEach((dialog) => {
+      const formSchema = convertZod(dialog.schema);
+      const _action: TableAction = {
+        cta: dialog.title,
+        description: dialog.title,
+        type: "Dialog",
+        componentType: "Autoform",
+        autoFormArgs: {
+          ...dialog,
+          formSchema,
+          submit: {
+            cta: languageData["Save"],
+          },
+        },
+        callback: (data, row) => {
+          dialog.onCallback(data, row);
+        },
+      };
+      if (dialog.type === "row") {
+        columnsData.data.actionList?.push(_action);
+        return;
+      }
+      action?.push(_action);
+    });
   }
 
   return (

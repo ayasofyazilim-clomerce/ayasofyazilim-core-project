@@ -1,4 +1,5 @@
 import { toast } from "@repo/ayasofyazilim-ui/atoms/sonner";
+import { createZodObject } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import jsonToCsv from "@repo/ayasofyazilim-ui/lib/json-to-csv";
 import type {
   ColumnFilter,
@@ -147,4 +148,13 @@ export function getEnumName(
   value: string,
 ) {
   return data?.find((item) => item.id === value)?.name || "";
+}
+
+export function convertZod(schema: FormModifier) {
+  const newSchema = createZodObject(
+    schema.schema,
+    schema.formPositions || [],
+    schema.convertors || {},
+  );
+  return newSchema;
 }
