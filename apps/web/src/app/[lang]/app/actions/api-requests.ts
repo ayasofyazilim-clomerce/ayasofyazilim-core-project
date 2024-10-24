@@ -328,13 +328,14 @@ export async function getTableData(
 ) {
   try {
     const requests = await getApiRequests();
+    const data = await requests[type].get({
+      maxResultCount,
+      skipCount: page * 10,
+      ...filter,
+    });
     return {
       type: "success",
-      data: await requests[type].get({
-        maxResultCount,
-        skipCount: page * 10,
-        ...filter,
-      }),
+      data,
       status: 200,
       message: "",
     };
