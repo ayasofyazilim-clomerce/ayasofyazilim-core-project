@@ -126,12 +126,6 @@ export default function Page(): JSX.Element {
       value: "",
     },
     {
-      name: "merchantIds",
-      displayName: "Merchant IDs",
-      type: "string",
-      value: "",
-    },
-    {
       name: "paidStartDate",
       displayName: "Paid Start Date",
       type: "date",
