@@ -18,9 +18,17 @@ import {
 } from "@ayasofyazilim/saas/TagService";
 import { toast } from "@/components/ui/sonner";
 import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
+import type { UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import { $UniRefund_CRMService_Merchants_MerchantProfileDto } from "@ayasofyazilim/saas/CRMService";
+import type { Volo_Abp_Application_Dtos_PagedResultDto_15 } from "@ayasofyazilim/saas/TravellerService";
+import { $UniRefund_TravellerService_Travellers_TravellerListProfileDto } from "@ayasofyazilim/saas/TravellerService";
 import { getBaseLink } from "src/utils";
-import type { TaxFreeTag } from "./data";
+import { dataConfigOfParties } from "../../parties/table-data";
+import { getMerchantsApi } from "../../../actions/CrmService/actions";
+import { getTableData } from "../../../actions/api-requests";
+import { travellerTableSchema } from "../../parties/traveller/page";
 import { getSummary, getTags } from "./actions";
+import type { TaxFreeTag } from "./data";
 
 type FilterType = keyof GetApiTagServiceTagData;
 // type namedFilter = { name: string }
@@ -43,6 +51,26 @@ export default function Page(): JSX.Element {
   //   },
 
   // }
+  const [merchant, setMerchant] = useState<
+    UniRefund_CRMService_Merchants_MerchantProfileDto[]
+  >([]);
+  const [travellers, setTravellers] = useState<
+    Volo_Abp_Application_Dtos_PagedResultDto_15["items"]
+  >([]);
+  useEffect(() => {
+    async function getMerchants() {
+      const merchants = await getMerchantsApi();
+      const merchantList =
+        (merchants.type === "success" && merchants.data.items) || [];
+      setMerchant(merchantList);
+      const travellersList = await getTableData("travellers", 1, 10);
+      const data =
+        travellersList.data as Volo_Abp_Application_Dtos_PagedResultDto_15;
+      setTravellers(data.items || []);
+    }
+    void getMerchants();
+  }, []);
+
   const filters: DetailedFilter[] = [
     {
       name: "exportEndDate",
@@ -146,6 +174,35 @@ export default function Page(): JSX.Element {
       displayName: "Traveller Name",
       type: "string",
       value: "",
+    },
+    {
+      name: "merchantIds",
+      type: "select-async",
+      displayName: "Merchant",
+      value: "",
+      rowCount: 10,
+      filterProperty: "id",
+      showProperty: "name",
+      data: merchant,
+      columnDataType: {
+        tableType: $UniRefund_CRMService_Merchants_MerchantProfileDto,
+        ...dataConfigOfParties.merchants.tableSchema,
+      },
+    },
+    {
+      name: "travellerIds",
+      type: "select-async",
+      displayName: "Traveller",
+      value: "",
+      rowCount: 10,
+      filterProperty: "id",
+      showProperty: "firstName",
+      data: travellers || [],
+      columnDataType: {
+        tableType:
+          $UniRefund_TravellerService_Travellers_TravellerListProfileDto,
+        excludeList: travellerTableSchema.excludeList,
+      },
     },
   ];
   const router = useRouter();
