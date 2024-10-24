@@ -71,5 +71,7 @@
   "Contracts": "Sözleşmeler",
   "Rebate": "İndirim",
   "CompanySettings": "Şirket Ayarları",
-  "Refund": "İade"
+  "Refund": "İade",
+  "ExportValidation": "İhracat Doğrulaması",
+  "ExportValidation.Description": "İhracat Doğrulamasını buradan görüntüleyebilirsiniz."
 }

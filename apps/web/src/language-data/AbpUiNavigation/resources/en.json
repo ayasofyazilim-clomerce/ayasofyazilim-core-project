@@ -64,5 +64,7 @@
   "Contracts": "Contracts",
   "Rebate": "Rebate",
   "CompanySettings": "Company Settings",
-  "Refund": "Refund"
+  "Refund": "Refund",
+  "ExportValidation": "Export Validation",
+  "ExportValidation.Description": "You can view the export validations from here."
 }

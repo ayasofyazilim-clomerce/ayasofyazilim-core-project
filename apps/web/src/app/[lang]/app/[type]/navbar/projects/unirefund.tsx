@@ -1,5 +1,11 @@
 import type { NavbarItemsFromDB } from "@repo/ui/theme/types";
-import { contracts, management, parties, settings } from "../groups";
+import {
+  contracts,
+  management,
+  operations,
+  parties,
+  settings,
+} from "../groups";
 
 export const unirefundNavbarDataFromDB: NavbarItemsFromDB[] = [
   {
@@ -24,23 +30,5 @@ export const unirefundNavbarDataFromDB: NavbarItemsFromDB[] = [
   ...settings,
   ...parties,
   ...contracts,
-
-  {
-    key: "operations",
-    displayName: "Operations",
-    description: "Access and manage operational settings.",
-    href: "operations/details",
-    icon: "operation",
-    parentNavbarItemKey: "/",
-    displayOrder: 1,
-  },
-  {
-    key: "operations/details",
-    displayName: "TaxFreeTags",
-    description: "Manage tax-free tags and settings.",
-    href: "operations/details",
-    icon: "dashboard",
-    parentNavbarItemKey: "operations",
-    displayOrder: 1,
-  },
+  ...operations,
 ];

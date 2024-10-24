@@ -11,6 +11,7 @@ import { ContractServiceClient } from "@ayasofyazilim/saas/ContractService";
 import { TravellerServiceClient } from "@ayasofyazilim/saas/TravellerService";
 import { TagServiceClient } from "@ayasofyazilim/saas/TagService";
 import { LocationServiceClient } from "@ayasofyazilim/saas/LocationService";
+import { ExportValidationServiceClient } from "@ayasofyazilim/saas/ExportValidationService";
 import { auth } from "auth";
 import { isApiError } from "./app/api/util";
 
@@ -132,6 +133,16 @@ export async function getLocationServiceClient() {
   const session = await auth();
   const token = session?.access_token;
   return new LocationServiceClient({
+    TOKEN: token,
+    BASE: process.env.BASE_URL,
+    HEADERS,
+  });
+}
+
+export async function getExportValidationServiceClient() {
+  const session = await auth();
+  const token = session?.access_token;
+  return new ExportValidationServiceClient({
     TOKEN: token,
     BASE: process.env.BASE_URL,
     HEADERS,

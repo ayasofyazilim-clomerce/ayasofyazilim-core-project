@@ -395,3 +395,32 @@ export const contracts: NavbarItemsFromDB[] = [
     displayOrder: 1,
   },
 ];
+export const operations: NavbarItemsFromDB[] = [
+  {
+    key: "operations",
+    displayName: "Operations",
+    description: "Access and manage operational settings.",
+    href: "operations/details",
+    icon: "operation",
+    parentNavbarItemKey: "/",
+    displayOrder: 1,
+  },
+  {
+    key: "operations/details",
+    displayName: "TaxFreeTags",
+    description: "Manage tax-free tags and settings.",
+    href: "operations/details",
+    icon: "dashboard",
+    parentNavbarItemKey: "operations",
+    displayOrder: 1,
+  },
+  {
+    key: "operations/export-validation",
+    displayName: "ExportValidation",
+    description: "Manage export validation settings.",
+    href: "operations/export-validation",
+    icon: "tax",
+    parentNavbarItemKey: "operations",
+    displayOrder: 1,
+  },
+];

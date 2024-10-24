@@ -11,14 +11,10 @@ import type {
   PutApiCrmServiceMerchantsByIdData,
 } from "@ayasofyazilim/saas/CRMService";
 import type {
-  GetApiLocationServiceCitiesData,
-  GetApiLocationServiceCitiesGetListByRegionByRegionIdData,
-  GetApiLocationServiceCountriesData,
-  GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
-  GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
-} from "@ayasofyazilim/saas/LocationService";
-import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
-import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
+  GetApiExportValidationServiceExportValidationData,
+  PostApiExportValidationServiceExportValidationData,
+  PutApiExportValidationServiceExportValidationByIdData,
+} from "@ayasofyazilim/saas/ExportValidationService";
 import type {
   GetApiIdentityClaimTypesData,
   GetApiIdentityRolesByIdClaimsData,
@@ -28,9 +24,19 @@ import type {
   PutApiIdentityRolesByIdClaimsData,
   PutApiIdentityUsersByIdClaimsData,
 } from "@ayasofyazilim/saas/IdentityService";
+import type {
+  GetApiLocationServiceCitiesData,
+  GetApiLocationServiceCitiesGetListByRegionByRegionIdData,
+  GetApiLocationServiceCountriesData,
+  GetApiLocationServiceRegionsGetDefaultRegionIdByCountryIdData,
+  GetApiLocationServiceRegionsGetListByCountryByCountryIdData,
+} from "@ayasofyazilim/saas/LocationService";
+import type { GetApiTravellerServiceTravellersData } from "@ayasofyazilim/saas/TravellerService";
+import type { FilterColumnResult } from "@repo/ayasofyazilim-ui/molecules/tables";
 import {
   getContractServiceClient,
   getCRMServiceClient,
+  getExportValidationServiceClient,
   getIdentityServiceClient,
   getLocationServiceClient,
   getTravellersServiceClient,
@@ -54,6 +60,7 @@ export async function getApiRequests() {
   const contractsClient = await getContractServiceClient();
   const locationClient = await getLocationServiceClient();
   const identityClient = await getIdentityServiceClient();
+  const exportValidationClient = await getExportValidationServiceClient();
   const tableRequests = {
     merchants: {
       getDetail: async (id: string) =>
@@ -316,6 +323,34 @@ export async function getApiRequests() {
         await identityClient.user.getApiIdentityUsersByIdClaims(data),
       putUserClaims: async (data: PutApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.putApiIdentityUsersByIdClaims(data),
+    },
+    "export-validation": {
+      get: async (data: GetApiExportValidationServiceExportValidationData) =>
+        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidation(
+          data,
+        ),
+      getDetail: async (id: string) =>
+        await exportValidationClient.exportValidation.getApiExportValidationServiceExportValidationByIdDetail(
+          {
+            id,
+          },
+        ),
+      post: async (data: PostApiExportValidationServiceExportValidationData) =>
+        await exportValidationClient.exportValidation.postApiExportValidationServiceExportValidation(
+          data,
+        ),
+      put: async (
+        data: PutApiExportValidationServiceExportValidationByIdData,
+      ) =>
+        await exportValidationClient.exportValidation.putApiExportValidationServiceExportValidationById(
+          data,
+        ),
+      deleteRow: async (id: string) =>
+        await exportValidationClient.exportValidation.deleteApiExportValidationServiceExportValidationById(
+          {
+            id,
+          },
+        ),
     },
   };
   return tableRequests;

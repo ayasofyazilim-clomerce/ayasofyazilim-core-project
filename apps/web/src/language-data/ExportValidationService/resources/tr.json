@@ -1,0 +1,8 @@
+{
+  "ExportValidation": "İhracat Doğrulaması",
+  "ExportValidation.New": "Yeni İhracat Doğrulaması",
+  "ExportValidation.New.Error": "İhracat Doğrulaması eklenirken bir hata oluştu",
+  "ExportValidation.New.Succes": "İhracat Doğrulaması başarılıyla eklendi",
+  "ExportValidation.Update.Succes": "İhracat Doğrulaması başarılıyla güncellendi",
+  "ExportValidation.Fail": "İhracat Doğrulaması kaydedilirken bir hata oluştu"
+}
