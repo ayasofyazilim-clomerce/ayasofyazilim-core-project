@@ -248,7 +248,7 @@ export const settings: NavbarItemsFromDB[] = [
   },
   {
     key: "settings/templates/rebate",
-    displayName: "rebate",
+    displayName: "Rebate",
     description: "Manage rebate",
     href: "settings/templates/rebate",
     icon: "settings",
