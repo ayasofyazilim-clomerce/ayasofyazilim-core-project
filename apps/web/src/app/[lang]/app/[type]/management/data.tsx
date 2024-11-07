@@ -36,6 +36,7 @@ import {
 } from "@ayasofyazilim/saas/SaasService";
 import { DependencyType } from "node_modules/@repo/ayasofyazilim-ui/src/organisms/auto-form/types";
 import { getBaseLink } from "src/utils";
+import MoveAllUsers from "./[domain]/[data]/table-actions/move-all-users";
 
 export const dataConfig: Record<string, any> = {
   openiddict: {
@@ -471,7 +472,21 @@ export const dataConfig: Record<string, any> = {
       tableSchema: {
         excludeList: ["id", "extraProperties", "concurrencyStamp"],
         schema: $Volo_Abp_Identity_IdentityRoleDto,
-        actionList: () => [],
+        actionList: () => [
+          {
+            type: "Dialog",
+            cta: "Move All Users",
+            description: "Move All Users",
+            componentType: "CustomComponent",
+            callback: async (row: { id: string }) => {
+              await Promise.resolve();
+              return MoveAllUsers({
+                rowId: row.id,
+                lang: "en",
+              });
+            },
+          },
+        ],
       },
     },
     user: {
