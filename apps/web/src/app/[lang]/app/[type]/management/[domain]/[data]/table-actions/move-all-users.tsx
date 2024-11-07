@@ -44,13 +44,13 @@ export default async function MoveAllUsers({
   };
 
   const formSchema = z.object({
-    role: z.string(),
+    roleId: z.string(),
   });
 
   return (
     <AutoForm
       fieldConfig={{
-        role: {
+        roleId: {
           renderer: (props) => (
             <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
               childrenProps={props}
@@ -66,7 +66,7 @@ export default async function MoveAllUsers({
       }}
       formSchema={formSchema}
       onSubmit={(data) => {
-        void moveAllUsers(data.role as string);
+        void moveAllUsers(data.roleId as string);
       }}
     >
       <AutoFormSubmit className="float-right px-8 py-4">
