@@ -4,6 +4,11 @@
   "Role.New": "Yeni Rol",
   "Role.Edit": "Rolü Değiştir",
   "Role.Description": "Rol listesini görüntüleyebilirsiniz.",
+  "Role.MoveAllUsers": "Kullanıcıları Taşı",
+  "Role.MoveAllUsers.Description": "Tüm kullanıcıları seçilen role taşı.",
+  "Role.MoveAllUsers.Update.Success": "Tüm kullanıcılar başarıyla taşındı.",
+  "Role.Select": "Rol seç",
+  "Role.Unassigned": "Rolü Kaldır",
   "Form.isDefault": "Varsayılan",
   "Form.isPublic": "Herkese Açık",
 

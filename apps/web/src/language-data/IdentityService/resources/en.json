@@ -4,6 +4,11 @@
   "Role.New": "New Role",
   "Role.Edit": "Edit Role",
   "Role.Description": "You can view the roles from here.",
+  "Role.MoveAllUsers": "Move All Users",
+  "Role.MoveAllUsers.Description": "Move all users to the selected role.",
+  "Role.MoveAllUsers.Update.Success": "All users moved successfully",
+  "Role.Select": "Select role",
+  "Role.Unassigned": "Unassign role",
   "Form.isDefault": "Default",
   "Form.isPublic": "Public",
 
