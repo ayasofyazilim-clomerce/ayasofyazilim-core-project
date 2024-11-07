@@ -485,6 +485,8 @@ export const dataConfig: Record<string, any> = {
                 lang: "en",
               });
             },
+            content: <></>,
+            loadingContent: <>Loading...</>,
           },
         ],
       },
