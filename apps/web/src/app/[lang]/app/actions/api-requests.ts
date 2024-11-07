@@ -45,6 +45,7 @@ import type {
   GetApiIdentityUsersByIdClaimsData,
   GetApiIdentityUsersData,
   PutApiIdentityRolesByIdClaimsData,
+  PutApiIdentityRolesByIdMoveAllUsersData,
   PutApiIdentityUsersByIdClaimsData,
 } from "@ayasofyazilim/saas/IdentityService";
 import type {
@@ -502,6 +503,10 @@ export async function getApiRequests() {
         await identityClient.role.getApiIdentityRolesByIdClaims(data),
       putRoleClaims: async (data: PutApiIdentityRolesByIdClaimsData) =>
         await identityClient.role.putApiIdentityRolesByIdClaims(data),
+      getAllRoles: async () =>
+        await identityClient.role.getApiIdentityRolesAll(),
+      MoveAllUsers: async (data: PutApiIdentityRolesByIdMoveAllUsersData) =>
+        await identityClient.role.putApiIdentityRolesByIdMoveAllUsers(data),
     },
     users: {
       get: async (data: GetApiIdentityUsersData) =>
