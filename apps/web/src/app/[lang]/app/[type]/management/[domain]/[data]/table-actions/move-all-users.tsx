@@ -1,4 +1,3 @@
-// Use "use client" at the top to signify client-side rendering
 "use client";
 
 import { toast } from "@/components/ui/sonner";
