@@ -1,4 +1,6 @@
+// Use "use client" at the top to signify client-side rendering
 "use client";
+
 import { toast } from "@/components/ui/sonner";
 import type { Volo_Abp_Identity_IdentityRoleDto } from "@ayasofyazilim/saas/IdentityService";
 import AutoForm, {
@@ -6,29 +8,21 @@ import AutoForm, {
   CustomCombobox,
 } from "@repo/ayasofyazilim-ui/organisms/auto-form";
 import { z } from "zod";
+import { useEffect, useState } from "react";
 import {
   getAllRolesApi,
   moveAllUsersApi,
 } from "src/app/[lang]/app/actions/IdentityService/actions";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 
-export default async function MoveAllUsers({
+export default function MoveAllUsers({
   rowId,
   lang,
 }: {
   rowId: string;
   lang: string;
-}) {
+}): JSX.Element {
   const languageData = getResourceDataClient(lang);
-
-  const roles = await getAllRolesApi();
-  const roleList: Volo_Abp_Identity_IdentityRoleDto[] =
-    roles.type === "success"
-      ? [
-          { id: "", name: languageData["Role.Unassigned"] },
-          ...(roles.data.items?.filter((role) => role.id !== rowId) || []),
-        ]
-      : [];
 
   const moveAllUsers = async (selectedRoleId: string) => {
     const response = await moveAllUsersApi({
@@ -51,17 +45,40 @@ export default async function MoveAllUsers({
     <AutoForm
       fieldConfig={{
         roleId: {
-          renderer: (props) => (
-            <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
-              childrenProps={props}
-              emptyValue={languageData["Role.Select"]}
-              list={roleList}
-              searchPlaceholder={languageData["Select.Placeholder"]}
-              searchResultLabel={languageData["Select.ResultLabel"]}
-              selectIdentifier="id"
-              selectLabel="name"
-            />
-          ),
+          renderer: function RoleComboboxRenderer(props) {
+            const [roleList, setRolesList] = useState<
+              Volo_Abp_Identity_IdentityRoleDto[]
+            >([]);
+
+            useEffect(() => {
+              const fetchRoles = async () => {
+                const roles = await getAllRolesApi();
+                const updatedRoleList: Volo_Abp_Identity_IdentityRoleDto[] =
+                  roles.type === "success"
+                    ? [
+                        { id: "", name: languageData["Role.Unassigned"] },
+                        ...(roles.data.items?.filter(
+                          (role) => role.id !== rowId,
+                        ) || []),
+                      ]
+                    : [];
+                setRolesList(updatedRoleList);
+              };
+              void fetchRoles();
+            }, []);
+
+            return (
+              <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
+                childrenProps={props}
+                emptyValue={languageData["Role.Select"]}
+                list={roleList}
+                searchPlaceholder={languageData["Select.Placeholder"]}
+                searchResultLabel={languageData["Select.ResultLabel"]}
+                selectIdentifier="id"
+                selectLabel="name"
+              />
+            );
+          },
         },
       }}
       formSchema={formSchema}
