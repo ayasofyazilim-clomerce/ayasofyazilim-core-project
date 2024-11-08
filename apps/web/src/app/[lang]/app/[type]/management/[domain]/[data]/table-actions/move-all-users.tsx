@@ -65,7 +65,7 @@ export default function MoveAllUsers({
                 setRolesList(updatedRoleList);
               };
               void fetchRoles();
-            }, []);
+            }, [rowId]);
 
             return (
               <CustomCombobox<Volo_Abp_Identity_IdentityRoleDto>
