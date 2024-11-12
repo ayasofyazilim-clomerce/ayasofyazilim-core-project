@@ -211,7 +211,7 @@ export default function ContractHeaderForm(
         void handleContractHeaderSubmit(data.formData as DataType);
       }}
       schema={$schema}
-      submit={languageData["Contracts.Create.Submit"]}
+      submitText={languageData["Contracts.Create.Submit"]}
       uiSchema={uiSchema}
       widgets={{
         address: AddressWidget,

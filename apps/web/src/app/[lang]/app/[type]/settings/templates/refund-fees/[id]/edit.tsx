@@ -18,6 +18,7 @@ import type {
   UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailUpdateDto as RefundFeeDetailUpdateDto,
   UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderDto as RefundFeeHeaderDto,
   UniRefund_ContractService_Refunds_RefundFeeHeaders_RefundFeeHeaderUpdateDto as RefundFeeHeaderUpdateDto,
+  UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto,
 } from "@ayasofyazilim/saas/ContractService";
 import {
   $UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailCreateDto as detailCreateSchema,
@@ -167,47 +168,47 @@ export default function Edit({
         setLoading(false);
       });
   };
-  const columnsData: ColumnsType = {
-    type: "Auto",
-    data: {
-      tableType: detailSchema,
-      excludeList: [],
-      positions: [
-        "amountFrom",
-        "amountTo",
-        "fixedFeeValue",
-        "percentFeeValue",
-        "minFee",
-        "maxFee",
-      ],
-      actionList: [
-        {
-          type: "Sheet",
-          cta: languageData["RefundFees.Page.Edit.Fee.Edit"],
-          description:
-            languageData["RefundFees.Page.Edit.Fee.Edit.Description"],
-          autoFormArgs: {
-            formSchema: createZodObject(detailUpdateSchema, undefined),
-            submit: {
-              cta: languageData["RefundFees.Page.Edit.Fee.Edit.Save"],
+  const columnsData: ColumnsType<UniRefund_ContractService_Refunds_RefundFeeDetails_RefundFeeDetailDto> =
+    {
+      type: "Auto",
+      data: {
+        tableType: detailSchema,
+        positions: [
+          "amountFrom",
+          "amountTo",
+          "fixedFeeValue",
+          "percentFeeValue",
+          "minFee",
+          "maxFee",
+        ],
+        actionList: [
+          {
+            type: "Sheet",
+            cta: languageData["RefundFees.Page.Edit.Fee.Edit"],
+            description:
+              languageData["RefundFees.Page.Edit.Fee.Edit.Description"],
+            autoFormArgs: {
+              formSchema: createZodObject(detailUpdateSchema, undefined),
+              submit: {
+                cta: languageData["RefundFees.Page.Edit.Fee.Edit.Save"],
+              },
             },
+            callback: (row: unknown, originalRow: unknown) => {
+              handleSetupUpdate(
+                row as RefundFeeDetailUpdateDto,
+                originalRow as RefundFeeDetailDto,
+              );
+            },
+            componentType: "Autoform",
           },
-          callback: (row: unknown, originalRow: unknown) => {
-            handleSetupUpdate(
-              row as RefundFeeDetailUpdateDto,
-              originalRow as RefundFeeDetailDto,
-            );
+          {
+            type: "Action",
+            cta: languageData["RefundFees.Page.Edit.Fee.Delete"],
+            callback: handleSetupDelete,
           },
-          componentType: "Autoform",
-        },
-        {
-          type: "Action",
-          cta: languageData["RefundFees.Page.Edit.Fee.Delete"],
-          callback: handleSetupDelete,
-        },
-      ],
-    },
-  };
+        ],
+      },
+    };
   const setupRefund: TableActionCustomDialog = {
     type: "Dialog",
     cta: languageData["RefundFees.Page.Edit.Fee.Create"],
