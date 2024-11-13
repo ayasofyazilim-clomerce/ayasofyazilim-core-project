@@ -8,35 +8,31 @@ import { FlipWords, Hero } from "@repo/ui/upwithcrowd/hero";
 import ProjectCard from "@repo/ui/upwithcrowd/project/project-card";
 import { ProjectStatusEnums } from "src/enums/project";
 
+import merkeziKayitIstanbul from "../../../../public/merkezi-kayit-istanbul.webp";
+import takasIstanbul from "../../../../public/takas-istanbul.webp";
 const BrandList = [
   {
-    title: "beets&roots",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cd7cb414.webp",
+    title: "takasIstanbul",
+    href: takasIstanbul.src,
   },
   {
-    title: "cargaroo",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cc17dafb.webp",
+    title: "merkeziKayitIstanbul",
+    href: merkeziKayitIstanbul.src,
   },
-  // {
-  //   title: "heeros",
-  //   href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630ff2e18167.webp",
-  // },
+
   {
     title: "tr-gov",
     href: "	https://cdn.e-devlet.gov.tr/downloads/kurumsal-kimlik/logo/e-devlet-logo.png",
   },
   {
-    title: "beets&roots",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cd7cb414.webp",
+    title: "takasIstanbul",
+    href: takasIstanbul.src,
   },
   {
-    title: "cargaroo",
-    href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-66b60cc17dafb.webp",
+    title: "merkeziKayitIstanbul",
+    href: merkeziKayitIstanbul.src,
   },
-  // {
-  //   title: "heeros",
-  //   href: "https://valu.com.tr/uploads/stakeholders/stakeholder-logo-6630ff2e18167.webp",
-  // },
+
   {
     title: "tr-gov",
     href: "	https://cdn.e-devlet.gov.tr/downloads/kurumsal-kimlik/logo/e-devlet-logo.png",
