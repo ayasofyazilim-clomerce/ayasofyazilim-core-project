@@ -4,8 +4,8 @@ import { getResourceData } from "src/language-data/Projects/projects";
 import { getProjectServiceClient } from "src/lib";
 import { getBaseLink } from "src/utils";
 import { ProjectStatusEnums } from "src/enums/project";
-import Landing from "../landing";
-import { getConfig } from "../config";
+import Landing from "../../landing";
+import { getConfig } from "../../config";
 
 async function getProjects() {
   if (process.env.APPLICATION_NAME === "UPWITHCROWD") {

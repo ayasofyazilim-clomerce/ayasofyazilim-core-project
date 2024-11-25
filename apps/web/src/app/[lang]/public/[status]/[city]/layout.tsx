@@ -11,10 +11,10 @@ import { auth } from "auth";
 import { signOutServer } from "auth-action";
 import { getBaseLink } from "src/utils";
 import { getResourceData } from "src/language-data/AbpUiNavigation/navbar";
-import { getConfig } from "../config";
+import { getConfig } from "../../config";
 
 interface LayoutProps {
-  params: { lang: string; city: string };
+  params: { lang: string; city: string; status?: string };
   children: JSX.Element;
 }
 
@@ -31,7 +31,10 @@ export default async function Layout({ children, params }: LayoutProps) {
       submenu: [
         {
           text: languageData.Invest,
-          href: getBaseLink(`public/${appName}/projects`, true),
+          href: getBaseLink(
+            `public/${params.status}/${appName}/projects`,
+            true,
+          ),
         },
         {
           text: languageData.SupportCenter,
@@ -83,10 +86,17 @@ export default async function Layout({ children, params }: LayoutProps) {
     },
     {
       text: languageData.Campaigns,
-      href: getBaseLink(`public/${appName}/projects`, true),
+      href: getBaseLink(`public/${params.status}/${appName}/projects`, true),
     },
   ];
   const configSelected = getConfig(appName);
+  if (
+    configSelected.link.includes("public/") &&
+    !configSelected.link.includes("disabled") &&
+    !configSelected.link.includes("enabled")
+  ) {
+    configSelected.link = `/${params.lang}/public/${params.status}/${appName}`;
+  }
 
   const userNavigation = {
     className: "bg-transparent",
