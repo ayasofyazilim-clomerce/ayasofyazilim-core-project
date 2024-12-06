@@ -5,6 +5,8 @@ import type {
   GetApiCrmServiceMerchantsByIdSubMerchantsData,
   GetApiCrmServiceMerchantsData,
   GetApiCrmServiceMerchantsResponse,
+  GetApiCrmServiceRefundPointsData,
+  GetApiCrmServiceTaxFreesData,
   GetApiCrmServiceTaxOfficesData,
   UniRefund_CRMService_Merchants_MerchantProfileDto,
   UniRefund_CRMService_Merchants_StoreProfilePagedResultDto,
@@ -47,6 +49,26 @@ export async function getSubMerchantsByMerchantIdApi(
       maxResultCount: data.maxResultCount || 10,
       skipCount: data.skipCount || 0,
     });
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getTaxFreesApi(data: GetApiCrmServiceTaxFreesData = {}) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests["tax-free"].get(data);
+    return structuredResponse(response);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+export async function getRefundPointsApi(
+  data: GetApiCrmServiceRefundPointsData = {},
+) {
+  try {
+    const requests = await getApiRequests();
+    const response = await requests["refund-points"].get(data);
     return structuredResponse(response);
   } catch (error) {
     return structuredError(error);

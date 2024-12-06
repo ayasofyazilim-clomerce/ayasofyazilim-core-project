@@ -33,6 +33,8 @@ import type {
   GetApiCrmServiceCustomsData,
   GetApiCrmServiceIndividualsData,
   GetApiCrmServiceMerchantsData,
+  GetApiCrmServiceRefundPointsData,
+  GetApiCrmServiceTaxFreesData,
   GetApiCrmServiceTaxOfficesData,
   PostApiCrmServiceCustomsByIdAffiliationsData,
   PostApiCrmServiceMerchantsByIdAffiliationsData,
@@ -349,7 +351,7 @@ export async function getApiRequests() {
         await crmClient.refundPoint.getApiCrmServiceRefundPointsByIdDetail({
           id,
         }),
-      get: async (data: { maxResultCount: number; skipCount: number }) =>
+      get: async (data: GetApiCrmServiceRefundPointsData) =>
         await crmClient.refundPoint.getApiCrmServiceRefundPoints(data),
       getSubCompanies: async (data: {
         id: string;
@@ -468,7 +470,7 @@ export async function getApiRequests() {
     "tax-free": {
       getDetail: async (id: string) =>
         await crmClient.taxFree.getApiCrmServiceTaxFreesByIdDetail({ id }),
-      get: async (data: { maxResultCount: number; skipCount: number }) =>
+      get: async (data: GetApiCrmServiceTaxFreesData) =>
         await crmClient.taxFree.getApiCrmServiceTaxFrees(data),
       getSubCompanies: async (data: {
         id: string;
