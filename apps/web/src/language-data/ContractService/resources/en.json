@@ -135,6 +135,18 @@
   "Contracts.Settings.Edit.Success": "Contract setting saved successfully.",
   "Contracts.Settings.Edit.Fail": "Error while saving contract setting.",
 
+  "Contracts.Stores.name": "Store name",
+  "Contracts.Stores.fullAddress": "Full address",
+  "Contracts.Stores.manager": "Manager",
+  "Contracts.Stores.contractSetting": "Contract setting",
+  "Contracts.Stores.receiptType": "Receipt type",
+  "Contracts.Stores.receiptType.None": "-",
+  "Contracts.Stores.receiptType.NoBarcodeNumber": "No barcode number",
+  "Contracts.Stores.receiptType.NoBarcodeText": "No barcode text",
+  "Contracts.Stores.receiptType.Barcode": "Barcode",
+  "Contracts.Stores.receiptType.QRCodeIntegration": "QR Code integration",
+  "Contracts.Stores.receiptType.UniRefundVoucherIntegration": "Unirefund voucher integration",
+
   "RefundTables.Title": "Refund tables",
   "RefundTables.Description": "Manage refund tables",
 

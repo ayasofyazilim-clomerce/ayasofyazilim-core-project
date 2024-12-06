@@ -135,6 +135,18 @@
   "Contracts.Settings.Edit.Success": "Sözleşme ayarı başarıyla kaydedildi.",
   "Contracts.Settings.Edit.Fail": "Sözleşme ayarı kaydedilirken bir hata oluştu.",
 
+  "Contracts.Stores.name": "Mağaza adı",
+  "Contracts.Stores.fullAddress": "Tam adres",
+  "Contracts.Stores.manager": "Yönetici",
+  "Contracts.Stores.contractSetting": "Sözleşme ayarı",
+  "Contracts.Stores.receiptType": "Fiş türü",
+  "Contracts.Stores.receiptType.None": "-",
+  "Contracts.Stores.receiptType.NoBarcodeNumber": "Barkod Numarası Yok",
+  "Contracts.Stores.receiptType.NoBarcodeText": "Barkod Yazısı Yok",
+  "Contracts.Stores.receiptType.Barcode": "Barkod",
+  "Contracts.Stores.receiptType.QRCodeIntegration": "QR Kod Entegrasyonu",
+  "Contracts.Stores.receiptType.UniRefundVoucherIntegration": "Unirefund Cüzdan Entegrasyonu",
+
   "RefundTables.Title": "İade Tabloları",
   "RefundTables.Description": "İade tablolarını yönetin",
 
