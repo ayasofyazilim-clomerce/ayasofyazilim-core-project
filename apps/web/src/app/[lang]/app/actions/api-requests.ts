@@ -728,16 +728,20 @@ export async function getApiRequests() {
         await identityClient.user.getApiIdentityUsers(data),
       getUserClaims: async (data: GetApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.getApiIdentityUsersByIdClaims(data),
+      getTwoFactorEnable: async (id: string) =>
+        await identityClient.user.getApiIdentityUsersByIdTwoFactorEnabled({
+          id,
+        }),
+      getUserOrganization: async (id: string) =>
+        await identityClient.user.getApiIdentityUsersByIdOrganizationUnits({
+          id,
+        }),
       putUserClaims: async (data: PutApiIdentityUsersByIdClaimsData) =>
         await identityClient.user.putApiIdentityUsersByIdClaims(data),
       putChangePassword: async (
         data: PutApiIdentityUsersByIdChangePasswordData,
       ) =>
         await identityClient.user.putApiIdentityUsersByIdChangePassword(data),
-      getTwoFactorEnable: async (id: string) =>
-        await identityClient.user.getApiIdentityUsersByIdTwoFactorEnabled({
-          id,
-        }),
       putTwoFactorEnable: async (
         data: PutApiIdentityUsersByIdTwoFactorByEnabledData,
       ) =>

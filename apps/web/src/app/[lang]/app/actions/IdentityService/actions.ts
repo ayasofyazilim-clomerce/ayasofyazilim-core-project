@@ -124,6 +124,16 @@ export async function getUserSessionsApi(data: GetApiIdentitySessionsData) {
   }
 }
 
+export async function getUserOrganizationApi(id: string) {
+  try {
+    const requests = await getApiRequests();
+    const dataResponse = await requests.users.getUserOrganization(id);
+    return structuredResponse(dataResponse);
+  } catch (error) {
+    return structuredError(error);
+  }
+}
+
 export async function deleteUserSessionsApi(id: string) {
   try {
     const requests = await getApiRequests();

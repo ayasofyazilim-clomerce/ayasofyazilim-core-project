@@ -1,8 +1,13 @@
 /* eslint-disable no-await-in-loop, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument -- TODO: we need to fix this*/
 "use client";
 import { toast } from "@/components/ui/sonner";
+import type {
+  Volo_Abp_Identity_IdentityRoleDto,
+  Volo_Abp_Identity_OrganizationUnitDto,
+} from "@ayasofyazilim/saas/IdentityService";
 import type { SchemaType } from "@repo/ayasofyazilim-ui/lib/create-zod-object";
 import jsonToCSV from "@repo/ayasofyazilim-ui/lib/json-to-csv";
+import { MultiSelect } from "@repo/ayasofyazilim-ui/molecules/multi-select";
 import type {
   ColumnsType,
   fetchRequestProps,
@@ -17,12 +22,13 @@ import Dashboard from "@repo/ayasofyazilim-ui/templates/dashboard";
 import type { FormModifier, TableData } from "@repo/ui/utils/table/table-utils";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { getUserOrganizationApi } from "src/app/[lang]/app/actions/IdentityService/actions.ts";
 import { getResourceDataClient } from "src/language-data/IdentityService";
 import { createZodObject, getBaseLink } from "src/utils";
 import { dataConfig } from "../../data.tsx";
 import Claims from "./table-actions/claims";
-import SessionsComponent from "./table-actions/sessions.tsx";
 import PermissionsComponent from "./table-actions/permissions.tsx";
+import SessionsComponent from "./table-actions/sessions.tsx";
 
 async function controlledFetch(
   url: string,
@@ -92,6 +98,40 @@ export default function Page({
   const [formData, setFormData] = useState<TableData>(
     dataConfig[params.domain].pages[params.data],
   );
+  const [rolesData, setRolesData] = useState<
+    Volo_Abp_Identity_IdentityRoleDto[]
+  >([]);
+  const [organizationData, setOrganizationData] = useState<
+    Volo_Abp_Identity_OrganizationUnitDto[]
+  >([]);
+  const [userOrganizationData, setUserOrganizationData] = useState<
+    Volo_Abp_Identity_OrganizationUnitDto[]
+  >([]);
+
+  async function getRolesData() {
+    const url = getBaseLink(`/api/admin/role`);
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      setRolesData(data.items || []);
+    }
+  }
+
+  async function getOrganizationData() {
+    const url = getBaseLink(`/api/admin/organization`);
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      setOrganizationData(data.items || []);
+    }
+  }
+  async function getUserOrganizationData(id: string) {
+    const response = await getUserOrganizationApi(id);
+    if (response.type === "success") {
+      setUserOrganizationData(response.data);
+    }
+  }
+
   const detailedFilters =
     dataConfig[params.domain].pages[params.data].detailedFilters || [];
   async function processConvertors() {
@@ -193,6 +233,48 @@ export default function Page({
             all: {
               withoutBorder: true,
             },
+            roleNames: {
+              renderer(props) {
+                return (
+                  <div className="mb-1">
+                    <label className="text-bold mb-0.5 block text-sm">
+                      {languageData["Role.Names"]}
+                    </label>
+                    <MultiSelect
+                      onValueChange={(e) => {
+                        props.field.onChange(e);
+                      }}
+                      options={rolesData.map((role) => ({
+                        label: role.name || "",
+                        value: role.name || "",
+                      }))}
+                      placeholder={languageData["Role.Select"]}
+                    />
+                  </div>
+                );
+              },
+            },
+            organizationUnitIds: {
+              renderer(props) {
+                return (
+                  <div className="mb-1">
+                    <label className="text-bold mb-0.5 block text-sm ">
+                      {languageData["Organization.Names"]}
+                    </label>
+                    <MultiSelect
+                      onValueChange={(e) => {
+                        props.field.onChange(e);
+                      }}
+                      options={organizationData.map((organization) => ({
+                        label: organization.displayName || "",
+                        value: organization.id || "",
+                      }))}
+                      placeholder={languageData["Organization.select"]}
+                    />
+                  </div>
+                );
+              },
+            },
           }),
           submit: {
             cta: languageData.Save,
@@ -224,6 +306,9 @@ export default function Page({
 
   useEffect(() => {
     void processConvertors();
+    void getRolesData();
+    void getOrganizationData();
+    void getUserOrganizationData("");
   }, []);
 
   function parseFormValues(schema: FormModifier, data: any) {
@@ -299,6 +384,52 @@ export default function Page({
       fieldConfig: mergeFieldConfigs(translatedForm, {
         all: {
           withoutBorder: true,
+        },
+        roleNames: {
+          renderer(props) {
+            return (
+              <div className="mb-1">
+                <label className="text-bold mb-0.5 block text-sm">
+                  {languageData["Role.Names"]}
+                </label>
+                <MultiSelect
+                  defaultValue={props.field.value}
+                  onValueChange={(e) => {
+                    props.field.onChange(e);
+                  }}
+                  options={rolesData.map((role) => ({
+                    label: role.name || "",
+                    value: role.name || "",
+                  }))}
+                  placeholder={languageData["Role.Select"]}
+                />
+              </div>
+            );
+          },
+        },
+        organizationUnitIds: {
+          renderer(props) {
+            return (
+              <div className="mb-1">
+                <label className="text-bold mb-0.5 block text-sm ">
+                  {languageData["Organization.Names"]}
+                </label>
+                <MultiSelect
+                  defaultValue={userOrganizationData.map(
+                    (organization) => organization.id || "",
+                  )}
+                  onValueChange={(e) => {
+                    props.field.onChange(e);
+                  }}
+                  options={organizationData.map((organization) => ({
+                    label: organization.displayName || "",
+                    value: organization.id || "",
+                  }))}
+                  placeholder={languageData["Organization.select"]}
+                />
+              </div>
+            );
+          },
         },
       }),
     };
