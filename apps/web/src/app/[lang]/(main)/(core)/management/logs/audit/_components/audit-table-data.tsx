@@ -5,7 +5,9 @@ import {
 } from "@ayasofyazilim/core-saas/AdministrationService";
 import type {TanstackTableCreationProps} from "@repo/ayasofyazilim-ui/molecules/tanstack-table/types";
 import {tanstackTableCreateColumnsByRowData} from "@repo/ayasofyazilim-ui/molecules/tanstack-table/utils";
+import {InfoIcon} from "lucide-react";
 import type {AdministrationServiceResource} from "src/language-data/core/AdministrationService";
+import AuditDetail from "./audit-detail";
 
 type AuditLogsTable = TanstackTableCreationProps<Volo_Abp_AuditLogging_AuditLogDto>;
 
@@ -24,7 +26,7 @@ const badgeClassNames = {
   DELETE: "text-red-500 bg-red-100 border-red-500",
 };
 const auditLogsColumns = (locale: string, languageData: AdministrationServiceResource) => {
-  return tanstackTableCreateColumnsByRowData<Volo_Abp_AuditLogging_AuditLogDto>({
+  const columns = tanstackTableCreateColumnsByRowData<Volo_Abp_AuditLogging_AuditLogDto>({
     rows: $Volo_Abp_AuditLogging_AuditLogDto.properties,
     languageData: {
       languageData,
@@ -53,10 +55,31 @@ const auditLogsColumns = (locale: string, languageData: AdministrationServiceRes
       },
     },
   });
+  
+  // Customize the URL column to have fixed width and text truncation
+  const urlColumnIndex = columns.findIndex(col => col.id === "url");
+  if (urlColumnIndex !== -1) {
+    const originalCell = columns[urlColumnIndex].cell;
+    columns[urlColumnIndex] = {
+      ...columns[urlColumnIndex],
+      size: 300,
+      maxSize: 400,
+      minSize: 200,
+      cell: ({ row, ...props }) => (
+        <div className="max-w-[300px] overflow-hidden">
+          <div className="truncate" title={row.getValue("url")?.toString() || ""}>
+            {typeof originalCell === 'function' ? originalCell({ row, ...props }) : row.getValue("url")}
+          </div>
+        </div>
+      ),
+    };
+  }
+  
+  return columns;
 };
 function auditLogsTable(languageData: AdministrationServiceResource) {
   const table: AuditLogsTable = {
-    fillerColumn: "tenantName",
+    fillerColumn: "applicationName",
     pinColumns: ["url"],
     filters: {
       textFilters: [
@@ -118,6 +141,16 @@ function auditLogsTable(languageData: AdministrationServiceResource) {
       "executionTime",
       "executionDuration",
       "applicationName",
+    ],
+    rowActions: [
+      {
+        type: "custom-dialog",
+        cta: languageData["Log.Audit.Detail"],
+        title: languageData["Log.Audit.Details"],
+        icon: InfoIcon,
+        actionLocation: "row",
+        content: (rowData) => <AuditDetail languageData={languageData} auditData={rowData} />,
+      },
     ],
   };
   return table;
