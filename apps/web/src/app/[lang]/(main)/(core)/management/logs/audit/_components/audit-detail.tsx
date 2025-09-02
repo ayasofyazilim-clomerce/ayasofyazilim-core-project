@@ -47,7 +47,7 @@ export default function AuditDetail({
   };
 
   return (
-    <div className="w-full max-w-4xl">
+    <div className="w-full max-w-5xl mx-auto">
       <Tabs defaultValue="overall" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="overall">Overall</TabsTrigger>
@@ -56,94 +56,124 @@ export default function AuditDetail({
           </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="overall" className="mt-4 space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <strong>HTTP status code:</strong>
-              <Badge variant="outline" className={getStatusBadgeClass(auditData.httpStatusCode)}>
-                {auditData.httpStatusCode}
-              </Badge>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <strong>HTTP method:</strong>
-              <Badge variant="outline" className={getMethodBadgeClass(auditData.httpMethod)}>
-                {auditData.httpMethod}
-              </Badge>
-            </div>
-            
-            <div>
-              <strong>URL:</strong>
-              <div className="mt-1 p-2 bg-gray-50 rounded border break-all text-sm">
-                {auditData.url}
+        <TabsContent value="overall" className="mt-6 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <strong>HTTP status code:</strong>
+                <Badge variant="outline" className={getStatusBadgeClass(auditData.httpStatusCode)}>
+                  {auditData.httpStatusCode}
+                </Badge>
               </div>
-            </div>
-            
-            <div>
-              <strong>Client IP Address:</strong> {auditData.clientIpAddress}
-            </div>
-            
-            <div>
-              <strong>Client Name:</strong> {auditData.clientName || "-"}
-            </div>
-            
-            {auditData.exceptions && (
+              
+              <div className="flex items-center gap-2">
+                <strong>HTTP method:</strong>
+                <Badge variant="outline" className={getMethodBadgeClass(auditData.httpMethod)}>
+                  {auditData.httpMethod}
+                </Badge>
+              </div>
+              
               <div>
-                <strong>Exceptions:</strong>
-                <div className="mt-1 p-2 bg-red-50 rounded border text-sm">
-                  {auditData.exceptions}
+                <strong>Client IP Address:</strong>
+                <div className="mt-1 text-sm text-gray-700">
+                  {auditData.clientIpAddress || "-"}
                 </div>
               </div>
-            )}
-            
-            <div>
-              <strong>User name:</strong> {auditData.userName || "-"}
+              
+              <div>
+                <strong>Client Name:</strong>
+                <div className="mt-1 text-sm text-gray-700">
+                  {auditData.clientName || "-"}
+                </div>
+              </div>
+              
+              <div>
+                <strong>User name:</strong>
+                <div className="mt-1 text-sm text-gray-700">
+                  {auditData.userName || "-"}
+                </div>
+              </div>
             </div>
             
-            <div>
-              <strong>Time:</strong> {formatDate(auditData.executionTime)}
-            </div>
-            
-            <div>
-              <strong>Duration:</strong> {auditData.executionDuration}
-            </div>
-            
-            <div>
-              <strong>Browser Info:</strong> {auditData.browserInfo || "-"}
+            <div className="space-y-4">
+              <div>
+                <strong>Time:</strong>
+                <div className="mt-1 text-sm text-gray-700">
+                  {formatDate(auditData.executionTime)}
+                </div>
+              </div>
+              
+              <div>
+                <strong>Duration:</strong>
+                <div className="mt-1 text-sm text-gray-700">
+                  {auditData.executionDuration} ms
+                </div>
+              </div>
+              
+              <div>
+                <strong>Browser Info:</strong>
+                <div className="mt-1 text-sm text-gray-700 break-all">
+                  {auditData.browserInfo || "-"}
+                </div>
+              </div>
             </div>
           </div>
+          
+          <div className="mt-6">
+            <strong>URL:</strong>
+            <div className="mt-2 p-3 bg-gray-50 rounded border break-all text-sm font-mono">
+              {auditData.url}
+            </div>
+          </div>
+          
+          {auditData.exceptions && (
+            <div className="mt-6">
+              <strong className="text-red-600">Exceptions:</strong>
+              <div className="mt-2 p-3 bg-red-50 rounded border text-sm">
+                {auditData.exceptions}
+              </div>
+            </div>
+          )}
         </TabsContent>
         
-        <TabsContent value="actions" className="mt-4">
-          <div className="space-y-2">
+        <TabsContent value="actions" className="mt-6">
+          <div className="space-y-3">
             {auditData.actions?.map((action, index) => (
               <Collapsible
                 key={index}
                 open={expandedActions[index]}
                 onOpenChange={() => toggleAction(index)}
               >
-                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-blue-600 p-3 text-left text-white hover:bg-blue-700">
-                  <span className="font-medium">
+                <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-blue-600 p-4 text-left text-white hover:bg-blue-700 transition-colors">
+                  <span className="font-medium text-left">
                     {action.serviceName} - {action.methodName}
                   </span>
                   {expandedActions[index] ? (
-                    <ChevronUp className="h-4 w-4" />
+                    <ChevronUp className="h-5 w-5 flex-shrink-0 ml-2" />
                   ) : (
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-5 w-5 flex-shrink-0 ml-2" />
                   )}
                 </CollapsibleTrigger>
-                <CollapsibleContent className="mt-2 rounded-lg border p-4">
-                  <div className="space-y-3">
+                <CollapsibleContent className="mt-0 rounded-b-lg border border-t-0 p-4 bg-white">
+                  <div className="space-y-4">
                     <div>
-                      <strong>Duration:</strong> {action.executionDuration} ms
+                      <strong>Duration:</strong>
+                      <span className="ml-2 text-sm text-gray-700">{action.executionDuration} ms</span>
                     </div>
                     
                     {action.parameters && (
                       <div>
                         <strong>Parameters:</strong>
-                        <div className="mt-1 rounded bg-gray-50 p-3">
-                          <pre className="whitespace-pre-wrap text-sm">
-                            {JSON.stringify(JSON.parse(action.parameters), null, 2)}
+                        <div className="mt-2 rounded bg-gray-50 p-4 border">
+                          <pre className="whitespace-pre-wrap text-sm overflow-x-auto">
+                            {(() => {
+                              try {
+                                const parsed = JSON.parse(action.parameters);
+                                return JSON.stringify(parsed, null, 2);
+                              } catch {
+                                return action.parameters;
+                              }
+                            })()}
                           </pre>
                         </div>
                       </div>
@@ -152,8 +182,9 @@ export default function AuditDetail({
                 </CollapsibleContent>
               </Collapsible>
             )) || (
-              <div className="text-center text-gray-500 py-8">
-                No actions available
+              <div className="text-center text-gray-500 py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                <div className="text-lg font-medium">No actions available</div>
+                <div className="text-sm mt-1">This audit log does not contain any action details.</div>
               </div>
             )}
           </div>

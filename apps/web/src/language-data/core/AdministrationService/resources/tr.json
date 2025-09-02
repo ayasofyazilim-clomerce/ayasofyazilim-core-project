@@ -7,6 +7,8 @@
   "Form.TextTemplate.defaultCultureName": "Temel Kültür İsmi",
 
   "Log.Audit": "Audit",
+  "Log.Audit.Detail": "Detay",
+  "Log.Audit.Details": "Audit Günlük Detayları",
   "Log.EntityChanges": "Entity Değişiklikleri",
   "Form.Log.Log.displayName": "Ad",
   "Form.Log.Audit.isInlineLocalized": "Satır İçi Lokalizasyon",
